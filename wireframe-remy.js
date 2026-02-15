@@ -1,16 +1,69 @@
 (() => {
-  const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const reducedMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+  const prefersReducedMotion = () => reducedMotionQuery.matches;
+
+  function getHeaderOffset() {
+    const header = document.querySelector(".wf-header");
+    if (!header) return 96;
+
+    const computed = window.getComputedStyle(header);
+    const stickyTop = Number.parseFloat(computed.top) || 0;
+    return Math.ceil(header.offsetHeight + stickyTop + 8);
+  }
 
   function setupStickyNav() {
     const nav = document.getElementById("wfNav");
     if (!nav) return;
 
+    let ticking = false;
+
     const update = () => {
-      nav.classList.toggle("is-scrolled", window.scrollY > 16);
+      const y = window.scrollY;
+      nav.classList.toggle("is-scrolled", y > 10);
+      ticking = false;
+    };
+
+    const onScroll = () => {
+      if (ticking) return;
+      ticking = true;
+      window.requestAnimationFrame(update);
     };
 
     update();
-    window.addEventListener("scroll", update, { passive: true });
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll, { passive: true });
+  }
+
+  function setupSmoothAnchors() {
+    const links = Array.from(document.querySelectorAll("a[href^='#']"));
+    if (!links.length) return;
+
+    links.forEach((link) => {
+      const href = link.getAttribute("href");
+      if (!href || href === "#" || href.length < 2) return;
+
+      const target = document.querySelector(href);
+      if (!target) return;
+
+      link.addEventListener("click", (event) => {
+        event.preventDefault();
+
+        const offset = getHeaderOffset();
+        const nextTop = Math.max(
+          0,
+          target.getBoundingClientRect().top + window.scrollY - offset
+        );
+
+        window.scrollTo({
+          top: nextTop,
+          behavior: prefersReducedMotion() ? "auto" : "smooth"
+        });
+
+        if (window.history?.pushState) {
+          window.history.pushState(null, "", href);
+        }
+      });
+    });
   }
 
   function setupReveal() {
@@ -19,34 +72,87 @@
 
     items.forEach((item) => {
       const order = Number(item.dataset.revealOrder || 0);
-      item.style.setProperty("--reveal-delay", `${Math.max(order, 0) * 70}ms`);
+      item.style.setProperty("--reveal-delay", `${Math.max(order, 0) * 55}ms`);
     });
 
-    if (reducedMotion || !("IntersectionObserver" in window)) {
+    if (prefersReducedMotion() || !("IntersectionObserver" in window)) {
       items.forEach((item) => item.classList.add("is-visible"));
       return;
     }
 
     const observer = new IntersectionObserver(
-      (entries, obs) => {
+      (entries) => {
         entries.forEach((entry) => {
           if (!entry.isIntersecting) return;
           entry.target.classList.add("is-visible");
-          obs.unobserve(entry.target);
+          observer.unobserve(entry.target);
         });
       },
       {
-        threshold: 0.16,
-        rootMargin: "0px 0px -8% 0px"
+        threshold: 0.18,
+        rootMargin: "0px 0px -12% 0px"
       }
     );
 
     items.forEach((item) => observer.observe(item));
   }
 
+  function setupActiveNav() {
+    const links = Array.from(document.querySelectorAll(".wf-nav-links a[href^='#']"));
+    if (!links.length) return;
+
+    const sections = [];
+    links.forEach((link) => {
+      const id = link.getAttribute("href").slice(1);
+      if (!id) return;
+      const section = document.getElementById(id);
+      if (!section) return;
+      sections.push({ id, section, link });
+    });
+
+    if (!sections.length) return;
+
+    const setActive = (id) => {
+      links.forEach((link) => {
+        const active = link.getAttribute("href") === `#${id}`;
+        link.classList.toggle("is-active", active);
+      });
+    };
+
+    let ticking = false;
+
+    const update = () => {
+      const marker = window.scrollY + getHeaderOffset();
+      let currentId = sections[0]?.id;
+
+      for (const item of sections) {
+        if (item.section.offsetTop <= marker) {
+          currentId = item.id;
+        } else {
+          break;
+        }
+      }
+
+      if (currentId) setActive(currentId);
+      ticking = false;
+    };
+
+    const onScroll = () => {
+      if (ticking) return;
+      ticking = true;
+      window.requestAnimationFrame(update);
+    };
+
+    update();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll, { passive: true });
+  }
+
   function init() {
     setupStickyNav();
+    setupSmoothAnchors();
     setupReveal();
+    setupActiveNav();
   }
 
   if (document.readyState === "loading") {

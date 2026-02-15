@@ -673,11 +673,15 @@ html {
 }
 
 .wf-table-wrap {
+  position: relative;
   margin-top: 28px;
   border-radius: var(--wr-r-16);
-  overflow: auto;
+  overflow-x: hidden;
+  overflow-y: visible;
   background: var(--wr-white);
   border: 1px solid rgba(151, 144, 147, 0.34);
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-x: contain;
   transition:
     transform 0.24s cubic-bezier(0.2, 0.8, 0.2, 1),
     box-shadow 0.24s ease-out;
@@ -691,8 +695,10 @@ html {
 
 .wf-compare-table {
   width: 100%;
-  border-collapse: collapse;
-  min-width: 860px;
+  border-collapse: separate;
+  border-spacing: 0;
+  table-layout: fixed;
+  min-width: 0;
 }
 
 .wf-compare-table th,
@@ -700,14 +706,39 @@ html {
   padding: 16px 18px;
   text-align: left;
   font-size: 16px;
-  line-height: 16px;
+  line-height: 20px;
   letter-spacing: -0.3px;
+  overflow-wrap: anywhere;
+}
+
+.wf-compare-table th:first-child,
+.wf-compare-table td:first-child {
+  width: 32%;
+}
+
+.wf-compare-table th:not(:first-child),
+.wf-compare-table td:not(:first-child) {
+  width: 17%;
 }
 
 .wf-compare-table thead th {
   background: var(--wr-bg-panel-light);
   color: var(--wr-ink);
   font-weight: 700;
+  border-bottom: 1px solid rgba(151, 144, 147, 0.2);
+}
+
+.wf-compare-table thead th:nth-child(2),
+.wf-compare-table tbody td:nth-child(2) {
+  background: rgba(252, 184, 39, 0.14);
+}
+
+.wf-compare-table thead th:first-child {
+  border-top-left-radius: var(--wr-r-16);
+}
+
+.wf-compare-table thead th:last-child {
+  border-top-right-radius: var(--wr-r-16);
 }
 
 .wf-compare-table tbody td {
@@ -716,15 +747,27 @@ html {
   font-weight: 500;
 }
 
+.wf-compare-table tbody td:nth-child(2) {
+  font-weight: 700;
+}
+
 .wf-compare-table tbody tr {
   transition:
-    background-color 0.2s ease-out,
+    box-shadow 0.2s ease-out,
     transform 0.2s ease-out;
 }
 
 .wf-compare-table tbody tr:hover {
+  transform: translateY(-1px);
+  box-shadow: inset 0 0 0 1px rgba(243, 125, 57, 0.16);
+}
+
+.wf-compare-table tbody tr:hover td {
   background-color: rgba(252, 184, 39, 0.08);
-  transform: translateX(2px);
+}
+
+.wf-compare-table tbody tr:hover td:nth-child(2) {
+  background: rgba(252, 184, 39, 0.22);
 }
 
 .wf-process-grid {
@@ -1173,11 +1216,94 @@ html {
 
   .wf-table-wrap {
     margin-top: 20px;
-    border-radius: var(--wr-r-12);
+    border-radius: 0;
+    border: 0;
+    background: transparent;
+    box-shadow: none;
+    overflow: visible;
   }
 
-  .wf-compare-table th,
-  .wf-compare-table td {
+  .wf-table-wrap:hover,
+  .wf-table-wrap:focus-within {
+    transform: none;
+    box-shadow: none;
+  }
+
+  .wf-compare-table {
+    display: block;
+    min-width: 0;
+    border-spacing: 0;
+    table-layout: auto;
+  }
+
+  .wf-compare-table thead {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    border: 0;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
+
+  .wf-compare-table tbody {
+    display: grid;
+    gap: 10px;
+  }
+
+  .wf-compare-table tbody tr {
+    display: block;
+    border-radius: var(--wr-r-12);
+    border: 1px solid rgba(151, 144, 147, 0.28);
+    background: var(--wr-white);
+    box-shadow: 0 8px 18px rgba(48, 33, 39, 0.08);
+    overflow: hidden;
+  }
+
+  .wf-compare-table tbody td {
+    display: grid;
+    grid-template-columns: minmax(110px, 44%) minmax(0, 1fr);
+    align-items: start;
+    gap: 10px;
+    width: 100%;
+    border-top: 1px solid rgba(151, 144, 147, 0.18);
+    padding: 12px 14px;
+    font-size: 15px;
+    line-height: 18px;
+    letter-spacing: -0.2px;
+  }
+
+  .wf-compare-table tbody td::before {
+    content: attr(data-label);
+    color: var(--wr-text-muted);
+    font-size: 11px;
+    line-height: 12px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    font-weight: 700;
+  }
+
+  .wf-compare-table tbody td:first-child {
+    border-top: 0;
+    background: var(--wr-bg-panel-light);
+    font-weight: 700;
+  }
+
+  .wf-compare-table tbody td:nth-child(2) {
+    background: rgba(252, 184, 39, 0.14);
+    font-weight: 700;
+  }
+
+  .wf-compare-table th:first-child,
+  .wf-compare-table td:first-child,
+  .wf-compare-table th:not(:first-child),
+  .wf-compare-table td:not(:first-child) {
+    width: auto;
+  }
+
+  .wf-compare-table th {
     padding: 12px;
     font-size: 14px;
     line-height: 14px;

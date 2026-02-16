@@ -44,57 +44,117 @@ html {
 }
 
 .wf-nav-shell {
+  --wf-nav-mx: 50%;
+  --wf-nav-my: 50%;
   position: relative;
+  min-height: 68px;
+  border-radius: var(--wr-r-pill);
+  border: 1px solid rgba(255, 255, 255, 0.56);
+  box-shadow:
+    0 10px 24px rgba(48, 33, 39, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.52);
+  background: transparent;
+  isolation: isolate;
+  overflow: clip;
+  transition:
+    box-shadow 0.3s var(--wf-motion-ease-gentle),
+    transform 0.3s var(--wf-motion-ease-gentle),
+    border-color 0.28s ease-out;
+}
+
+.wf-nav-content {
+  position: relative;
+  z-index: 5;
   min-height: 68px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 20px;
   padding: 8px 16px;
-  border-radius: var(--wr-r-pill);
-  background: linear-gradient(
-    140deg,
-    rgba(255, 255, 255, 0.82),
-    rgba(255, 255, 255, 0.66)
-  );
-  border: 1px solid rgba(255, 255, 255, 0.6);
-  box-shadow:
-    0 8px 22px rgba(48, 33, 39, 0.08),
-    inset 0 1px 0 rgba(255, 255, 255, 0.64);
-  backdrop-filter: saturate(165%) blur(14px);
-  -webkit-backdrop-filter: saturate(165%) blur(14px);
-  overflow: hidden;
-  transition:
-    box-shadow 0.28s cubic-bezier(0.22, 1, 0.36, 1),
-    transform 0.28s cubic-bezier(0.22, 1, 0.36, 1),
-    background-color 0.28s ease-out,
-    border-color 0.28s ease-out;
 }
 
-.wf-nav-shell::before {
+.wf-nav-glass {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+}
+
+.wf-nav-glass--filter {
+  z-index: 1;
+  backdrop-filter: saturate(190%) blur(17px) contrast(104%);
+  -webkit-backdrop-filter: saturate(190%) blur(17px) contrast(104%);
+  background:
+    linear-gradient(148deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.08));
+}
+
+.wf-nav-glass--overlay {
+  z-index: 2;
+  background:
+    radial-gradient(
+      120% 180% at var(--wf-nav-mx) var(--wf-nav-my),
+      rgba(255, 255, 255, 0.5) 0%,
+      rgba(255, 255, 255, 0.2) 30%,
+      rgba(255, 255, 255, 0.1) 60%,
+      rgba(255, 255, 255, 0.14) 100%
+    ),
+    linear-gradient(
+      145deg,
+      rgba(255, 255, 255, 0.24) 0%,
+      rgba(255, 255, 255, 0.08) 50%,
+      rgba(255, 255, 255, 0.16) 100%
+    );
+  opacity: 0.94;
+  transition:
+    opacity var(--wf-motion-base) var(--wf-motion-ease-standard),
+    background-position var(--wf-motion-base) var(--wf-motion-ease-gentle);
+}
+
+.wf-nav-glass--specular {
+  z-index: 3;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.9),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.28),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.42);
+}
+
+.wf-nav-shell::after {
   content: "";
   position: absolute;
-  inset: 1px;
+  z-index: 4;
+  inset: -35% -12%;
   border-radius: inherit;
-  background: linear-gradient(
-    180deg,
-    rgba(255, 255, 255, 0.62) 0%,
-    rgba(255, 255, 255, 0) 58%
+  background: radial-gradient(
+    220px 130px at var(--wf-nav-mx) var(--wf-nav-my),
+    rgba(255, 255, 255, 0.54),
+    rgba(255, 255, 255, 0) 64%
   );
   pointer-events: none;
+  opacity: 0.54;
+  transition:
+    opacity var(--wf-motion-base) var(--wf-motion-ease-standard),
+    transform var(--wf-motion-base) var(--wf-motion-ease-gentle);
+}
+
+.wf-nav-shell.is-interactive::after {
+  opacity: 0.78;
 }
 
 .wf-nav-shell.is-scrolled {
   box-shadow:
-    0 14px 34px rgba(48, 33, 39, 0.14),
-    inset 0 1px 0 rgba(255, 255, 255, 0.72);
+    0 16px 36px rgba(48, 33, 39, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.7);
   transform: translateY(-1px);
-  background: linear-gradient(
-    140deg,
-    rgba(255, 255, 255, 0.92),
-    rgba(255, 255, 255, 0.76)
-  );
-  border-color: rgba(151, 144, 147, 0.26);
+  border-color: rgba(255, 255, 255, 0.72);
+}
+
+.wf-nav-shell.is-scrolled .wf-nav-glass--filter {
+  backdrop-filter: saturate(205%) blur(19px) contrast(108%);
+  -webkit-backdrop-filter: saturate(205%) blur(19px) contrast(108%);
+}
+
+.wf-nav-shell.is-scrolled .wf-nav-glass--overlay {
+  opacity: 0.98;
 }
 
 .wf-brand {
@@ -936,6 +996,12 @@ html {
     scroll-behavior: auto;
   }
 
+  .wf-nav-shell::after,
+  .wf-nav-glass--overlay {
+    transition: none !important;
+    animation: none !important;
+  }
+
   .wr-cta-join::before,
   .wf-btn-dark::before {
     transition: none !important;
@@ -1045,6 +1111,10 @@ html {
   }
 
   .wf-nav-shell {
+    min-height: 58px;
+  }
+
+  .wf-nav-content {
     min-height: 58px;
     padding: 8px 12px;
     gap: 10px;

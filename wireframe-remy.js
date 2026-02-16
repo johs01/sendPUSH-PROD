@@ -34,6 +34,61 @@
     window.addEventListener("resize", onScroll, { passive: true });
   }
 
+  function setupNavLiquidGlass() {
+    const nav = document.getElementById("wfNav");
+    if (!nav) return;
+
+    const pointerFine = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+    const setCenter = () => {
+      nav.style.setProperty("--wf-nav-mx", "50%");
+      nav.style.setProperty("--wf-nav-my", "50%");
+    };
+
+    setCenter();
+
+    if (prefersReducedMotion() || !pointerFine) {
+      nav.classList.remove("is-interactive");
+      return;
+    }
+
+    const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
+    let rect = nav.getBoundingClientRect();
+
+    const updateRect = () => {
+      rect = nav.getBoundingClientRect();
+    };
+
+    const updateFromPointer = (event) => {
+      if (!rect.width || !rect.height) return;
+
+      const x = clamp(((event.clientX - rect.left) / rect.width) * 100, 0, 100);
+      const y = clamp(((event.clientY - rect.top) / rect.height) * 100, 0, 100);
+
+      nav.style.setProperty("--wf-nav-mx", `${x.toFixed(2)}%`);
+      nav.style.setProperty("--wf-nav-my", `${y.toFixed(2)}%`);
+    };
+
+    const onEnter = (event) => {
+      updateRect();
+      nav.classList.add("is-interactive");
+      updateFromPointer(event);
+    };
+
+    const onMove = (event) => {
+      updateFromPointer(event);
+    };
+
+    const onLeave = () => {
+      nav.classList.remove("is-interactive");
+      setCenter();
+    };
+
+    nav.addEventListener("pointerenter", onEnter, { passive: true });
+    nav.addEventListener("pointermove", onMove, { passive: true });
+    nav.addEventListener("pointerleave", onLeave, { passive: true });
+    window.addEventListener("resize", updateRect, { passive: true });
+  }
+
   function setupSmoothAnchors() {
     const links = Array.from(document.querySelectorAll("a[href^='#']"));
     if (!links.length) return;
@@ -150,6 +205,7 @@
 
   function init() {
     setupStickyNav();
+    setupNavLiquidGlass();
     setupSmoothAnchors();
     setupReveal();
     setupActiveNav();

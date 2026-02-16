@@ -152,6 +152,45 @@
     items.forEach((item) => observer.observe(item));
   }
 
+  function setupPricingBilling() {
+    const section = document.getElementById("pricing");
+    if (!section) return;
+
+    const toggles = Array.from(section.querySelectorAll("[data-pricing-toggle]"));
+    const labels = Array.from(section.querySelectorAll(".wf-pricing-billed-label"));
+    const priceStacks = Array.from(section.querySelectorAll("[data-pricing-stack]"));
+
+    if (!toggles.length || !priceStacks.length) return;
+
+    const setBilling = (mode) => {
+      const yearly = mode === "yearly";
+      const offset = yearly ? "-50%" : "0%";
+
+      toggles.forEach((toggle) => {
+        const active = toggle.dataset.pricingToggle === mode;
+        toggle.classList.toggle("is-active", active);
+        toggle.setAttribute("aria-pressed", active ? "true" : "false");
+      });
+
+      priceStacks.forEach((stack) => {
+        stack.style.transform = `translateY(${offset})`;
+      });
+
+      labels.forEach((label) => {
+        label.textContent = yearly ? "yearly" : "monthly";
+      });
+    };
+
+    toggles.forEach((toggle) => {
+      toggle.addEventListener("click", () => {
+        const mode = toggle.dataset.pricingToggle === "yearly" ? "yearly" : "monthly";
+        setBilling(mode);
+      });
+    });
+
+    setBilling("monthly");
+  }
+
   function setupActiveNav() {
     const links = Array.from(document.querySelectorAll(".wf-nav-links a[href^='#']"));
     if (!links.length) return;
@@ -208,6 +247,7 @@
     setupNavLiquidGlass();
     setupSmoothAnchors();
     setupReveal();
+    setupPricingBilling();
     setupActiveNav();
   }
 

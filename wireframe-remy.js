@@ -1,3 +1,4 @@
+// SYSTEM: REMY
 (() => {
   const reducedMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
   const prefersReducedMotion = () => reducedMotionQuery.matches;
@@ -191,6 +192,49 @@
     setBilling("monthly");
   }
 
+  function setupTenantTrialForm() {
+    const form = document.getElementById("wf-tenant-trial-form");
+    if (!(form instanceof HTMLFormElement)) return;
+
+    const successMessage = document.getElementById("wf-tenant-form-success");
+
+    if (successMessage) {
+      successMessage.hidden = true;
+      successMessage.textContent = "";
+    }
+
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+
+      if (!form.checkValidity()) {
+        form.reportValidity();
+        return;
+      }
+
+      const nameField = form.querySelector("#wf-tenant-name");
+      const firstName =
+        nameField && "value" in nameField
+          ? String(nameField.value).trim().split(/\s+/)[0]
+          : "";
+
+      form.reset();
+
+      if (!successMessage) return;
+
+      successMessage.textContent = firstName
+        ? `Thanks, ${firstName}. Your 30-day trial request is in. We'll reach out with next steps shortly.`
+        : "Thanks. Your 30-day trial request is in. We'll reach out with next steps shortly.";
+      successMessage.hidden = false;
+      successMessage.focus();
+    });
+
+    form.addEventListener("input", () => {
+      if (!successMessage || successMessage.hidden) return;
+      successMessage.hidden = true;
+      successMessage.textContent = "";
+    });
+  }
+
   function setupActiveNav() {
     const links = Array.from(document.querySelectorAll(".wf-nav-links a[href^='#']"));
     if (!links.length) return;
@@ -248,6 +292,7 @@
     setupSmoothAnchors();
     setupReveal();
     setupPricingBilling();
+    setupTenantTrialForm();
     setupActiveNav();
   }
 

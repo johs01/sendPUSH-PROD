@@ -1,3 +1,4 @@
+/* SYSTEM: REMY */
 html {
   scroll-behavior: smooth;
   scroll-padding-top: 112px;
@@ -1436,6 +1437,209 @@ html {
   letter-spacing: -0.3px;
 }
 
+.wf-tenant-section {
+  padding-top: 96px;
+  padding-bottom: 108px;
+}
+
+.wf-tenant-section .wr-container--focus {
+  width: min(100%, 796px);
+}
+
+.wf-tenant-subtext {
+  margin: 16px auto 0;
+  max-width: 720px;
+}
+
+.wf-tenant-form {
+  position: relative;
+  margin-top: 30px;
+  border-radius: var(--wr-r-20);
+  border: 1px solid rgba(151, 144, 147, 0.28);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.9), var(--wr-white));
+  box-shadow: 0 12px 24px rgba(48, 33, 39, 0.1);
+  padding: 28px;
+  display: grid;
+  gap: 18px;
+  overflow: clip;
+}
+
+.wf-tenant-form::before {
+  content: "";
+  position: absolute;
+  inset: 1px;
+  border-radius: inherit;
+  pointer-events: none;
+  background: linear-gradient(160deg, rgba(255, 255, 255, 0.44) 0%, rgba(255, 255, 255, 0) 46%);
+}
+
+.wf-tenant-form-grid {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px 16px;
+}
+
+.wf-tenant-field {
+  display: grid;
+  gap: 8px;
+}
+
+.wf-tenant-field--full {
+  grid-column: 1 / -1;
+}
+
+.wf-tenant-label {
+  color: var(--wr-ink);
+  font-size: 15px;
+  line-height: 15px;
+  letter-spacing: -0.24px;
+  font-weight: 700;
+}
+
+.wf-tenant-label span {
+  color: var(--wr-accent-orange);
+}
+
+.wf-tenant-input {
+  width: 100%;
+  min-height: 56px;
+  border-radius: var(--wr-r-16);
+  border: 1px solid rgba(151, 144, 147, 0.36);
+  background: var(--wr-bg-panel-light);
+  padding: 0 18px;
+  color: var(--wr-ink);
+  font-family: "Onest", "Onest Placeholder", sans-serif;
+  font-size: 18px;
+  line-height: 18px;
+  letter-spacing: -0.3px;
+  font-weight: 500;
+  transition:
+    border-color var(--wf-motion-fast) ease-out,
+    box-shadow var(--wf-motion-fast) ease-out,
+    background-color var(--wf-motion-fast) ease-out;
+}
+
+.wf-tenant-input::placeholder {
+  color: var(--wr-text-subtle);
+}
+
+.wf-tenant-input:hover {
+  border-color: rgba(243, 125, 57, 0.32);
+}
+
+.wf-tenant-input:focus-visible {
+  outline: 2px solid rgba(243, 125, 57, 0.92);
+  outline-offset: 2px;
+  border-color: rgba(243, 125, 57, 0.4);
+  background: var(--wr-white);
+}
+
+.wf-tenant-help {
+  margin: 0;
+  color: var(--wr-text-muted);
+  font-size: 13px;
+  line-height: 16px;
+  letter-spacing: -0.18px;
+  font-weight: 500;
+}
+
+.wf-tenant-actions {
+  position: relative;
+  z-index: 1;
+}
+
+.wf-tenant-submit {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  width: 100%;
+  min-height: 58px;
+  border: 0;
+  border-radius: var(--wr-r-pill);
+  background: var(--wr-accent-yellow);
+  color: var(--wr-ink);
+  padding: 0 22px;
+  font-family: "Onest", "Onest Placeholder", sans-serif;
+  font-size: 20px;
+  line-height: 20px;
+  letter-spacing: -0.4px;
+  font-weight: 700;
+  cursor: pointer;
+  transform: translateY(0);
+  box-shadow: 0 6px 0 rgba(48, 33, 39, 0.14);
+  transition:
+    transform var(--wf-motion-base) var(--wf-motion-ease-gentle),
+    box-shadow var(--wf-motion-base) var(--wf-motion-ease-gentle),
+    background-color var(--wf-motion-fast) ease-out;
+}
+
+.wf-tenant-submit::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(
+    112deg,
+    rgba(255, 255, 255, 0) 14%,
+    rgba(255, 255, 255, 0.34) 44%,
+    rgba(255, 255, 255, 0) 68%
+  );
+  transform: translateX(10%);
+  opacity: 0.64;
+  pointer-events: none;
+  transition:
+    transform var(--wf-motion-base) var(--wf-motion-ease-gentle),
+    opacity var(--wf-motion-base) var(--wf-motion-ease-standard);
+}
+
+.wf-tenant-submit:hover,
+.wf-tenant-submit:focus-visible {
+  transform: translateY(var(--wf-cta-lift-hover));
+  box-shadow: 0 9px 0 rgba(48, 33, 39, 0.16);
+}
+
+.wf-tenant-submit:hover::before,
+.wf-tenant-submit:focus-visible::before {
+  transform: translateX(-10%);
+  opacity: 0.82;
+}
+
+.wf-tenant-submit:focus-visible {
+  outline: 2px solid rgba(243, 125, 57, 0.92);
+  outline-offset: 2px;
+}
+
+.wf-tenant-submit:active {
+  transform: translateY(var(--wf-cta-lift-active));
+  box-shadow: 0 7px 0 rgba(48, 33, 39, 0.14);
+}
+
+.wf-tenant-success {
+  position: relative;
+  z-index: 1;
+  margin: 2px 0 0;
+  border-radius: var(--wr-r-16);
+  border: 1px solid rgba(76, 147, 175, 0.32);
+  background: rgba(76, 147, 175, 0.14);
+  padding: 12px 14px;
+  color: var(--wr-ink);
+  font-size: 15px;
+  line-height: 20px;
+  letter-spacing: -0.22px;
+  font-weight: 600;
+}
+
+.wf-tenant-success[hidden] {
+  display: none;
+}
+
+.wf-tenant-success:focus-visible {
+  outline: 2px solid rgba(76, 147, 175, 0.82);
+  outline-offset: 2px;
+}
+
 .reveal {
   opacity: 0;
   transform: translate3d(0, 24px, 0);
@@ -1480,7 +1684,8 @@ html {
 
   .wr-cta-join::before,
   .wf-btn-dark::before,
-  .wf-email-cta__button::before {
+  .wf-email-cta__button::before,
+  .wf-tenant-submit::before {
     transition: none !important;
     animation: none !important;
     transform: none !important;
@@ -1493,6 +1698,9 @@ html {
   .wr-cta-join,
   .wf-btn-dark,
   .wf-email-cta__button,
+  .wf-tenant-form,
+  .wf-tenant-input,
+  .wf-tenant-submit,
   .wf-pricing-toggle-btn,
   .wf-pricing-value-stack,
   .wf-pricing-card,
@@ -1572,7 +1780,7 @@ html {
   }
 
   .wf-pricing-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: minmax(0, 1fr);
   }
 
   .wf-pricing-card {
@@ -1580,7 +1788,7 @@ html {
   }
 
   .wf-pricing-card--pro {
-    grid-column: 1 / -1;
+    grid-column: auto;
   }
 
   .wf-pricing-plan-name {
@@ -1639,11 +1847,55 @@ html {
   .wf-email-cta__button {
     padding: 0 22px;
   }
+
+  .wf-tenant-section {
+    padding-top: 84px;
+    padding-bottom: 92px;
+  }
+
+  .wf-tenant-subtext {
+    max-width: 680px;
+  }
+
+  .wf-tenant-form {
+    margin-top: 26px;
+    padding: 24px;
+    gap: 16px;
+  }
+
+  .wf-tenant-label {
+    font-size: 14px;
+    line-height: 14px;
+    letter-spacing: -0.2px;
+  }
+
+  .wf-tenant-input {
+    min-height: 52px;
+    font-size: 16px;
+    line-height: 16px;
+    letter-spacing: -0.3px;
+  }
+
+  .wf-tenant-submit {
+    min-height: 54px;
+    font-size: 18px;
+    line-height: 18px;
+    letter-spacing: -0.36px;
+  }
 }
 
 @media (max-width: 799.98px) {
   html {
     scroll-padding-top: 88px;
+  }
+
+  .wf-page .wr-container--main,
+  .wf-page .wr-container--cta {
+    width: min(100%, 360px);
+  }
+
+  .wf-page .wr-container--focus {
+    width: min(100%, 392px);
   }
 
   .wf-header {
@@ -1670,8 +1922,9 @@ html {
   }
 
   .wf-email-cta {
-    width: 100%;
+    width: min(100%, calc(100vw - 40px));
     max-width: 100%;
+    margin-inline: auto;
     flex-direction: column;
     align-items: stretch;
     gap: 10px;
@@ -1973,6 +2226,69 @@ html {
 
   .wf-pricing-details {
     margin-top: 20px;
+  }
+
+  .wf-tenant-section {
+    padding-top: 64px;
+    padding-bottom: 72px;
+  }
+
+  .wf-tenant-subtext {
+    margin-top: 14px;
+    font-size: 16px;
+    line-height: 20.8px;
+    letter-spacing: -0.32px;
+  }
+
+  .wf-tenant-form {
+    margin-top: 20px;
+    border-radius: var(--wr-r-12);
+    padding: 16px;
+    gap: 14px;
+  }
+
+  .wf-tenant-form-grid {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .wf-tenant-field--full {
+    grid-column: auto;
+  }
+
+  .wf-tenant-label {
+    font-size: 14px;
+    line-height: 14px;
+    letter-spacing: -0.2px;
+  }
+
+  .wf-tenant-input {
+    min-height: 50px;
+    border-radius: var(--wr-r-12);
+    padding: 0 14px;
+    font-size: 16px;
+    line-height: 16px;
+    letter-spacing: -0.32px;
+  }
+
+  .wf-tenant-help {
+    font-size: 13px;
+    line-height: 16px;
+  }
+
+  .wf-tenant-submit {
+    min-height: 52px;
+    font-size: 16px;
+    line-height: 16px;
+    letter-spacing: -0.32px;
+  }
+
+  .wf-tenant-success {
+    border-radius: var(--wr-r-12);
+    padding: 10px 12px;
+    font-size: 14px;
+    line-height: 18px;
+    letter-spacing: -0.2px;
   }
 
   .wf-feature-card {

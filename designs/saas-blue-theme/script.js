@@ -1,3 +1,4 @@
+// SYSTEM: SAAS-BLUE
 const reducedMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
 let reducedMotion = reducedMotionQuery.matches;
 

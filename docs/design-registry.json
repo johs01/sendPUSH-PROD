@@ -1,0 +1,44 @@
+{
+  "version": 1,
+  "defaultSystem": "REMY",
+  "systems": {
+    "REMY": {
+      "alias": "REMY",
+      "status": "active-default",
+      "route": "/wireframe-remy.html",
+      "canonicalPaths": {
+        "html": "/wireframe-remy.html",
+        "css": "/wireframe-remy.css",
+        "js": "/wireframe-remy.js",
+        "designTokens": "/design-system/withremy/withremy.css"
+      },
+      "ctaClassFamilies": [
+        ".wr-cta-join",
+        ".wf-email-cta__button",
+        ".wf-pricing-card-cta",
+        ".wf-pricing-details-link",
+        ".wf-tenant-submit"
+      ],
+      "assetRoot": "/assets/remy/",
+      "assetPrefix": "remy-"
+    },
+    "SAAS-BLUE": {
+      "alias": "SAAS-BLUE",
+      "status": "archived-available",
+      "route": "/designs/saas-blue-theme/index.html",
+      "canonicalPaths": {
+        "html": "/designs/saas-blue-theme/index.html",
+        "css": "/designs/saas-blue-theme/styles.css",
+        "js": "/designs/saas-blue-theme/script.js"
+      },
+      "ctaClassFamilies": [
+        ".btn.btn-ghost",
+        ".btn.btn-cta",
+        ".btn.btn-primary",
+        ".btn.btn-secondary"
+      ],
+      "assetRoot": "/assets/saas-blue-theme/",
+      "assetPrefix": "saas-blue-"
+    }
+  }
+}

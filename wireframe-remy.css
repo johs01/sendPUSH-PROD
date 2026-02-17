@@ -11,6 +11,9 @@ html {
   --wf-motion-base: 280ms;
   --wf-cta-lift-hover: -1.5px;
   --wf-cta-lift-active: -0.75px;
+  --wf-cta-conv-bg: var(--wr-accent-yellow);
+  --wf-cta-conv-edge: var(--wr-accent-orange);
+  --wf-cta-conv-edge-size: 5px;
 }
 
 .wf-page {
@@ -1616,6 +1619,102 @@ html {
   box-shadow: 0 7px 0 rgba(48, 33, 39, 0.14);
 }
 
+/* Shared conversion CTA treatment */
+.wr-cta-join,
+.wf-email-cta__button,
+.wf-pricing-card-cta,
+.wf-tenant-submit {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background: var(--wf-cta-conv-bg);
+  color: var(--wr-ink);
+  border: 1px solid rgba(243, 125, 57, 0.3);
+  transform: translateY(0);
+  will-change: transform, box-shadow;
+  box-shadow:
+    0 var(--wf-cta-conv-edge-size) 0 var(--wf-cta-conv-edge),
+    0 8px 14px rgba(48, 33, 39, 0.1);
+  transition:
+    transform var(--wf-motion-base) var(--wf-motion-ease-gentle),
+    box-shadow var(--wf-motion-base) var(--wf-motion-ease-gentle),
+    background-color var(--wf-motion-base) var(--wf-motion-ease-standard),
+    border-color var(--wf-motion-fast) ease-out;
+}
+
+.wr-cta-join::before,
+.wf-email-cta__button::before,
+.wf-pricing-card-cta::before,
+.wf-tenant-submit::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(
+    112deg,
+    rgba(255, 255, 255, 0) 14%,
+    rgba(255, 255, 255, 0.34) 44%,
+    rgba(255, 255, 255, 0) 68%
+  );
+  transform: translateX(10%);
+  opacity: 0.64;
+  pointer-events: none;
+  z-index: 0;
+  transition:
+    transform var(--wf-motion-base) var(--wf-motion-ease-gentle),
+    opacity var(--wf-motion-base) var(--wf-motion-ease-standard);
+}
+
+.wr-cta-join:hover,
+.wr-cta-join:focus-visible,
+.wf-email-cta__button:hover,
+.wf-email-cta__button:focus-visible,
+.wf-pricing-card-cta:hover,
+.wf-pricing-card-cta:focus-visible,
+.wf-tenant-submit:hover,
+.wf-tenant-submit:focus-visible {
+  transform: translateY(var(--wf-cta-lift-hover));
+  border-color: rgba(243, 125, 57, 0.48);
+  box-shadow:
+    0 calc(var(--wf-cta-conv-edge-size) + 1px) 0 var(--wf-cta-conv-edge),
+    0 11px 18px rgba(48, 33, 39, 0.13);
+}
+
+.wr-cta-join:hover::before,
+.wr-cta-join:focus-visible::before,
+.wf-email-cta__button:hover::before,
+.wf-email-cta__button:focus-visible::before,
+.wf-pricing-card-cta:hover::before,
+.wf-pricing-card-cta:focus-visible::before,
+.wf-tenant-submit:hover::before,
+.wf-tenant-submit:focus-visible::before {
+  transform: translateX(-10%);
+  opacity: 0.82;
+}
+
+.wr-cta-join:active,
+.wf-email-cta__button:active,
+.wf-pricing-card-cta:active,
+.wf-tenant-submit:active {
+  transform: translateY(var(--wf-cta-lift-active));
+  box-shadow:
+    0 calc(var(--wf-cta-conv-edge-size) - 1px) 0 var(--wf-cta-conv-edge),
+    0 7px 12px rgba(48, 33, 39, 0.1);
+}
+
+.wr-cta-join:focus-visible,
+.wf-email-cta__button:focus-visible,
+.wf-pricing-card-cta:focus-visible,
+.wf-tenant-submit:focus-visible {
+  outline: 2px solid rgba(243, 125, 57, 0.92);
+  outline-offset: 2px;
+}
+
+/* Pro card CTA keeps the shared conversion style. */
+.wf-pricing-card-cta--pro {
+  border-color: rgba(243, 125, 57, 0.3);
+}
+
 .wf-tenant-success {
   position: relative;
   z-index: 1;
@@ -1685,6 +1784,7 @@ html {
   .wr-cta-join::before,
   .wf-btn-dark::before,
   .wf-email-cta__button::before,
+  .wf-pricing-card-cta::before,
   .wf-tenant-submit::before {
     transition: none !important;
     animation: none !important;

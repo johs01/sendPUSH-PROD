@@ -9,6 +9,31 @@
       name="description"
       content="Standalone wireframe conversion test built with the WithRemy design system."
     />
+    <script>
+      (() => {
+        const key = "wf-theme-mode";
+        const valid = new Set(["light", "dark"]);
+        let mode = "";
+
+        try {
+          const stored = window.localStorage.getItem(key);
+          if (valid.has(stored)) {
+            mode = stored;
+          }
+        } catch (_error) {
+          mode = "";
+        }
+
+        const systemDark =
+          window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+        const resolved = mode || (systemDark ? "dark" : "light");
+
+        const root = document.documentElement;
+        root.setAttribute("data-theme-mode", resolved);
+        root.setAttribute("data-theme", resolved);
+        root.style.colorScheme = resolved;
+      })();
+    </script>
     <link
       rel="icon"
       href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect width='48' height='48' rx='12' fill='%23FCB827'/%3E%3Cpath d='M24 10v28M10 24h28' stroke='%23302127' stroke-width='4' stroke-linecap='round'/%3E%3C/svg%3E"
@@ -36,10 +61,136 @@
             <a href="#process">How It Works</a>
             <a href="#faq">FAQ</a>
           </nav>
+          <div class="wf-theme-switcher">
+            <button
+              id="wfThemeToggle"
+              class="wf-theme-icon-toggle"
+              type="button"
+              data-theme-target="dark"
+              aria-label="Switch to dark mode"
+              aria-pressed="false"
+            >
+              <span class="wf-theme-icon-toggle__sun" aria-hidden="true">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none">
+                  <circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.8" />
+                  <path
+                    d="M12 2.5v2.3M12 19.2v2.3M21.5 12h-2.3M4.8 12H2.5M18.7 5.3l-1.6 1.6M6.9 17.1l-1.6 1.6M18.7 18.7l-1.6-1.6M6.9 6.9 5.3 5.3"
+                    stroke="currentColor"
+                    stroke-width="1.8"
+                    stroke-linecap="round"
+                  />
+                </svg>
+              </span>
+              <span class="wf-theme-icon-toggle__moon" aria-hidden="true">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none">
+                  <path
+                    d="M20 14.5A8.5 8.5 0 1 1 9.5 4a7 7 0 1 0 10.5 10.5Z"
+                    stroke="currentColor"
+                    stroke-width="1.8"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+              </span>
+            </button>
+          </div>
           <a class="wr-cta-join wf-btn wf-btn--small" href="#tenant-trial-cta">
             <span class="wr-cta-join__label">Start Free</span>
           </a>
+          <button
+            class="wf-mobile-menu-toggle"
+            id="wfMobileMenuToggle"
+            type="button"
+            aria-label="Open menu"
+            aria-controls="wfMobileMenu"
+            aria-expanded="false"
+          >
+            <span class="wf-mobile-menu-toggle__line" aria-hidden="true"></span>
+            <span class="wf-mobile-menu-toggle__line" aria-hidden="true"></span>
+          </button>
         </div>
+      </div>
+
+      <div id="wfMobileMenu" class="wf-mobile-menu" aria-hidden="true" hidden>
+        <button
+          class="wf-mobile-menu-backdrop"
+          type="button"
+          data-mobile-menu-close
+          aria-label="Close menu"
+          tabindex="-1"
+        ></button>
+
+        <aside
+          class="wf-mobile-menu-panel"
+          role="dialog"
+          aria-modal="true"
+          aria-label="Mobile navigation"
+          tabindex="-1"
+        >
+          <div class="wf-mobile-menu-glass wf-mobile-menu-glass--filter" aria-hidden="true"></div>
+          <div class="wf-mobile-menu-glass wf-mobile-menu-glass--overlay" aria-hidden="true"></div>
+          <div class="wf-mobile-menu-glass wf-mobile-menu-glass--specular" aria-hidden="true"></div>
+
+          <div class="wf-mobile-menu-content">
+            <div class="wf-mobile-menu-head">
+              <a class="wf-brand" href="#hero" aria-label="SetupFlow home">
+                <span class="wf-brand-dot" aria-hidden="true"></span>
+                <span>SetupFlow</span>
+              </a>
+              <button
+                class="wf-mobile-menu-close"
+                type="button"
+                data-mobile-menu-close
+                aria-label="Close menu"
+              >
+                <span class="wf-mobile-menu-close__line" aria-hidden="true"></span>
+                <span class="wf-mobile-menu-close__line" aria-hidden="true"></span>
+              </button>
+            </div>
+
+            <div class="wf-mobile-theme-switcher" aria-label="Theme mode">
+              <p class="wf-mobile-theme-label">Theme</p>
+              <button
+                id="wfMobileThemeToggle"
+                class="wf-theme-icon-toggle wf-mobile-theme-icon-toggle"
+                type="button"
+                data-theme-target="dark"
+                aria-label="Switch to dark mode"
+                aria-pressed="false"
+              >
+                <span class="wf-theme-icon-toggle__sun" aria-hidden="true">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none">
+                    <circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.8" />
+                    <path
+                      d="M12 2.5v2.3M12 19.2v2.3M21.5 12h-2.3M4.8 12H2.5M18.7 5.3l-1.6 1.6M6.9 17.1l-1.6 1.6M18.7 18.7l-1.6-1.6M6.9 6.9 5.3 5.3"
+                      stroke="currentColor"
+                      stroke-width="1.8"
+                      stroke-linecap="round"
+                    />
+                  </svg>
+                </span>
+                <span class="wf-theme-icon-toggle__moon" aria-hidden="true">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none">
+                    <path
+                      d="M20 14.5A8.5 8.5 0 1 1 9.5 4a7 7 0 1 0 10.5 10.5Z"
+                      stroke="currentColor"
+                      stroke-width="1.8"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                </span>
+              </button>
+            </div>
+
+            <nav class="wf-mobile-menu-links" aria-label="Mobile navigation links">
+              <a href="#features">Features</a>
+              <a href="#comparison">Comparison</a>
+              <a href="#process">How It Works</a>
+              <a href="#faq">FAQ</a>
+            </nav>
+
+            <a class="wf-mobile-menu-cta" href="#tenant-trial-cta">Start Free</a>
+          </div>
+        </aside>
       </div>
     </header>
 
@@ -1089,5 +1240,6 @@
         </div>
       </div>
     </footer>
+    <p id="wfThemeLive" class="wf-visually-hidden" aria-live="polite"></p>
   </body>
 </html>

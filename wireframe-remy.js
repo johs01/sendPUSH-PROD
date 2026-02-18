@@ -3,6 +3,116 @@
   const reducedMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
   const prefersReducedMotion = () => reducedMotionQuery.matches;
 
+  function setupThemeMode() {
+    const THEME_KEY = "wf-theme-mode";
+    const root = document.documentElement;
+    const systemThemeQuery = window.matchMedia("(prefers-color-scheme: dark)");
+    const desktopToggle = document.getElementById("wfThemeToggle");
+    const mobileToggle = document.getElementById("wfMobileThemeToggle");
+    const liveRegion = document.getElementById("wfThemeLive");
+    const toggles = [desktopToggle, mobileToggle].filter(
+      (button) => button instanceof HTMLButtonElement
+    );
+    const validModes = new Set(["light", "dark"]);
+    const modeLabel = {
+      light: "Light",
+      dark: "Dark"
+    };
+
+    let themeAnimTimer = 0;
+
+    const validMode = (mode) => validModes.has(mode);
+    const getSystemTheme = () => (systemThemeQuery.matches ? "dark" : "light");
+    const normalizeMode = (mode) => (validMode(mode) ? mode : getSystemTheme());
+
+    const getStoredMode = () => {
+      try {
+        return window.localStorage.getItem(THEME_KEY);
+      } catch (_error) {
+        return null;
+      }
+    };
+
+    const setStoredMode = (mode) => {
+      try {
+        window.localStorage.setItem(THEME_KEY, mode);
+      } catch (_error) {
+        // Ignore storage failures (private mode / blocked storage).
+      }
+    };
+
+    const syncThemeToggles = (mode) => {
+      const nextMode = mode === "dark" ? "light" : "dark";
+      const nextLabel = nextMode === "dark" ? "Switch to dark mode" : "Switch to light mode";
+      const pressed = mode === "dark" ? "true" : "false";
+
+      toggles.forEach((button) => {
+        button.dataset.themeTarget = nextMode;
+        button.setAttribute("aria-pressed", pressed);
+        button.setAttribute("aria-label", nextLabel);
+      });
+    };
+
+    const applyTheme = (
+      mode,
+      {
+        persist = false,
+        announce = false,
+        animated = false
+      } = {}
+    ) => {
+      const normalizedMode = normalizeMode(mode);
+
+      if (animated && !prefersReducedMotion()) {
+        window.clearTimeout(themeAnimTimer);
+        root.classList.add("theme-animating");
+        themeAnimTimer = window.setTimeout(() => {
+          root.classList.remove("theme-animating");
+        }, 320);
+      }
+
+      root.dataset.themeMode = normalizedMode;
+      root.dataset.theme = normalizedMode;
+      root.style.colorScheme = normalizedMode;
+
+      if (persist) {
+        setStoredMode(normalizedMode);
+      }
+
+      syncThemeToggles(normalizedMode);
+
+      if (announce && liveRegion) {
+        liveRegion.textContent = `Theme set to ${modeLabel[normalizedMode]} mode.`;
+      }
+    };
+
+    const initialMode = normalizeMode(
+      getStoredMode() || root.dataset.themeMode || root.dataset.theme
+    );
+    applyTheme(initialMode, { persist: true, announce: false, animated: false });
+
+    if (!toggles.length) return;
+
+    const toggleTheme = () => {
+      const currentTheme = root.dataset.theme === "dark" ? "dark" : "light";
+      const nextTheme = currentTheme === "dark" ? "light" : "dark";
+      applyTheme(nextTheme, {
+        persist: true,
+        announce: true,
+        animated: true
+      });
+    };
+
+    toggles.forEach((button) => {
+      button.addEventListener("click", toggleTheme);
+      button.addEventListener("keydown", (event) => {
+        if (event.key !== "Enter" && event.key !== " ") return;
+        event.preventDefault();
+        toggleTheme();
+      });
+    });
+  }
+
   function getHeaderOffset() {
     const header = document.querySelector(".wf-header");
     if (!header) return 96;
@@ -235,8 +345,158 @@
     });
   }
 
+  function setupMobileMenu() {
+    const menu = document.getElementById("wfMobileMenu");
+    const toggle = document.getElementById("wfMobileMenuToggle");
+    if (!(menu instanceof HTMLElement) || !(toggle instanceof HTMLButtonElement)) return;
+
+    const panel = menu.querySelector(".wf-mobile-menu-panel");
+    if (!(panel instanceof HTMLElement)) return;
+
+    const closeTargets = Array.from(menu.querySelectorAll("[data-mobile-menu-close]"));
+    const menuLinks = Array.from(menu.querySelectorAll(".wf-mobile-menu-content a[href^='#']"));
+    const mobileQuery = window.matchMedia("(max-width: 799.98px)");
+    const openClass = "is-open";
+    let restoreFocusNode = null;
+    let closeTimer = 0;
+
+    const syncAccessibility = (open) => {
+      toggle.setAttribute("aria-expanded", open ? "true" : "false");
+      toggle.setAttribute("aria-label", open ? "Close menu" : "Open menu");
+      menu.setAttribute("aria-hidden", open ? "false" : "true");
+    };
+
+    const getFocusableElements = () => {
+      const selector = "a[href], button:not([disabled]), [tabindex]:not([tabindex='-1'])";
+      return Array.from(panel.querySelectorAll(selector)).filter((node) => {
+        if (!(node instanceof HTMLElement)) return false;
+        if (node.hasAttribute("disabled")) return false;
+        return node.offsetParent !== null || node === document.activeElement;
+      });
+    };
+
+    const focusFirstInteractive = () => {
+      const [first] = getFocusableElements();
+      if (first) {
+        first.focus();
+      } else {
+        panel.focus();
+      }
+    };
+
+    const finishClose = () => {
+      menu.hidden = true;
+      document.body.classList.remove("wf-mobile-menu-open");
+    };
+
+    const openMenu = () => {
+      if (!mobileQuery.matches) return;
+
+      window.clearTimeout(closeTimer);
+      restoreFocusNode = document.activeElement instanceof HTMLElement ? document.activeElement : null;
+      menu.hidden = false;
+      document.body.classList.add("wf-mobile-menu-open");
+
+      window.requestAnimationFrame(() => {
+        menu.classList.add(openClass);
+        syncAccessibility(true);
+        focusFirstInteractive();
+      });
+    };
+
+    const closeMenu = ({ restoreFocus = true, immediate = false } = {}) => {
+      window.clearTimeout(closeTimer);
+      menu.classList.remove(openClass);
+      syncAccessibility(false);
+
+      const finalize = () => {
+        finishClose();
+        if (restoreFocus && restoreFocusNode instanceof HTMLElement) {
+          restoreFocusNode.focus();
+        }
+        restoreFocusNode = null;
+      };
+
+      if (immediate || prefersReducedMotion()) {
+        finalize();
+      } else {
+        closeTimer = window.setTimeout(finalize, 300);
+      }
+    };
+
+    const onToggleClick = () => {
+      const isOpen = !menu.hidden && menu.classList.contains(openClass);
+      if (isOpen) {
+        closeMenu();
+      } else {
+        openMenu();
+      }
+    };
+
+    toggle.addEventListener("click", onToggleClick);
+
+    closeTargets.forEach((target) => {
+      target.addEventListener("click", () => {
+        closeMenu();
+      });
+    });
+
+    menuLinks.forEach((link) => {
+      link.addEventListener("click", () => {
+        closeMenu({ restoreFocus: false, immediate: true });
+      });
+    });
+
+    // Keep keyboard users inside the drawer while it is open.
+    menu.addEventListener("keydown", (event) => {
+      if (event.key !== "Tab" || menu.hidden || !menu.classList.contains(openClass)) return;
+
+      const focusables = getFocusableElements();
+      if (!focusables.length) {
+        event.preventDefault();
+        panel.focus();
+        return;
+      }
+
+      const first = focusables[0];
+      const last = focusables[focusables.length - 1];
+      const current = document.activeElement;
+
+      if (event.shiftKey && current === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && current === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key !== "Escape" || menu.hidden || !menu.classList.contains(openClass)) return;
+      event.preventDefault();
+      closeMenu();
+    });
+
+    const handleViewportChange = () => {
+      if (mobileQuery.matches) return;
+      closeMenu({ restoreFocus: false, immediate: true });
+    };
+
+    if (typeof mobileQuery.addEventListener === "function") {
+      mobileQuery.addEventListener("change", handleViewportChange);
+    } else {
+      mobileQuery.addListener(handleViewportChange);
+    }
+    window.addEventListener("resize", handleViewportChange, { passive: true });
+
+    syncAccessibility(false);
+    finishClose();
+  }
+
   function setupActiveNav() {
-    const links = Array.from(document.querySelectorAll(".wf-nav-links a[href^='#']"));
+    const links = Array.from(
+      document.querySelectorAll(".wf-nav-links a[href^='#'], .wf-mobile-menu-links a[href^='#']")
+    );
     if (!links.length) return;
 
     const sections = [];
@@ -287,9 +547,11 @@
   }
 
   function init() {
+    setupThemeMode();
     setupStickyNav();
     setupNavLiquidGlass();
     setupSmoothAnchors();
+    setupMobileMenu();
     setupReveal();
     setupPricingBilling();
     setupTenantTrialForm();

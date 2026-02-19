@@ -1,0 +1,227 @@
+.header {
+  display: grid;
+  gap: var(--space-4);
+  margin-bottom: var(--space-6);
+}
+
+.toggleWrap {
+  display: flex;
+  justify-content: center;
+  margin-bottom: var(--space-8);
+}
+
+.toggle {
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--color-border-soft);
+  background: var(--color-surface-muted);
+  padding: var(--space-1);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  box-shadow: var(--shadow-card-soft);
+}
+
+.toggleButton {
+  border-radius: var(--radius-pill);
+  min-height: 2.75rem;
+  padding: 0 var(--space-5);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-muted);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.active {
+  background: var(--color-brand-yellow);
+  color: #2a1f16;
+  box-shadow: 0 4px 0 var(--color-brand-orange);
+}
+
+.discount {
+  border-radius: var(--radius-pill);
+  border: 1px solid rgba(243, 125, 57, 0.28);
+  background: rgba(243, 125, 57, 0.12);
+  color: var(--color-brand-orange);
+  font-size: 0.7rem;
+  font-weight: var(--font-weight-bold);
+  line-height: 1;
+  padding: 0.22rem 0.45rem;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr) minmax(0, 1fr);
+  gap: var(--space-5);
+  margin-bottom: var(--space-8);
+}
+
+.card {
+  border-radius: var(--radius-xl);
+  border: 1px solid var(--color-border-soft);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-card-soft);
+  padding: var(--space-6);
+  display: grid;
+  gap: var(--space-6);
+}
+
+.pro {
+  background: linear-gradient(180deg, rgba(243, 125, 57, 0.14), rgba(255, 226, 77, 0.08) 40%, var(--color-surface) 100%);
+  border-color: rgba(243, 125, 57, 0.52);
+  box-shadow: 0 18px 36px rgba(243, 125, 57, 0.2);
+}
+
+.top {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.planHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
+.planHead h3 {
+  font-size: 1.95rem;
+}
+
+.popular {
+  border-radius: var(--radius-pill);
+  border: 1px solid rgba(243, 125, 57, 0.45);
+  color: var(--color-brand-orange);
+  font-size: 0.72rem;
+  font-weight: var(--font-weight-bold);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 0.3rem 0.6rem;
+}
+
+.planCopy {
+  color: var(--color-text-muted);
+}
+
+.priceBlock {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.priceRow {
+  display: inline-flex;
+  align-items: flex-end;
+  gap: var(--space-2);
+}
+
+.priceViewport {
+  height: 3rem;
+  overflow: hidden;
+}
+
+.priceStack {
+  display: flex;
+  flex-direction: column;
+  transition: transform var(--motion-duration-fast) var(--motion-ease-standard);
+}
+
+.priceMonthly {
+  transform: translateY(0);
+}
+
+.priceYearly {
+  transform: translateY(-50%);
+}
+
+.priceStack span {
+  height: 3rem;
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--font-display);
+  font-size: 3rem;
+  line-height: 1;
+}
+
+.period {
+  color: var(--color-text-muted);
+  font-weight: var(--font-weight-semibold);
+}
+
+.billed {
+  color: var(--color-text-subtle);
+  font-size: var(--font-size-meta);
+}
+
+.contactBlock {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.contact {
+  font-family: var(--font-display);
+  font-size: 2.5rem;
+  line-height: 1;
+}
+
+.contactNote {
+  color: var(--color-text-muted);
+  font-size: var(--font-size-meta);
+}
+
+.bottom {
+  display: grid;
+  gap: var(--space-5);
+}
+
+.planButton {
+  width: 100%;
+}
+
+.featureList {
+  list-style: none;
+  display: grid;
+  gap: var(--space-3);
+}
+
+.featureList li {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-2);
+  color: var(--color-text-muted);
+  font-size: 1rem;
+  line-height: 1.35;
+}
+
+.dot {
+  width: 0.5rem;
+  height: 0.5rem;
+  margin-top: 0.38rem;
+  border-radius: 999px;
+  background: var(--color-text-subtle);
+}
+
+.pro .dot {
+  background: var(--color-brand-orange);
+}
+
+@media (min-width: 800px) and (max-width: 1399.98px) {
+  .grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 799.98px) {
+  .grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .toggle {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .toggleButton {
+    flex: 1 1 auto;
+    justify-content: center;
+  }
+}

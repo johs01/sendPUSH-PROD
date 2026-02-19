@@ -1,0 +1,139 @@
+{
+  "nextUrl": "http://localhost:3001/",
+  "staticUrl": "http://localhost:4100/wireframe-remy.html",
+  "maxDiffRatio": 0.015,
+  "total": 26,
+  "failed": 0,
+  "results": [
+    {
+      "name": "desktop-top-light",
+      "pass": true,
+      "diffRatio": 0.0007075617283950617
+    },
+    {
+      "name": "desktop-top-dark",
+      "pass": true,
+      "diffRatio": 0.00002546296296296296
+    },
+    {
+      "name": "desktop-sticky-scrolled",
+      "pass": true,
+      "diffRatio": 0.0010432098765432098
+    },
+    {
+      "name": "desktop-pricing-yearly",
+      "pass": true,
+      "diffRatio": 0.00002546296296296296
+    },
+    {
+      "name": "desktop-faq-open-hover",
+      "pass": true,
+      "diffRatio": 0.00002546296296296296
+    },
+    {
+      "name": "desktop-tenant-submitted",
+      "pass": true,
+      "diffRatio": 0.00002546296296296296
+    },
+    {
+      "name": "tablet-top-light",
+      "pass": true,
+      "diffRatio": 0.0006555694088579795
+    },
+    {
+      "name": "tablet-top-dark",
+      "pass": true,
+      "diffRatio": 0.0004825619967057101
+    },
+    {
+      "name": "tablet-sticky-scrolled",
+      "pass": true,
+      "diffRatio": 0.00042322474377745243
+    },
+    {
+      "name": "tablet-pricing-yearly",
+      "pass": true,
+      "diffRatio": 0.000023591919838945828
+    },
+    {
+      "name": "tablet-faq-open-hover",
+      "pass": true,
+      "diffRatio": 0.000023591919838945828
+    },
+    {
+      "name": "tablet-tenant-submitted",
+      "pass": true,
+      "diffRatio": 0.000023591919838945828
+    },
+    {
+      "name": "mobile-390-top-light",
+      "pass": true,
+      "diffRatio": 0.0028223356422408556
+    },
+    {
+      "name": "mobile-390-top-dark",
+      "pass": true,
+      "diffRatio": 0.0024668854052740307
+    },
+    {
+      "name": "mobile-390-sticky-scrolled",
+      "pass": true,
+      "diffRatio": 0.001029894276339774
+    },
+    {
+      "name": "mobile-390-pricing-yearly",
+      "pass": true,
+      "diffRatio": 0.0003736784542471746
+    },
+    {
+      "name": "mobile-390-faq-open-hover",
+      "pass": true,
+      "diffRatio": 0.0001002551950419249
+    },
+    {
+      "name": "mobile-390-tenant-submitted",
+      "pass": true,
+      "diffRatio": 0.002384858427512456
+    },
+    {
+      "name": "mobile-390-menu-open",
+      "pass": true,
+      "diffRatio": 0.0019200388868635314
+    },
+    {
+      "name": "mobile-360-top-light",
+      "pass": true,
+      "diffRatio": 0.0031979166666666666
+    },
+    {
+      "name": "mobile-360-top-dark",
+      "pass": true,
+      "diffRatio": 0.0028194444444444443
+    },
+    {
+      "name": "mobile-360-sticky-scrolled",
+      "pass": true,
+      "diffRatio": 0.00011458333333333333
+    },
+    {
+      "name": "mobile-360-pricing-yearly",
+      "pass": true,
+      "diffRatio": 0.00043402777777777775
+    },
+    {
+      "name": "mobile-360-faq-open-hover",
+      "pass": true,
+      "diffRatio": 0.00011458333333333333
+    },
+    {
+      "name": "mobile-360-tenant-submitted",
+      "pass": true,
+      "diffRatio": 0.0027534722222222223
+    },
+    {
+      "name": "mobile-360-menu-open",
+      "pass": true,
+      "diffRatio": 0.00234375
+    }
+  ]
+}

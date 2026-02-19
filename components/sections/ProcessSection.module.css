@@ -1,0 +1,79 @@
+.header {
+  display: grid;
+  gap: var(--space-4);
+  margin-bottom: var(--space-8);
+}
+
+.grid {
+  display: grid;
+  gap: var(--space-4);
+  margin-bottom: var(--space-8);
+}
+
+.card {
+  border-radius: var(--radius-xl);
+  padding: var(--space-5);
+  display: grid;
+  gap: var(--space-4);
+}
+
+.orange {
+  background: rgba(243, 125, 57, 0.22);
+}
+
+.blue {
+  background: rgba(76, 147, 175, 0.2);
+}
+
+.yellow {
+  background: rgba(252, 184, 39, 0.24);
+}
+
+.stepPill {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+  border-radius: var(--radius-pill);
+  padding: 0.8rem 1.1rem 0.8rem 0.75rem;
+  background: var(--color-surface);
+  font-family: var(--font-display);
+  font-size: 2.2rem;
+  line-height: 1;
+}
+
+.badge {
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-body);
+  font-size: 1.15rem;
+  font-weight: var(--font-weight-bold);
+}
+
+.badgeOrange {
+  background: #ffa46e;
+  color: #2a1f16;
+}
+
+.badgeBlue {
+  background: #8bd1ec;
+  color: #163949;
+}
+
+.badgeYellow {
+  background: #ffe16b;
+  color: #2a1f16;
+}
+
+.card p {
+  color: var(--color-ink);
+}
+
+@media (max-width: 799.98px) {
+  .stepPill {
+    font-size: 1.8rem;
+  }
+}

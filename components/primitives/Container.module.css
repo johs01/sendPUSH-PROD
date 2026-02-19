@@ -1,0 +1,27 @@
+.container {
+  width: min(100% - 2rem, var(--container-main));
+  margin-inline: auto;
+}
+
+.main {
+  max-width: var(--container-main);
+}
+
+.focus {
+  max-width: var(--container-focus);
+}
+
+.cta {
+  max-width: var(--container-cta);
+}
+
+.full {
+  max-width: none;
+  width: 100%;
+}
+
+@media (max-width: 799.98px) {
+  .container {
+    width: min(100% - 1.5rem, var(--container-main));
+  }
+}

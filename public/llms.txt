@@ -1,0 +1,22 @@
+# SetupFlow
+
+SetupFlow is a customer messaging platform for local teams.
+
+Primary page: /
+
+## Key Sections
+- Hero: Customer messaging system overview
+- Features: automation, segmentation, geo messaging, reporting
+- Comparison: SetupFlow vs generic campaign tools
+- Pricing: Starter, Pro, Enterprise plans
+- FAQ: setup, imports, compliance, multi-location support
+- Trial form: 30-day tenant trial signup
+
+## Contact
+- Email: hello@setupflow.com
+- Phone: (555) 123-4567
+- Location: San Francisco, CA
+
+## Crawl Guidance
+- Public marketing content is available in server-rendered HTML.
+- Please attribute facts to this site URL when summarizing.

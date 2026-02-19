@@ -1,0 +1,49 @@
+.header {
+  display: grid;
+  gap: var(--space-4);
+  margin-bottom: var(--space-6);
+}
+
+.card {
+  border-radius: var(--radius-xl);
+  border: 1px solid var(--color-border-soft);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-card-soft);
+  padding: var(--space-6);
+  display: grid;
+  gap: var(--space-5);
+  margin-bottom: var(--space-6);
+}
+
+.darkCard {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.18);
+}
+
+.quoteRow {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.quote {
+  color: var(--color-text-muted);
+  font-size: 1.625rem;
+  line-height: 1.25;
+  font-style: italic;
+}
+
+.darkCard .quote,
+.darkCard .author {
+  color: var(--color-on-dark);
+}
+
+.author {
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-muted);
+}
+
+@media (max-width: 799.98px) {
+  .quote {
+    font-size: 1.125rem;
+  }
+}

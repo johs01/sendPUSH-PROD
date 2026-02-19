@@ -1,0 +1,37 @@
+.card {
+  aspect-ratio: 16 / 10;
+  border-radius: var(--radius-xl);
+  border: 1px dashed var(--color-border-soft);
+  background: linear-gradient(120deg, rgba(255, 255, 255, 0.16), rgba(48, 33, 39, 0.2));
+  box-shadow: var(--shadow-card-soft);
+  display: grid;
+  place-items: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(130deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0));
+  pointer-events: none;
+}
+
+.dot {
+  width: 24px;
+  height: 24px;
+  border-radius: 999px;
+  background: #0f2936;
+  box-shadow: inset 0 0 0 5px rgba(255, 255, 255, 0.08);
+}
+
+.label {
+  position: absolute;
+  left: 50%;
+  bottom: var(--space-5);
+  transform: translateX(-50%);
+  color: var(--color-text-subtle);
+  font-size: 1rem;
+  font-weight: var(--font-weight-medium);
+}

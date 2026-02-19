@@ -1,0 +1,14 @@
+.wrap {
+  display: grid;
+  gap: var(--space-6);
+}
+
+.wrap h2 {
+  max-width: 14ch;
+  margin-inline: auto;
+}
+
+.wrap p {
+  max-width: 36ch;
+  margin-inline: auto;
+}

@@ -4,10 +4,10 @@ This repository has two distinct design systems. Use only the aliases below when
 
 ## System Ownership
 
-| Alias | Role | Route | Canonical Files |
+| Alias | Role | Runtime Route | Canonical Source Files |
 | --- | --- | --- | --- |
-| `REMY` | Active default design system (WithRemy) | `/wireframe-remy.html` (root `/` forwards here) | `wireframe-remy.html`, `wireframe-remy.css`, `wireframe-remy.js`, `design-system/withremy/withremy.css` |
-| `SAAS-BLUE` | Archived/legacy SaaS-blue system | `/designs/saas-blue-theme/index.html` | `designs/saas-blue-theme/index.html`, `designs/saas-blue-theme/styles.css`, `designs/saas-blue-theme/script.js` |
+| `REMY` | Active production design system (WithRemy) | `/` (Next source-mirror runtime) | `wireframe-remy.html`, `wireframe-remy.css`, `wireframe-remy.js`, `design-system/withremy/withremy.css` |
+| `SAAS-BLUE` | Archived legacy system | `/designs/saas-blue-theme/index.html` | `designs/saas-blue-theme/index.html`, `designs/saas-blue-theme/styles.css`, `designs/saas-blue-theme/script.js` |
 
 ## Conversation Rule (Mandatory)
 
@@ -17,7 +17,7 @@ Always reference UI requests with:
 
 Example: `REMY.EMAIL_CTA.HERO`
 
-Do not ask for "the yellow button" or "that CTA" without a system alias and ID.
+Do not request "the yellow button" or "that CTA" without system alias and ID.
 
 ## Button/CTA ID Matrix
 
@@ -52,5 +52,5 @@ Do not ask for "the yellow button" or "that CTA" without a system alias and ID.
 - Pattern: `saas-blue-<surface>-<purpose>.<ext>`
 
 ### Shared Rule
-- Do not move assets between systems without renaming to the destination prefix.
+- Do not move assets between systems without renaming to destination prefix.
 - Do not import one system's CSS tokens/components into the other system.

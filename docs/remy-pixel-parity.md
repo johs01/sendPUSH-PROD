@@ -1,79 +1,89 @@
 # REMY Pixel Parity Harness
 
-This project now includes a screenshot parity harness to compare the static REMY source page and the Next.js page.
+This project includes a screenshot parity harness to compare:
 
-## What it checks
+1. static REMY source page, and
+2. live Next source-mirror page.
 
-The harness captures deterministic screenshots for these viewports:
+## Canonical URLs
 
+- Next URL: `http://localhost:3000/`
+- Static URL: `http://localhost:4100/wireframe-remy.html`
+
+Override when needed:
+
+```bash
+NEXT_URL=http://localhost:3000 STATIC_URL=http://localhost:4100/wireframe-remy.html npm run parity:check
+```
+
+## What It Checks
+
+### Viewports
 1. `1440x900` (desktop)
 2. `1024x1366` (tablet)
 3. `390x844` (mobile)
 4. `360x800` (mobile)
 
-For each viewport, it captures these states:
-
-1. Light top
-2. Dark top
-3. Sticky scrolled
-4. Pricing yearly
+### States
+1. light top
+2. dark top
+3. sticky scrolled
+4. pricing yearly
 5. FAQ open + hover
-6. Tenant form submitted
-7. Mobile menu open (mobile viewports only)
+6. tenant form submitted
+7. mobile menu open (mobile only)
 
-## Run instructions
+## Threshold Policy
 
-1. Start the static source page:
+Global default: `PARITY_MAX_DIFF=0.015`.
+
+Scenario thresholds are stricter for critical nav states:
+
+1. `*-top-light`, `*-top-dark`: `0.006`
+2. `*-sticky-scrolled`: `0.007`
+3. `*-menu-open`: `0.0075`
+4. Other scenarios: `PARITY_MAX_DIFF` default (`0.015`) unless overridden.
+
+## Run Instructions
+
+1. Start static source:
 
 ```bash
 cd "/Users/johs777/Documents/New project"
 python3 -m http.server 4100
 ```
 
-2. In another terminal, start Next:
+2. Start Next app:
 
 ```bash
 cd "/Users/johs777/Documents/New project"
 npm run dev
 ```
 
-3. In a third terminal, run parity:
+3. Run parity check:
 
 ```bash
 cd "/Users/johs777/Documents/New project"
 npm run parity:check
 ```
 
-## Output
+## Output Artifacts
 
-Artifacts are written to:
-
-`/Users/johs777/Documents/New project/.parity`
+Directory: `/Users/johs777/Documents/New project/.parity`
 
 1. `source/*.png` - static captures
 2. `next/*.png` - Next captures
 3. `diff/*.png` - pixel diffs
-4. `report.json` - pass/fail summary
+4. `report.json` - summary and per-scenario diff ratio
 
-Default pass threshold is `1.5%` diff ratio per screenshot.
+## CI Policy
 
-Override threshold:
-
-```bash
-PARITY_MAX_DIFF=0.01 npm run parity:check
-```
+1. Parity is required for UI-affecting REMY changes.
+2. CI runs parity after build against live server + static source server.
+3. PRs must include parity report snippet and viewport screenshots.
 
 ## Notes
 
-1. This harness uses Chromium for strict parity.
-2. Safari/Firefox still require manual verification for major regressions.
-3. The harness expects:
-   - Next URL: `http://localhost:3000/`
-   - Static URL: `http://localhost:4100/wireframe-remy.html`
-
-You can override these:
-
-```bash
-NEXT_URL=http://localhost:3000 STATIC_URL=http://localhost:4100/wireframe-remy.html npm run parity:check
-```
-
+1. Chromium is strict parity baseline.
+2. Safari/Firefox require manual regression spot checks.
+3. This harness is visual-only and complements selector/token contract checks.

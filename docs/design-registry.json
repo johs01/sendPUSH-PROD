@@ -1,12 +1,21 @@
 {
-  "version": 1,
+  "version": 2,
   "defaultSystem": "REMY",
   "systems": {
     "REMY": {
       "alias": "REMY",
       "status": "active-default",
-      "route": "/wireframe-remy.html",
-      "canonicalPaths": {
+      "route": "/",
+      "renderMode": "source-mirror",
+      "runtimeContracts": {
+        "page": "/app/page.tsx",
+        "cssRoutes": [
+          "/app/remy/withremy.css/route.ts",
+          "/app/remy/wireframe-remy.css/route.ts"
+        ],
+        "jsRoute": "/app/remy/wireframe-remy.js/route.ts"
+      },
+      "sourceOfTruthFiles": {
         "html": "/wireframe-remy.html",
         "css": "/wireframe-remy.css",
         "js": "/wireframe-remy.js",
@@ -26,7 +35,8 @@
       "alias": "SAAS-BLUE",
       "status": "archived-available",
       "route": "/designs/saas-blue-theme/index.html",
-      "canonicalPaths": {
+      "renderMode": "static-html",
+      "sourceOfTruthFiles": {
         "html": "/designs/saas-blue-theme/index.html",
         "css": "/designs/saas-blue-theme/styles.css",
         "js": "/designs/saas-blue-theme/script.js"

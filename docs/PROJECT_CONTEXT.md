@@ -4,31 +4,39 @@
 
 This repository intentionally stores two separate web design systems:
 
-1. `REMY`: the active WithRemy-based site used as the default project experience.
-2. `SAAS-BLUE`: a legacy/archived SaaS-blue variant kept for reference and reuse.
+1. `REMY`: active, production-facing system.
+2. `SAAS-BLUE`: archived legacy system for reference only.
 
-## Active Default
+## Runtime Authority (Canonical)
 
-- Default entry (`/`) forwards to `REMY` (`/wireframe-remy.html`).
-- `SAAS-BLUE` stays directly accessible at `/designs/saas-blue-theme/index.html`.
+`REMY` is rendered by Next.js at route `/` using a source-mirror runtime:
 
-## Where To Edit
+1. `/Users/johs777/Documents/New project/app/page.tsx` injects the canonical REMY body markup.
+2. `/Users/johs777/Documents/New project/app/remy/withremy.css/route.ts` serves token/base CSS from source.
+3. `/Users/johs777/Documents/New project/app/remy/wireframe-remy.css/route.ts` serves REMY page CSS from source.
+4. `/Users/johs777/Documents/New project/app/remy/wireframe-remy.js/route.ts` serves REMY runtime JS from source.
 
-### If request says `REMY`
-- Markup: `wireframe-remy.html`
-- Style: `wireframe-remy.css`
-- Behavior: `wireframe-remy.js`
-- Tokens/base design system: `design-system/withremy/withremy.css`
+Canonical source files to edit for live UI behavior:
 
-### If request says `SAAS-BLUE`
-- Markup: `designs/saas-blue-theme/index.html`
-- Style: `designs/saas-blue-theme/styles.css`
-- Behavior: `designs/saas-blue-theme/script.js`
+- Markup: `/Users/johs777/Documents/New project/wireframe-remy.html`
+- Style: `/Users/johs777/Documents/New project/wireframe-remy.css`
+- Behavior: `/Users/johs777/Documents/New project/wireframe-remy.js`
+- Base tokens/system layer: `/Users/johs777/Documents/New project/design-system/withremy/withremy.css`
+
+## SAAS-BLUE (Archived)
+
+Legacy files remain available but are out of active scope:
+
+- `/Users/johs777/Documents/New project/designs/saas-blue-theme/index.html`
+- `/Users/johs777/Documents/New project/designs/saas-blue-theme/styles.css`
+- `/Users/johs777/Documents/New project/designs/saas-blue-theme/script.js`
 
 ## Governance Rules
 
-1. Always use system alias + component ID when discussing button/CTA work.
-2. Use `docs/design-language-map.md` as the canonical button/asset naming contract.
-3. Use `docs/design-registry.json` for machine-readable system routing and ownership.
-4. Do not cross-import design tokens, class families, or component markup between `REMY` and `SAAS-BLUE`.
-5. Keep asset names prefix-scoped to their system (`remy-` or `saas-blue-`).
+1. For active production work, edit canonical REMY source files only.
+2. Treat `/Users/johs777/Documents/New project/components` as archived reference unless migration is explicitly approved.
+3. Keep route and selector contracts stable unless contract docs are updated in the same change.
+4. Use `/Users/johs777/Documents/New project/docs/design-language-map.md` as the naming/selector contract for UI requests.
+5. Use `/Users/johs777/Documents/New project/docs/design-registry.json` as the machine-readable ownership contract.
+6. Do not cross-import classes/tokens/markup between `REMY` and `SAAS-BLUE`.
+7. First-load theme defaults to light when no stored preference is present.

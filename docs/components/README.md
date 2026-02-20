@@ -2,6 +2,16 @@
 
 This folder defines the canonical format for documenting reusable UI components in this project.
 
+## Current Runtime Note
+
+The active REMY runtime is source-mirrored from canonical files and does not currently render from `/Users/johs777/Documents/New project/components`.
+
+Treat component docs here as:
+1. design-system baseline references, and
+2. migration-ready specifications.
+
+Do not use these docs as override authority for live parity fixes unless migration is explicitly approved.
+
 ## Files
 - `_component-template.md`: Required template for all new component docs.
 - `Button.md`: Production-faithful sample for an existing primitive.

@@ -7,6 +7,9 @@ import { PNG } from "pngjs";
 const NEXT_URL = process.env.NEXT_URL ?? "http://localhost:3000/";
 const STATIC_URL = process.env.STATIC_URL ?? "http://localhost:4100/wireframe-remy.html";
 const MAX_DIFF_RATIO = Number(process.env.PARITY_MAX_DIFF ?? "0.015");
+const STRICT_TOP_DIFF_RATIO = Number(process.env.PARITY_STRICT_TOP_DIFF ?? "0.006");
+const STRICT_STICKY_DIFF_RATIO = Number(process.env.PARITY_STRICT_STICKY_DIFF ?? "0.007");
+const STRICT_MENU_DIFF_RATIO = Number(process.env.PARITY_STRICT_MENU_DIFF ?? "0.0075");
 
 const outputRoot = path.resolve(process.cwd(), ".parity");
 const sourceDir = path.join(outputRoot, "source");
@@ -196,11 +199,30 @@ async function compareScenario(name) {
   const diffRatio = diffPixels / totalPixels;
   await fs.writeFile(diffPath, PNG.sync.write(diffPng));
 
+  const threshold = getScenarioThreshold(name);
+
   return {
     name,
-    pass: diffRatio <= MAX_DIFF_RATIO,
-    diffRatio
+    pass: diffRatio <= threshold,
+    diffRatio,
+    threshold
   };
+}
+
+function getScenarioThreshold(name) {
+  if (name.endsWith("-top-light") || name.endsWith("-top-dark")) {
+    return STRICT_TOP_DIFF_RATIO;
+  }
+
+  if (name.endsWith("-sticky-scrolled")) {
+    return STRICT_STICKY_DIFF_RATIO;
+  }
+
+  if (name.endsWith("-menu-open")) {
+    return STRICT_MENU_DIFF_RATIO;
+  }
+
+  return MAX_DIFF_RATIO;
 }
 
 async function run() {
@@ -224,7 +246,10 @@ async function run() {
       results.push(result);
 
       const ratio = `${(result.diffRatio * 100).toFixed(3)}%`;
-      console.log(`${result.pass ? "PASS" : "FAIL"} ${scenario.name} diff=${ratio}`);
+      const threshold = `${(result.threshold * 100).toFixed(3)}%`;
+      console.log(
+        `${result.pass ? "PASS" : "FAIL"} ${scenario.name} diff=${ratio} threshold=${threshold}`
+      );
       if (!result.pass && result.reason) {
         console.log(`  reason: ${result.reason}`);
       }
@@ -238,6 +263,9 @@ async function run() {
     nextUrl: NEXT_URL,
     staticUrl: STATIC_URL,
     maxDiffRatio: MAX_DIFF_RATIO,
+    strictTopDiffRatio: STRICT_TOP_DIFF_RATIO,
+    strictStickyDiffRatio: STRICT_STICKY_DIFF_RATIO,
+    strictMenuDiffRatio: STRICT_MENU_DIFF_RATIO,
     total: results.length,
     failed: failed.length,
     results

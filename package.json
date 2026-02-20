@@ -8,10 +8,12 @@
     "start": "next start",
     "lint": "next lint",
     "typecheck": "tsc --noEmit",
+    "check:selector-contracts": "node scripts/check-selector-contracts.mjs",
+    "check:token-integrity": "node scripts/check-token-integrity.mjs",
     "parity:check": "node scripts/parity-check.mjs",
     "audit:prod": "npm audit --omit=dev --audit-level=high",
     "audit:full": "npm audit --audit-level=high",
-    "verify": "npm run lint && npm run typecheck && npm run build && npm run audit:prod"
+    "verify": "npm run lint && npm run typecheck && npm run check:selector-contracts && npm run check:token-integrity && npm run build && npm run audit:prod"
   },
   "dependencies": {
     "next": "^15.5.10",

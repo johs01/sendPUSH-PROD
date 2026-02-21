@@ -1,5 +1,7 @@
 # REMY Source-Mirror Architecture Authority
 
+Related master overview: `docs/architecture/repository-system-overview.md`
+
 ## Purpose
 
 Define the canonical runtime architecture so multiple developers can ship changes without parity drift.

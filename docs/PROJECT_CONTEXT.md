@@ -1,5 +1,7 @@
 # Project Context
 
+Related master overview: `docs/architecture/repository-system-overview.md`
+
 ## What This Repo Contains
 
 This repository intentionally stores two separate web design systems:

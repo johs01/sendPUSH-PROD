@@ -16,6 +16,7 @@
     "verify": "npm run lint && npm run typecheck && npm run check:selector-contracts && npm run check:token-integrity && npm run build && npm run audit:prod"
   },
   "dependencies": {
+    "@imagekit/next": "^2.1.5",
     "agentation": "^2.2.1",
     "next": "^15.5.10",
     "react": "18.3.1",

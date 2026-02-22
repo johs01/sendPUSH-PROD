@@ -21,6 +21,14 @@
         "js": "/wireframe-remy.js",
         "designTokens": "/design-system/withremy/withremy.css"
       },
+      "imageService": {
+        "provider": "imagekit",
+        "primaryMode": "media-library",
+        "deliveryPath": "https://ik.imagekit.io/<IMAGEKIT_ID>/<ASSET_PATH_OR_FILE_ID>",
+        "sdk": "@imagekit/next",
+        "nextIntegration": "ImageKitProvider + Image/Video components",
+        "fallbackMode": "web-proxy (legacy only)"
+      },
       "ctaClassFamilies": [
         ".wr-cta-join",
         ".wf-email-cta__button",

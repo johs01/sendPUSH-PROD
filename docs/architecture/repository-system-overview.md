@@ -19,6 +19,7 @@ Use other docs for detailed procedures:
 - Token inventory: `docs/design-system/remy-token-catalog.md`
 - DOM selector contracts: `docs/contracts/remy-dom-runtime-contracts.md`
 - Pixel parity runbook: `docs/remy-pixel-parity.md`
+- ImageKit system docs: `docs/imagekit/README.md`
 
 ## System at a Glance
 
@@ -97,6 +98,7 @@ If these selectors are renamed or removed without contract updates, runtime beha
 | Codex / LLMs | Assisted implementation, review, documentation | Repo files + docs contracts | Must respect source-mirror authority and selector contracts |
 | GitHub | Version control + PR governance | `https://github.com/johs01/sendPUSH-PROD` | `main` is protected; checks enforce release gates |
 | Vercel | Build and host production | Project `sendpush-prod` | Production alias: `https://sendpush-prod.vercel.app` |
+| ImageKit | Image storage, transformation, and delivery control plane | ImageKit configuration + `docs/imagekit/*` | Media Library is default mode for REMY image architecture |
 | Jupyter (Ops/Analysis only) | Notebook analysis/reporting workflows | External notebook environment | Not a runtime host and not a deployment target |
 
 ### Vercel Contract
@@ -229,8 +231,9 @@ Maintenance defaults:
 - Owner: repository maintainers and release engineers.
 - Review cadence: after every architecture-affecting change and at least quarterly.
 
-Last reviewed: `2026-02-20`
+Last reviewed: `2026-02-22`
 
 ### Changelog
 
 - `2026-02-20`: Initial master overview created.
+- `2026-02-22`: Replaced Cloudflare image docs references with ImageKit canonical module and platform mapping.

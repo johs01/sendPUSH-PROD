@@ -1,6 +1,7 @@
 # Project Context
 
 Related master overview: `docs/architecture/repository-system-overview.md`
+Related ImageKit module: `docs/imagekit/README.md`
 
 ## What This Repo Contains
 
@@ -42,3 +43,4 @@ Legacy files remain available but are out of active scope:
 5. Use `/Users/johs777/Documents/New project/docs/design-registry.json` as the machine-readable ownership contract.
 6. Do not cross-import classes/tokens/markup between `REMY` and `SAAS-BLUE`.
 7. First-load theme defaults to light when no stored preference is present.
+8. Follow `docs/imagekit/README.md` for all image pipeline, security, and delivery decisions.

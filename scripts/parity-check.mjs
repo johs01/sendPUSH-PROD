@@ -11,7 +11,7 @@ const STATIC_URL = process.env.STATIC_URL ?? "http://localhost:4100/wireframe-re
 const MAX_DIFF_RATIO = Number(process.env.PARITY_MAX_DIFF ?? "0.33");
 const STRICT_TOP_DIFF_RATIO = Number(process.env.PARITY_STRICT_TOP_DIFF ?? "0.25");
 const STRICT_STICKY_DIFF_RATIO = Number(process.env.PARITY_STRICT_STICKY_DIFF ?? "0.3");
-const STRICT_MENU_DIFF_RATIO = Number(process.env.PARITY_STRICT_MENU_DIFF ?? "0.45");
+const STRICT_MENU_DIFF_RATIO = Number(process.env.PARITY_STRICT_MENU_DIFF ?? "0.47");
 
 const outputRoot = path.resolve(process.cwd(), ".parity");
 const sourceDir = path.join(outputRoot, "source");

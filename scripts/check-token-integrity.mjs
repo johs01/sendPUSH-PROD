@@ -1,16 +1,17 @@
 import fs from "node:fs/promises";
 import path from "node:path";
+import { execSync } from "node:child_process";
 
-const tokenFiles = [
-  path.resolve(process.cwd(), "design-system/withremy/withremy.css"),
-  path.resolve(process.cwd(), "wireframe-remy.css")
-];
+const foundationFile = path.resolve(process.cwd(), "app/remy-next-foundation.css");
+const globalsFile = path.resolve(process.cwd(), "app/globals.css");
 
 const allowedRuntimeOnlyTokens = new Set([
-  "--reveal-delay"
+  "--reveal-delay",
+  "--wf-nav-mx",
+  "--wf-nav-my"
 ]);
 
-function collectDeclaredTokens(css) {
+const collectDeclaredTokens = (css) => {
   const declared = new Set();
   const regex = /(--[A-Za-z0-9_-]+)\s*:/g;
 
@@ -19,9 +20,9 @@ function collectDeclaredTokens(css) {
   }
 
   return declared;
-}
+};
 
-function collectUsedTokens(css) {
+const collectUsedTokens = (css) => {
   const used = new Set();
   const regex = /var\(\s*(--[A-Za-z0-9_-]+)/g;
 
@@ -30,10 +31,55 @@ function collectUsedTokens(css) {
   }
 
   return used;
-}
+};
+
+const hasRipgrep = () => {
+  try {
+    execSync("command -v rg", { stdio: "ignore" });
+    return true;
+  } catch {
+    return false;
+  }
+};
+
+const walkCssFiles = async (directoryPath) => {
+  const entries = await fs.readdir(directoryPath, { withFileTypes: true });
+  const files = await Promise.all(
+    entries.map(async (entry) => {
+      const fullPath = path.join(directoryPath, entry.name);
+      if (entry.isDirectory()) {
+        return walkCssFiles(fullPath);
+      }
+
+      return entry.isFile() && fullPath.endsWith(".css") ? [fullPath] : [];
+    })
+  );
+
+  return files.flat();
+};
+
+const listComponentCssFiles = async () => {
+  const componentsDir = path.resolve(process.cwd(), "components");
+
+  if (hasRipgrep()) {
+    return execSync("rg --files components | rg '\\.css$'", {
+      cwd: process.cwd(),
+      encoding: "utf8"
+    })
+      .trim()
+      .split("\n")
+      .filter(Boolean)
+      .map((relativePath) => path.resolve(process.cwd(), relativePath));
+  }
+
+  return walkCssFiles(componentsDir);
+};
 
 async function run() {
-  const fileContents = await Promise.all(tokenFiles.map((filePath) => fs.readFile(filePath, "utf8")));
+  const componentCssFiles = await listComponentCssFiles();
+
+  const cssFiles = [foundationFile, globalsFile, ...componentCssFiles];
+  const fileContents = await Promise.all(cssFiles.map((filePath) => fs.readFile(filePath, "utf8")));
 
   const declared = new Set();
   const used = new Set();
@@ -56,6 +102,7 @@ async function run() {
   undefinedTokens.forEach((token) => {
     console.error(`- ${token}`);
   });
+
   process.exitCode = 1;
 }
 

@@ -20,23 +20,46 @@ export function TenantTrialSection() {
     }
 
     const nameInput = form.elements.namedItem("fullName") as HTMLInputElement | null;
-    const firstName = nameInput?.value.trim().split(" ")[0] || "there";
-
-    setSuccessMessage(`Thanks ${firstName}. Your 30-day tenant trial request is in. We will contact you shortly.`);
+    const firstName = nameInput?.value.trim().split(" ")[0] || "";
+    setSuccessMessage(
+      firstName
+        ? `Thanks, ${firstName}. Your 30-day trial request is in. We'll reach out with next steps shortly.`
+        : "Thanks. Your 30-day trial request is in. We'll reach out with next steps shortly."
+    );
     form.reset();
 
     window.requestAnimationFrame(() => {
-      successRef.current?.focus();
+      const successNode = successRef.current;
+      if (!successNode) {
+        return;
+      }
+
+      const viewportBottom = window.innerHeight - 8;
+      const { top, bottom } = successNode.getBoundingClientRect();
+
+      if (bottom > viewportBottom) {
+        window.scrollBy({
+          top: bottom - viewportBottom,
+          behavior: "auto"
+        });
+      } else if (top < 8) {
+        window.scrollBy({
+          top: top - 8,
+          behavior: "auto"
+        });
+      }
+
+      successNode.focus({ preventScroll: true });
     });
   };
 
   return (
-    <section id="tenant-trial-cta" className="section bgPeach">
-      <Container size="focus">
-        <Reveal order={0} className={`sectionCenter ${styles.header}`}>
-          <p className="eyebrow">30-Day Trial</p>
-          <h2>Start Your Tenant Trial in Minutes</h2>
-          <p className="bodyCopy bodyCopyMuted">
+    <section id="tenant-trial-cta" className={`section bgPeach ${styles.section}`}>
+      <Container size="focus" className={styles.container}>
+        <Reveal order={0} className={styles.header}>
+          <p className={styles.eyebrow}>30-Day Trial</p>
+          <h2 className={styles.heading}>Start Your Tenant Trial in Minutes</h2>
+          <p className={styles.subtext}>
             Complete this quick form to launch your 30-day trial and start messaging your customers with SetupFlow.
           </p>
         </Reveal>

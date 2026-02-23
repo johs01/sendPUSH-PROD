@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/primitives/Button";
 import { ThemeIconToggle } from "@/components/navigation/ThemeIconToggle";
 import type { NavItem } from "@/lib/content";
@@ -27,9 +27,43 @@ export function MobileMenu({
 }: MobileMenuProps) {
   const panelRef = useRef<HTMLElement | null>(null);
   const lastFocusedRef = useRef<HTMLElement | null>(null);
+  const closeTimerRef = useRef<number | null>(null);
+  const [rendered, setRendered] = useState(open);
+  const [visible, setVisible] = useState(false);
 
   useEffect(() => {
-    if (!open) {
+    if (open) {
+      setRendered(true);
+      window.requestAnimationFrame(() => {
+        setVisible(true);
+      });
+      return;
+    }
+
+    setVisible(false);
+
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const closeDelay = reducedMotion ? 0 : 300;
+
+    if (closeTimerRef.current !== null) {
+      window.clearTimeout(closeTimerRef.current);
+    }
+
+    closeTimerRef.current = window.setTimeout(() => {
+      setRendered(false);
+      closeTimerRef.current = null;
+    }, closeDelay);
+
+    return () => {
+      if (closeTimerRef.current !== null) {
+        window.clearTimeout(closeTimerRef.current);
+        closeTimerRef.current = null;
+      }
+    };
+  }, [open]);
+
+  useEffect(() => {
+    if (!visible) {
       return;
     }
 
@@ -74,24 +108,51 @@ export function MobileMenu({
       }
     };
 
-    document.body.style.overflow = "hidden";
+    document.body.classList.add("wf-mobile-menu-open");
     document.addEventListener("keydown", handleEscape);
     document.addEventListener("keydown", handleTabTrap);
 
     return () => {
-      document.body.style.overflow = "";
+      document.body.classList.remove("wf-mobile-menu-open");
       document.removeEventListener("keydown", handleEscape);
       document.removeEventListener("keydown", handleTabTrap);
       lastFocusedRef.current?.focus();
     };
-  }, [open, onClose]);
+  }, [visible, onClose]);
 
-  if (!open) {
+  useEffect(() => {
+    const mobileQuery = window.matchMedia("(max-width: 799.98px)");
+    const handleViewportChange = () => {
+      if (mobileQuery.matches) {
+        return;
+      }
+      onClose();
+    };
+
+    if (typeof mobileQuery.addEventListener === "function") {
+      mobileQuery.addEventListener("change", handleViewportChange);
+    } else {
+      mobileQuery.addListener(handleViewportChange);
+    }
+
+    window.addEventListener("resize", handleViewportChange, { passive: true });
+
+    return () => {
+      if (typeof mobileQuery.removeEventListener === "function") {
+        mobileQuery.removeEventListener("change", handleViewportChange);
+      } else {
+        mobileQuery.removeListener(handleViewportChange);
+      }
+      window.removeEventListener("resize", handleViewportChange);
+    };
+  }, [onClose]);
+
+  if (!rendered) {
     return null;
   }
 
   return (
-    <div className={styles.overlay} aria-hidden={!open}>
+    <div id="wfMobileMenu" className={`${styles.overlay} ${visible ? styles.open : ""}`} aria-hidden={!visible}>
       <button className={styles.backdrop} type="button" aria-label="Close menu" onClick={onClose} />
       <aside className={styles.panel} role="dialog" aria-modal="true" aria-label="Mobile navigation" ref={panelRef}>
         <div className={styles.headerRow}>

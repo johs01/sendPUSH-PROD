@@ -9,6 +9,8 @@ on:
 jobs:
   quality:
     runs-on: ubuntu-latest
+    env:
+      NEXT_PUBLIC_IMAGEKIT_URL_ENDPOINT: https://ik.imagekit.io/loyalty
 
     steps:
       - name: Checkout
@@ -44,6 +46,8 @@ jobs:
   parity:
     runs-on: ubuntu-latest
     needs: quality
+    env:
+      NEXT_PUBLIC_IMAGEKIT_URL_ENDPOINT: https://ik.imagekit.io/loyalty
 
     steps:
       - name: Checkout

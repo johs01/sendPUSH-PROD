@@ -1,3 +1,5 @@
+import { resolveImageAssetUrl } from "@/lib/imagekit";
+
 export type NavItem = {
   id: string;
   label: string;
@@ -77,16 +79,7 @@ export type FaqItem = {
   open?: boolean;
 };
 
-const IMAGEKIT_ENDPOINT =
-  process.env.NEXT_PUBLIC_IMAGEKIT_URL_ENDPOINT || "https://ik.imagekit.io/your_imagekit_id";
-
-const imageKitSrc = (assetPath: string) => {
-  const endpoint = IMAGEKIT_ENDPOINT.endsWith("/")
-    ? IMAGEKIT_ENDPOINT.slice(0, -1)
-    : IMAGEKIT_ENDPOINT;
-  const normalizedPath = assetPath.startsWith("/") ? assetPath : `/${assetPath}`;
-  return `${endpoint}${normalizedPath}`;
-};
+const imageKitSrc = (assetPath: string) => resolveImageAssetUrl(assetPath);
 
 export const navItems: NavItem[] = [
   { id: "features", label: "Features" },

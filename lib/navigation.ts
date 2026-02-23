@@ -28,9 +28,10 @@ export const scrollToAnchor = (targetId: string) => {
 
   const offset = getHeaderOffset();
   const top = Math.max(target.getBoundingClientRect().top + window.scrollY - offset, 0);
+  const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   window.scrollTo({
     top,
-    behavior: "smooth"
+    behavior: reducedMotion ? "auto" : "smooth"
   });
 };

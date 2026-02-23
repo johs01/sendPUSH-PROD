@@ -111,6 +111,7 @@ export function SiteHeader() {
             </Button>
             <button
               type="button"
+              id="wfMobileMenuToggle"
               className={styles.mobileMenuToggle}
               aria-label="Open menu"
               aria-controls="wfMobileMenu"

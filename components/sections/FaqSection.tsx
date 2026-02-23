@@ -18,7 +18,7 @@ export function FaqSection() {
               as="details"
               key={item.question}
               order={index + 1}
-              className={styles.item}
+              className={`${styles.item} wf-faq-item`}
               open={item.open}
             >
               <summary>{item.question}</summary>

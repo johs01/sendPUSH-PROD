@@ -77,6 +77,17 @@ export type FaqItem = {
   open?: boolean;
 };
 
+const IMAGEKIT_ENDPOINT =
+  process.env.NEXT_PUBLIC_IMAGEKIT_URL_ENDPOINT || "https://ik.imagekit.io/your_imagekit_id";
+
+const imageKitSrc = (assetPath: string) => {
+  const endpoint = IMAGEKIT_ENDPOINT.endsWith("/")
+    ? IMAGEKIT_ENDPOINT.slice(0, -1)
+    : IMAGEKIT_ENDPOINT;
+  const normalizedPath = assetPath.startsWith("/") ? assetPath : `/${assetPath}`;
+  return `${endpoint}${normalizedPath}`;
+};
+
 export const navItems: NavItem[] = [
   { id: "features", label: "Features" },
   { id: "comparison", label: "Comparison" },
@@ -91,18 +102,21 @@ export const heroBullets: BulletItem[] = [
 ];
 
 export const logos: LogoItem[] = [
-  { src: "/assets/remy/Google logo.webp", alt: "Google" },
-  { src: "/assets/remy/Stripe Payment.webp", alt: "Stripe" },
-  { src: "/assets/remy/Google Pay Logo.webp", alt: "Google Pay" },
-  { src: "/assets/remy/Apple Pay Logo.webp", alt: "Apple Pay" },
-  { src: "/assets/remy/AWS.webp", alt: "AWS" },
-  { src: "/assets/remy/Digital Ocean.webp", alt: "DigitalOcean" },
-  { src: "/assets/remy/Clover POS Logo.webp", alt: "Clover POS" },
-  { src: "/assets/remy/Touch Bistro.webp", alt: "TouchBistro" },
-  { src: "/assets/remy/Toast integrated with Loyaltymaster.webp", alt: "Toast integrated with Loyaltymaster" },
-  { src: "/assets/remy/Loyaltymaster is Make Ready.webp", alt: "Loyaltymaster is Make ready" },
-  { src: "/assets/remy/Loyaltymaster is Zapier Ready.webp", alt: "Loyaltymaster is Zapier ready" },
-  { src: "/assets/remy/GDPR Ready.webp", alt: "GDPR ready" }
+  { src: imageKitSrc("/remy/Google%20logo.webp"), alt: "Google" },
+  { src: imageKitSrc("/remy/Stripe%20Payment.webp"), alt: "Stripe" },
+  { src: imageKitSrc("/remy/Google%20Pay%20Logo.webp"), alt: "Google Pay" },
+  { src: imageKitSrc("/remy/Apple%20Pay%20Logo.webp"), alt: "Apple Pay" },
+  { src: imageKitSrc("/remy/AWS.webp"), alt: "AWS" },
+  { src: imageKitSrc("/remy/Digital%20Ocean.webp"), alt: "DigitalOcean" },
+  { src: imageKitSrc("/remy/Clover%20POS%20Logo.webp"), alt: "Clover POS" },
+  { src: imageKitSrc("/remy/Touch%20Bistro.webp"), alt: "TouchBistro" },
+  {
+    src: imageKitSrc("/remy/Toast%20integrated%20with%20Loyaltymaster.webp"),
+    alt: "Toast integrated with Loyaltymaster"
+  },
+  { src: imageKitSrc("/remy/Loyaltymaster%20is%20Make%20Ready.webp"), alt: "Loyaltymaster is Make ready" },
+  { src: imageKitSrc("/remy/Loyaltymaster%20is%20Zapier%20Ready.webp"), alt: "Loyaltymaster is Zapier ready" },
+  { src: imageKitSrc("/remy/GDPR%20Ready.webp"), alt: "GDPR ready" }
 ];
 
 export const stats: StatItem[] = [

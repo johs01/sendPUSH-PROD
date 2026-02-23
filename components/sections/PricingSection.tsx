@@ -30,6 +30,7 @@ export function PricingSection() {
           <div className={styles.toggle} role="group" aria-label="Billing period">
             <button
               type="button"
+              data-pricing-toggle="monthly"
               className={`${styles.toggleButton} ${billingMode === "monthly" ? styles.active : ""}`}
               aria-pressed={billingMode === "monthly"}
               onClick={() => setBillingMode("monthly")}
@@ -38,6 +39,7 @@ export function PricingSection() {
             </button>
             <button
               type="button"
+              data-pricing-toggle="yearly"
               className={`${styles.toggleButton} ${billingMode === "yearly" ? styles.active : ""}`}
               aria-pressed={billingMode === "yearly"}
               onClick={() => setBillingMode("yearly")}

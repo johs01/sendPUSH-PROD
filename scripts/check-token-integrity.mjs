@@ -33,15 +33,50 @@ const collectUsedTokens = (css) => {
   return used;
 };
 
+const hasRipgrep = () => {
+  try {
+    execSync("command -v rg", { stdio: "ignore" });
+    return true;
+  } catch {
+    return false;
+  }
+};
+
+const walkCssFiles = async (directoryPath) => {
+  const entries = await fs.readdir(directoryPath, { withFileTypes: true });
+  const files = await Promise.all(
+    entries.map(async (entry) => {
+      const fullPath = path.join(directoryPath, entry.name);
+      if (entry.isDirectory()) {
+        return walkCssFiles(fullPath);
+      }
+
+      return entry.isFile() && fullPath.endsWith(".css") ? [fullPath] : [];
+    })
+  );
+
+  return files.flat();
+};
+
+const listComponentCssFiles = async () => {
+  const componentsDir = path.resolve(process.cwd(), "components");
+
+  if (hasRipgrep()) {
+    return execSync("rg --files components | rg '\\.css$'", {
+      cwd: process.cwd(),
+      encoding: "utf8"
+    })
+      .trim()
+      .split("\n")
+      .filter(Boolean)
+      .map((relativePath) => path.resolve(process.cwd(), relativePath));
+  }
+
+  return walkCssFiles(componentsDir);
+};
+
 async function run() {
-  const componentCssFiles = execSync("rg --files components | rg '\\.css$'", {
-    cwd: process.cwd(),
-    encoding: "utf8"
-  })
-    .trim()
-    .split("\n")
-    .filter(Boolean)
-    .map((relativePath) => path.resolve(process.cwd(), relativePath));
+  const componentCssFiles = await listComponentCssFiles();
 
   const cssFiles = [foundationFile, globalsFile, ...componentCssFiles];
   const fileContents = await Promise.all(cssFiles.map((filePath) => fs.readFile(filePath, "utf8")));

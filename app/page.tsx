@@ -1,12 +1,27 @@
 import type { Metadata } from "next";
-import Script from "next/script";
+import { SiteHeader } from "@/components/navigation/SiteHeader";
+import { CapTestimonialsSection } from "@/components/sections/CapTestimonialsSection";
+import { ComparisonSection } from "@/components/sections/ComparisonSection";
+import { FaqSection } from "@/components/sections/FaqSection";
+import { FeaturesSection } from "@/components/sections/FeaturesSection";
+import { FinalCtaSection } from "@/components/sections/FinalCtaSection";
+import { HeroSection } from "@/components/sections/HeroSection";
+import { LogoGridSection } from "@/components/sections/LogoGridSection";
+import { PricingSection } from "@/components/sections/PricingSection";
+import { ProblemSection } from "@/components/sections/ProblemSection";
+import { ProcessSection } from "@/components/sections/ProcessSection";
+import { SiteFooter } from "@/components/sections/SiteFooter";
+import { StatsSection } from "@/components/sections/StatsSection";
+import { TenantTrialSection } from "@/components/sections/TenantTrialSection";
+import { TestimonialSection } from "@/components/sections/TestimonialSection";
+import { UseCaseSection } from "@/components/sections/UseCaseSection";
+import { useCases } from "@/lib/content";
 import {
   faqJsonLd,
   organizationJsonLd,
   siteConfig,
   websiteJsonLd
 } from "@/lib/seo";
-import { getRemyBodyHtml } from "@/lib/remy-source";
 
 export const metadata: Metadata = {
   title: "Customer Messaging System",
@@ -28,18 +43,62 @@ export const metadata: Metadata = {
   }
 };
 
-export default async function Page() {
-  const remyBodyHtml = await getRemyBodyHtml();
+const testimonialOne = [
+  {
+    quote:
+      "We stopped chasing social reach and started building direct conversations. In the first month alone, we filled 23 otherwise empty appointments.",
+    author: "Mia R. - Studio Owner"
+  }
+];
 
+const testimonialTwo = [
+  {
+    quote: "We booked 17 extra appointments in one weekend from a single campaign.",
+    author: "Noah T. - Clinic Manager"
+  },
+  {
+    quote: "Setup took less than an hour, and now our reminders run automatically every day.",
+    author: "Kayla S. - Salon Owner"
+  }
+];
+
+export default function Page() {
   return (
     <>
-      <div
-        id="remy-source-mirror"
-        suppressHydrationWarning
-        dangerouslySetInnerHTML={{ __html: remyBodyHtml }}
+      <SiteHeader />
+      <HeroSection />
+      <LogoGridSection />
+      <StatsSection />
+      <ProblemSection />
+      <TestimonialSection
+        id="testimonial-1"
+        eyebrow="Customer feedback"
+        title="What Business Owners Are Saying"
+        testimonials={testimonialOne}
+        background="white"
+        ctaText="Read More Stories"
       />
-
-      <Script src="/remy/wireframe-remy.js" strategy="afterInteractive" />
+      {useCases.map((useCase) => (
+        <UseCaseSection key={useCase.id} useCase={useCase} />
+      ))}
+      <TestimonialSection
+        id="testimonial-2"
+        eyebrow="More proof"
+        title="What Real Customers Are Saying"
+        testimonials={testimonialTwo}
+        background="dark"
+        emailCtaText="Start Free Trial"
+        emailInputId="wf-email-proof"
+      />
+      <FeaturesSection />
+      <CapTestimonialsSection />
+      <ComparisonSection />
+      <PricingSection />
+      <ProcessSection />
+      <FaqSection />
+      <FinalCtaSection />
+      <TenantTrialSection />
+      <SiteFooter />
 
       <script
         type="application/ld+json"

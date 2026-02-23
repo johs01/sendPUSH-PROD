@@ -70,6 +70,8 @@ export function Reveal<T extends ElementType = "div">({
   const classes = useMemo(
     () =>
       [
+        "reveal",
+        visible ? "is-visible" : "",
         styles.reveal,
         orderClass(order),
         visible ? styles.visible : "",

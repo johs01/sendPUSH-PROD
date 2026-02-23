@@ -1,122 +1,166 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 
-const htmlPath = path.resolve(process.cwd(), "wireframe-remy.html");
-const jsPath = path.resolve(process.cwd(), "wireframe-remy.js");
+const read = async (relativePath) =>
+  fs.readFile(path.resolve(process.cwd(), relativePath), "utf8");
 
-const requiredContracts = [
+const files = {
+  page: "app/page.tsx",
+  globals: "app/globals.css",
+  header: "components/navigation/SiteHeader.tsx",
+  mobileMenu: "components/navigation/MobileMenu.tsx",
+  pricing: "components/sections/PricingSection.tsx",
+  tenantTrial: "components/sections/TenantTrialSection.tsx"
+};
+
+const orderedPageSections = [
+  "<SiteHeader />",
+  "<HeroSection />",
+  "<LogoGridSection />",
+  "<StatsSection />",
+  "<ProblemSection />",
+  "<TestimonialSection",
+  "{useCases.map((useCase) => (",
+  "<FeaturesSection />",
+  "<CapTestimonialsSection />",
+  "<ComparisonSection />",
+  "<PricingSection />",
+  "<ProcessSection />",
+  "<FaqSection />",
+  "<FinalCtaSection />",
+  "<TenantTrialSection />",
+  "<SiteFooter />"
+];
+
+const requiredChecks = [
   {
-    name: "Theme toggle (desktop)",
-    pattern: /id=["']wfThemeToggle["']/
+    name: "Source-mirror import removed from globals.css",
+    test: ({ globals }) => !/@import\s+"\/remy\//.test(globals)
   },
   {
-    name: "Theme toggle (mobile)",
-    pattern: /id=["']wfMobileThemeToggle["']/
+    name: "Source-mirror runtime markers removed from page",
+    test: ({ page }) => !/getRemyBodyHtml|remy-source-mirror|remy\/wireframe-remy\.js/.test(page)
   },
   {
-    name: "Mobile menu toggle",
-    pattern: /id=["']wfMobileMenuToggle["']/
+    name: "Desktop theme toggle id",
+    test: ({ header }) => /id="wfThemeToggle"/.test(header)
   },
   {
-    name: "Mobile menu root",
-    pattern: /id=["']wfMobileMenu["']/
+    name: "Theme live region id",
+    test: ({ header }) => /id="wfThemeLive"/.test(header)
   },
   {
-    name: "Mobile menu close surface",
-    pattern: /data-mobile-menu-close/
+    name: "Mobile menu toggle id",
+    test: ({ header }) => /id="wfMobileMenuToggle"/.test(header)
   },
   {
-    name: "Mobile menu links container",
-    pattern: /class=["'][^"']*wf-mobile-menu-links[^"']*["']/
+    name: "Mobile menu root id",
+    test: ({ mobileMenu }) => /id="wfMobileMenu"/.test(mobileMenu)
   },
   {
-    name: "Pricing toggles",
-    pattern: /data-pricing-toggle=/
+    name: "Mobile theme toggle id",
+    test: ({ mobileMenu }) => /id="wfMobileThemeToggle"/.test(mobileMenu)
   },
   {
-    name: "Pricing value stacks",
-    pattern: /data-pricing-stack=/
+    name: "Pricing monthly toggle",
+    test: ({ pricing }) => /data-pricing-toggle="monthly"/.test(pricing)
   },
   {
-    name: "Pricing billed labels",
-    pattern: /class=["'][^"']*wf-pricing-billed-label[^"']*["']/
+    name: "Pricing yearly toggle",
+    test: ({ pricing }) => /data-pricing-toggle="yearly"/.test(pricing)
   },
   {
-    name: "Reveal class",
-    pattern: /class=["'][^"']*\breveal\b[^"']*["']/
+    name: "Pricing stack contract",
+    test: ({ pricing }) => /data-pricing-stack=/.test(pricing)
   },
   {
-    name: "Reveal order attribute",
-    pattern: /data-reveal-order=/
+    name: "Pricing billed label contract",
+    test: ({ pricing }) => /wf-pricing-billed-label/.test(pricing)
   },
   {
-    name: "Tenant trial form",
-    pattern: /id=["']wf-tenant-trial-form["']/
+    name: "Tenant trial form id",
+    test: ({ tenantTrial }) => /id="wf-tenant-trial-form"/.test(tenantTrial)
   },
   {
-    name: "Tenant name field",
-    pattern: /id=["']wf-tenant-name["']/
+    name: "Tenant trial name field id",
+    test: ({ tenantTrial }) => /id="wf-tenant-name"/.test(tenantTrial)
   },
   {
-    name: "Tenant business field",
-    pattern: /id=["']wf-tenant-business["']/
+    name: "Tenant trial business field id",
+    test: ({ tenantTrial }) => /id="wf-tenant-business"/.test(tenantTrial)
   },
   {
-    name: "Tenant email field",
-    pattern: /id=["']wf-tenant-email["']/
+    name: "Tenant trial email field id",
+    test: ({ tenantTrial }) => /id="wf-tenant-email"/.test(tenantTrial)
   },
   {
-    name: "Tenant location field",
-    pattern: /id=["']wf-tenant-location["']/
+    name: "Tenant trial location field id",
+    test: ({ tenantTrial }) => /id="wf-tenant-location"/.test(tenantTrial)
   },
   {
-    name: "Tenant website field",
-    pattern: /id=["']wf-tenant-website["']/
+    name: "Tenant trial website field id",
+    test: ({ tenantTrial }) => /id="wf-tenant-website"/.test(tenantTrial)
   },
   {
-    name: "Tenant success feedback",
-    pattern: /id=["']wf-tenant-form-success["']/
+    name: "Tenant trial success feedback id",
+    test: ({ tenantTrial }) => /id="wf-tenant-form-success"/.test(tenantTrial)
   }
 ];
 
-const requiredJsHooks = [
-  "setupThemeMode",
-  "setupStickyNav",
-  "setupNavLiquidGlass",
-  "setupSmoothAnchors",
-  "setupReveal",
-  "setupPricingBilling",
-  "setupTenantTrialForm",
-  "setupMobileMenu",
-  "setupActiveNav"
-];
+const assertPageOrder = (page) => {
+  const missing = [];
+  let cursor = 0;
+
+  for (const snippet of orderedPageSections) {
+    const idx = page.indexOf(snippet, cursor);
+    if (idx === -1) {
+      missing.push(snippet);
+      continue;
+    }
+    cursor = idx + snippet.length;
+  }
+
+  return missing;
+};
 
 async function run() {
-  const [html, js] = await Promise.all([
-    fs.readFile(htmlPath, "utf8"),
-    fs.readFile(jsPath, "utf8")
-  ]);
+  const content = Object.fromEntries(
+    await Promise.all(
+      Object.entries(files).map(async ([key, relativePath]) => [key, await read(relativePath)])
+    )
+  );
 
-  const missingContracts = requiredContracts.filter((contract) => !contract.pattern.test(html));
-  const missingJsHooks = requiredJsHooks.filter((hook) => !js.includes(`function ${hook}(`));
+  const failed = requiredChecks.filter((check) => !check.test(content)).map((check) => check.name);
 
-  if (!missingContracts.length && !missingJsHooks.length) {
+  const missingPageOrder = assertPageOrder(content.page);
+  if (missingPageOrder.length) {
+    failed.push(`Page section order/content mismatch: ${missingPageOrder.join(", ")}`);
+  }
+
+  const removedRoutes = [
+    "app/remy/withremy.css/route.ts",
+    "app/remy/wireframe-remy.css/route.ts",
+    "app/remy/wireframe-remy.js/route.ts",
+    "lib/remy-source.ts"
+  ];
+
+  for (const relativePath of removedRoutes) {
+    try {
+      await fs.access(path.resolve(process.cwd(), relativePath));
+      failed.push(`Legacy runtime file still exists: ${relativePath}`);
+    } catch {
+      // expected: file does not exist
+    }
+  }
+
+  if (!failed.length) {
     console.log("Selector contract check passed.");
     return;
   }
 
-  if (missingContracts.length) {
-    console.error("Missing HTML contracts:");
-    missingContracts.forEach((contract) => {
-      console.error(`- ${contract.name}`);
-    });
-  }
-
-  if (missingJsHooks.length) {
-    console.error("Missing JS setup hooks:");
-    missingJsHooks.forEach((hook) => {
-      console.error(`- ${hook}`);
-    });
+  console.error("Selector contract check failed:");
+  for (const item of failed) {
+    console.error(`- ${item}`);
   }
 
   process.exitCode = 1;

@@ -76,14 +76,20 @@ export function PricingSection() {
                     <div className={styles.priceBlock}>
                       <div className={styles.priceRow}>
                         <div className={styles.priceViewport}>
-                          <div className={`${styles.priceStack} ${yearly ? styles.priceYearly : styles.priceMonthly}`}>
+                          <div
+                            data-pricing-stack={plan.name.toLowerCase()}
+                            className={`${styles.priceStack} ${yearly ? styles.priceYearly : styles.priceMonthly}`}
+                          >
                             <span>{plan.monthly}</span>
                             <span>{plan.yearly}</span>
                           </div>
                         </div>
                         <span className={styles.period}>/month</span>
                       </div>
-                      <p className={styles.billed}>Billed {billedLabel}{plan.name === "Pro" ? ", per workspace." : "."}</p>
+                      <p className={`${styles.billed} wf-pricing-billed-label`}>
+                        Billed {billedLabel}
+                        {plan.name === "Pro" ? ", per workspace." : "."}
+                      </p>
                     </div>
                   )}
                 </div>

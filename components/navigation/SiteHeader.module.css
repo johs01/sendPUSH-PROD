@@ -6,6 +6,10 @@
 }
 
 .shell {
+  --wf-nav-mx: 50%;
+  --wf-nav-my: 50%;
+  position: relative;
+  overflow: clip;
   border-radius: var(--radius-2xl);
   border: 1px solid var(--color-border-soft);
   background: linear-gradient(145deg, rgba(255, 255, 255, 0.74), rgba(255, 255, 255, 0.26));
@@ -17,11 +21,58 @@
     background-color var(--motion-duration-fast) var(--motion-ease-standard);
 }
 
+.shell::before,
+.shell::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+}
+
+.shell::before {
+  background: radial-gradient(
+      120% 180% at var(--wf-nav-mx) var(--wf-nav-my),
+      rgba(255, 255, 255, 0.5) 0%,
+      rgba(255, 255, 255, 0.2) 30%,
+      rgba(255, 255, 255, 0.1) 60%,
+      rgba(255, 255, 255, 0.14) 100%
+    ),
+    linear-gradient(
+      145deg,
+      rgba(255, 255, 255, 0.24) 0%,
+      rgba(255, 255, 255, 0.08) 50%,
+      rgba(255, 255, 255, 0.16) 100%
+    );
+  opacity: 0.92;
+  transition: opacity var(--motion-duration-fast) var(--motion-ease-standard);
+}
+
+.shell::after {
+  background: radial-gradient(
+    220px 130px at var(--wf-nav-mx) var(--wf-nav-my),
+    rgba(255, 255, 255, 0.54),
+    rgba(255, 255, 255, 0) 64%
+  );
+  opacity: 0.5;
+  transition: opacity var(--motion-duration-fast) var(--motion-ease-standard);
+}
+
+.interactive::before {
+  opacity: 1;
+}
+
+.interactive::after {
+  opacity: 0.62;
+}
+
 .scrolled {
   box-shadow: var(--shadow-nav);
 }
 
 .navContent {
+  position: relative;
+  z-index: 1;
   min-height: 76px;
   display: grid;
   grid-template-columns: auto 1fr auto;
@@ -127,6 +178,29 @@
 
 :global(html[data-theme="dark"]) .shell {
   background: linear-gradient(145deg, rgba(30, 24, 29, 0.82), rgba(20, 16, 21, 0.64));
+}
+
+:global(html[data-theme="dark"]) .shell::before {
+  background: radial-gradient(
+      120% 180% at var(--wf-nav-mx) var(--wf-nav-my),
+      rgba(255, 255, 255, 0.08) 0%,
+      rgba(255, 255, 255, 0.02) 45%,
+      rgba(255, 255, 255, 0.06) 100%
+    ),
+    linear-gradient(
+      145deg,
+      rgba(255, 255, 255, 0.08) 0%,
+      rgba(255, 255, 255, 0.02) 52%,
+      rgba(255, 255, 255, 0.06) 100%
+    );
+}
+
+:global(html[data-theme="dark"]) .shell::after {
+  background: radial-gradient(
+    220px 130px at var(--wf-nav-mx) var(--wf-nav-my),
+    rgba(255, 255, 255, 0.14),
+    rgba(255, 255, 255, 0) 68%
+  );
 }
 
 @media (max-width: 799.98px) {

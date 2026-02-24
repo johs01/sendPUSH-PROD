@@ -236,15 +236,31 @@
   transform: translate(-50%, 0) rotate(-45deg);
 }
 
+@media (min-width: 800px) and (max-width: 1399.98px) {
+  .links {
+    gap: 16px;
+  }
+
+  .links a {
+    font-size: 14px;
+    line-height: 14px;
+    letter-spacing: -0.28px;
+  }
+}
+
 @media (max-width: 799.98px) {
   .header {
-    top: 0;
+    top: 8px;
     padding-top: 8px;
   }
 
+  .shell {
+    min-height: 58px;
+  }
+
   .navContent {
-    min-height: 64px;
-    gap: 12px;
+    min-height: 58px;
+    gap: 8px;
     padding: 8px 12px;
   }
 
@@ -262,7 +278,10 @@
   .startButton {
     min-height: 44px;
     min-width: 0;
-    padding-inline: 18px;
+    padding: 12px 14px;
+    font-size: 15px;
+    line-height: 15px;
+    letter-spacing: -0.28px;
   }
 
   .mobileMenuToggle {

@@ -6,24 +6,19 @@ import { PNG } from "pngjs";
 
 const NEXT_URL = process.env.NEXT_URL ?? "http://localhost:3000/";
 const STATIC_URL = process.env.STATIC_URL ?? "http://localhost:4100/wireframe-remy.html";
-const MAX_DIFF_RATIO = Number(process.env.PARITY_MAX_DIFF ?? "0.2");
-const STRICT_TOP_DIFF_RATIO = Number(process.env.PARITY_STRICT_TOP_DIFF ?? "0.192");
-const STRICT_STICKY_DIFF_RATIO = Number(process.env.PARITY_STRICT_STICKY_DIFF ?? "0.11");
-const STRICT_MENU_DIFF_RATIO = Number(process.env.PARITY_STRICT_MENU_DIFF ?? "0.34");
-const MOBILE_TOP_DIFF_RATIO = Number(process.env.PARITY_MOBILE_TOP_DIFF ?? "0.27");
-const MOBILE_STICKY_DIFF_RATIO = Number(process.env.PARITY_MOBILE_STICKY_DIFF ?? "0.26");
-const MOBILE_MENU_DIFF_RATIO = Number(process.env.PARITY_MOBILE_MENU_DIFF ?? "0.05");
-const STRICT_PRICING_DIFF_RATIO = Number(process.env.PARITY_STRICT_PRICING_DIFF ?? "0.238");
-const STRICT_TENANT_DIFF_RATIO = Number(process.env.PARITY_STRICT_TENANT_DIFF ?? "0.22");
-const MOBILE_TENANT_DIFF_RATIO = Number(process.env.PARITY_MOBILE_TENANT_DIFF ?? "0.258");
-const MOBILE_360_TENANT_DIFF_RATIO = Number(
-  process.env.PARITY_MOBILE_360_TENANT_DIFF ?? "0.23"
-);
-const MOBILE_390_TENANT_DIFF_RATIO = Number(
-  process.env.PARITY_MOBILE_390_TENANT_DIFF ?? MOBILE_TENANT_DIFF_RATIO.toString()
-);
-const STRICT_FAQ_DIFF_RATIO = Number(process.env.PARITY_STRICT_FAQ_DIFF ?? "0.14");
-const TABLET_PRICING_DIFF_RATIO = Number(process.env.PARITY_TABLET_PRICING_DIFF ?? "0.238");
+const MAX_DIFF_RATIO = Number(process.env.PARITY_MAX_DIFF ?? "0.12");
+const DESKTOP_TOP_DIFF_RATIO = Number(process.env.PARITY_DESKTOP_TOP_DIFF ?? "0.08");
+const TABLET_TOP_DIFF_RATIO = Number(process.env.PARITY_TABLET_TOP_DIFF ?? "0.10");
+const MOBILE_TOP_DIFF_RATIO = Number(process.env.PARITY_MOBILE_TOP_DIFF ?? "0.12");
+const MOBILE_TOP_LIGHT_DIFF_RATIO = Number(process.env.PARITY_MOBILE_TOP_LIGHT_DIFF ?? "0.135");
+const MOBILE_TOP_DARK_DIFF_RATIO = Number(process.env.PARITY_MOBILE_TOP_DARK_DIFF ?? "0.17");
+const DESKTOP_STICKY_DIFF_RATIO = Number(process.env.PARITY_DESKTOP_STICKY_DIFF ?? "0.08");
+const TABLET_STICKY_DIFF_RATIO = Number(process.env.PARITY_TABLET_STICKY_DIFF ?? "0.10");
+const MOBILE_STICKY_DIFF_RATIO = Number(process.env.PARITY_MOBILE_STICKY_DIFF ?? "0.12");
+const MOBILE_MENU_DIFF_RATIO = Number(process.env.PARITY_MOBILE_MENU_DIFF ?? "0.03");
+const PRICING_DIFF_RATIO = Number(process.env.PARITY_PRICING_DIFF ?? "0.12");
+const TENANT_DIFF_RATIO = Number(process.env.PARITY_TENANT_DIFF ?? "0.12");
+const FAQ_DIFF_RATIO = Number(process.env.PARITY_FAQ_DIFF ?? "0.12");
 
 const outputRoot = path.resolve(process.cwd(), ".parity");
 const sourceDir = path.join(outputRoot, "source");
@@ -41,29 +36,29 @@ const scenarios = viewports.flatMap((viewport) => {
   const baseScenarios = [
     {
       name: `${viewport.name}-top-light`,
+      theme: "light",
       apply: async (page) => {
-        await setTheme(page, "light");
         await page.evaluate(() => window.scrollTo(0, 0));
       }
     },
     {
       name: `${viewport.name}-top-dark`,
+      theme: "dark",
       apply: async (page) => {
-        await setTheme(page, "dark");
         await page.evaluate(() => window.scrollTo(0, 0));
       }
     },
     {
       name: `${viewport.name}-sticky-scrolled`,
+      theme: "dark",
       apply: async (page) => {
-        await setTheme(page, "dark");
         await page.evaluate(() => window.scrollTo(0, 560));
       }
     },
     {
       name: `${viewport.name}-pricing-yearly`,
+      theme: "dark",
       apply: async (page) => {
-        await setTheme(page, "dark");
         await scrollToElement(page, "#pricing");
         await page.locator("#pricing [data-pricing-toggle='yearly']").first().click();
         await scrollToElement(page, "#pricing");
@@ -71,8 +66,8 @@ const scenarios = viewports.flatMap((viewport) => {
     },
     {
       name: `${viewport.name}-faq-open-hover`,
+      theme: "dark",
       apply: async (page) => {
-        await setTheme(page, "dark");
         await scrollToElement(page, "#faq");
         await page.locator("#faq .wf-faq-item summary").first().click();
         await page.locator("#faq .wf-faq-item").nth(1).hover();
@@ -80,8 +75,8 @@ const scenarios = viewports.flatMap((viewport) => {
     },
     {
       name: `${viewport.name}-tenant-submitted`,
+      theme: "dark",
       apply: async (page) => {
-        await setTheme(page, "dark");
         await scrollToElement(page, "#tenant-trial-cta");
         await page.fill("#wf-tenant-name", "Jane Smith");
         await page.fill("#wf-tenant-business", "Acme Wellness Studio");
@@ -101,8 +96,8 @@ const scenarios = viewports.flatMap((viewport) => {
     ...baseScenarios,
     {
       name: `${viewport.name}-menu-open`,
+      theme: "dark",
       apply: async (page) => {
-        await setTheme(page, "dark");
         await page.evaluate(() => window.scrollTo(0, 0));
         await page.locator("#wfMobileMenuToggle").click();
       }
@@ -129,17 +124,6 @@ async function ensureReachable(url, label) {
   }
 }
 
-async function setTheme(page, mode) {
-  await page.evaluate((nextMode) => {
-    const key = "wf-theme-mode";
-    const root = document.documentElement;
-    window.localStorage.setItem(key, nextMode);
-    root.setAttribute("data-theme-mode", nextMode);
-    root.setAttribute("data-theme", nextMode);
-    root.style.colorScheme = nextMode;
-  }, mode);
-}
-
 async function scrollToElement(page, selector) {
   await page.evaluate((targetSelector) => {
     const target = document.querySelector(targetSelector);
@@ -163,8 +147,37 @@ async function scrollToElement(page, selector) {
   await page.waitForTimeout(180);
 }
 
-async function captureScenario(browser, scenario, baseUrl, outputPath) {
-  const viewport = viewports.find((item) => scenario.name.startsWith(item.name));
+async function ensureFontsReady(page) {
+  await page.waitForFunction(
+    () => "fonts" in document && document.fonts.status !== "loading",
+    undefined,
+    { timeout: 15000 }
+  );
+  await page.waitForFunction(
+    () => {
+      if (!("fonts" in document)) {
+        return false;
+      }
+
+      const checks = [
+        document.fonts.check("700 16px 'Rodger Bold'"),
+        document.fonts.check("500 16px Onest"),
+        document.fonts.check("700 16px Onest")
+      ];
+
+      return checks.every(Boolean);
+    },
+    undefined,
+    { timeout: 15000 }
+  );
+}
+
+function getViewportForScenario(name) {
+  return viewports.find((item) => name.startsWith(item.name));
+}
+
+async function createContextForScenario(browser, scenario) {
+  const viewport = getViewportForScenario(scenario.name);
   if (!viewport) {
     throw new Error(`Viewport not found for scenario: ${scenario.name}`);
   }
@@ -173,11 +186,50 @@ async function captureScenario(browser, scenario, baseUrl, outputPath) {
     viewport: { width: viewport.width, height: viewport.height },
     deviceScaleFactor: 1
   });
+  if (scenario.theme) {
+    await context.addInitScript((mode) => {
+      const key = "wf-theme-mode";
+      const root = document.documentElement;
+
+      try {
+        window.localStorage.setItem(key, mode);
+      } catch {
+        // Ignore storage access issues in restrictive environments.
+      }
+
+      root.setAttribute("data-theme-mode", mode);
+      root.setAttribute("data-theme", mode);
+      root.style.colorScheme = mode;
+    }, scenario.theme);
+  }
+  return context;
+}
+
+async function captureScenario(context, scenario, baseUrl, outputPath) {
   const page = await context.newPage();
 
   try {
     await page.goto(baseUrl, { waitUntil: "networkidle" });
     await page.waitForTimeout(140);
+    await ensureFontsReady(page);
+    if (scenario.theme) {
+      await page.waitForFunction(
+        (expectedTheme) => document.documentElement.getAttribute("data-theme") === expectedTheme,
+        scenario.theme,
+        { timeout: 5000 }
+      );
+      await page.waitForFunction(
+        (expectedTheme) => {
+          try {
+            return window.localStorage.getItem("wf-theme-mode") === expectedTheme;
+          } catch {
+            return false;
+          }
+        },
+        scenario.theme,
+        { timeout: 5000 }
+      );
+    }
 
     // Disable animation jitter for deterministic screenshot diffs.
     await page.addStyleTag({
@@ -192,7 +244,7 @@ async function captureScenario(browser, scenario, baseUrl, outputPath) {
     await page.waitForTimeout(220);
     await page.screenshot({ path: outputPath, fullPage: false });
   } finally {
-    await context.close();
+    await page.close();
   }
 }
 
@@ -208,12 +260,14 @@ async function compareScenario(name) {
 
   const sourcePng = PNG.sync.read(sourceBuffer);
   const nextPng = PNG.sync.read(nextBuffer);
+  const threshold = getScenarioThreshold(name);
 
   if (sourcePng.width !== nextPng.width || sourcePng.height !== nextPng.height) {
     return {
       name,
       pass: false,
       diffRatio: 1,
+      threshold,
       reason: `Dimension mismatch source=${sourcePng.width}x${sourcePng.height} next=${nextPng.width}x${nextPng.height}`
     };
   }
@@ -232,8 +286,6 @@ async function compareScenario(name) {
   const diffRatio = diffPixels / totalPixels;
   await fs.writeFile(diffPath, PNG.sync.write(diffPng));
 
-  const threshold = getScenarioThreshold(name);
-
   return {
     name,
     pass: diffRatio <= threshold,
@@ -247,48 +299,45 @@ function getScenarioThreshold(name) {
   const isTablet = name.startsWith("tablet-");
 
   if (name.endsWith("-top-light") || name.endsWith("-top-dark")) {
+    if (isTablet) {
+      return TABLET_TOP_DIFF_RATIO;
+    }
     if (isMobile) {
+      if (name.endsWith("-top-dark")) {
+        return MOBILE_TOP_DARK_DIFF_RATIO;
+      }
+      if (name.endsWith("-top-light")) {
+        return MOBILE_TOP_LIGHT_DIFF_RATIO;
+      }
       return MOBILE_TOP_DIFF_RATIO;
     }
-    return STRICT_TOP_DIFF_RATIO;
+    return DESKTOP_TOP_DIFF_RATIO;
   }
 
   if (name.endsWith("-sticky-scrolled")) {
+    if (isTablet) {
+      return TABLET_STICKY_DIFF_RATIO;
+    }
     if (isMobile) {
       return MOBILE_STICKY_DIFF_RATIO;
     }
-    return STRICT_STICKY_DIFF_RATIO;
+    return DESKTOP_STICKY_DIFF_RATIO;
   }
 
   if (name.endsWith("-pricing-yearly")) {
-    if (isTablet) {
-      return TABLET_PRICING_DIFF_RATIO;
-    }
-    return STRICT_PRICING_DIFF_RATIO;
+    return PRICING_DIFF_RATIO;
   }
 
   if (name.endsWith("-tenant-submitted")) {
-    if (name.startsWith("mobile-360")) {
-      return MOBILE_360_TENANT_DIFF_RATIO;
-    }
-    if (name.startsWith("mobile-390")) {
-      return MOBILE_390_TENANT_DIFF_RATIO;
-    }
-    if (isMobile) {
-      return MOBILE_TENANT_DIFF_RATIO;
-    }
-    return STRICT_TENANT_DIFF_RATIO;
+    return TENANT_DIFF_RATIO;
   }
 
   if (name.endsWith("-faq-open-hover")) {
-    return STRICT_FAQ_DIFF_RATIO;
+    return FAQ_DIFF_RATIO;
   }
 
   if (name.endsWith("-menu-open")) {
-    if (isMobile) {
-      return MOBILE_MENU_DIFF_RATIO;
-    }
-    return STRICT_MENU_DIFF_RATIO;
+    return MOBILE_MENU_DIFF_RATIO;
   }
 
   return MAX_DIFF_RATIO;
@@ -306,10 +355,15 @@ async function run() {
     for (const scenario of scenarios) {
       const sourcePath = path.join(sourceDir, `${scenario.name}.png`);
       const nextPath = path.join(nextDir, `${scenario.name}.png`);
+      const context = await createContextForScenario(browser, scenario);
 
       console.log(`Capturing ${scenario.name}`);
-      await captureScenario(browser, scenario, STATIC_URL, sourcePath);
-      await captureScenario(browser, scenario, NEXT_URL, nextPath);
+      try {
+        await captureScenario(context, scenario, STATIC_URL, sourcePath);
+        await captureScenario(context, scenario, NEXT_URL, nextPath);
+      } finally {
+        await context.close();
+      }
 
       const result = await compareScenario(scenario.name);
       results.push(result);
@@ -328,30 +382,39 @@ async function run() {
   }
 
   const failed = results.filter((result) => !result.pass);
+  const worstFive = [...results].sort((a, b) => b.diffRatio - a.diffRatio).slice(0, 5);
   const report = {
     nextUrl: NEXT_URL,
     staticUrl: STATIC_URL,
     maxDiffRatio: MAX_DIFF_RATIO,
-    strictTopDiffRatio: STRICT_TOP_DIFF_RATIO,
-    strictStickyDiffRatio: STRICT_STICKY_DIFF_RATIO,
-    strictMenuDiffRatio: STRICT_MENU_DIFF_RATIO,
+    desktopTopDiffRatio: DESKTOP_TOP_DIFF_RATIO,
+    tabletTopDiffRatio: TABLET_TOP_DIFF_RATIO,
     mobileTopDiffRatio: MOBILE_TOP_DIFF_RATIO,
+    mobileTopLightDiffRatio: MOBILE_TOP_LIGHT_DIFF_RATIO,
+    mobileTopDarkDiffRatio: MOBILE_TOP_DARK_DIFF_RATIO,
+    desktopStickyDiffRatio: DESKTOP_STICKY_DIFF_RATIO,
+    tabletStickyDiffRatio: TABLET_STICKY_DIFF_RATIO,
     mobileStickyDiffRatio: MOBILE_STICKY_DIFF_RATIO,
     mobileMenuDiffRatio: MOBILE_MENU_DIFF_RATIO,
-    strictPricingDiffRatio: STRICT_PRICING_DIFF_RATIO,
-    strictTenantDiffRatio: STRICT_TENANT_DIFF_RATIO,
-    mobileTenantDiffRatio: MOBILE_TENANT_DIFF_RATIO,
-    mobile360TenantDiffRatio: MOBILE_360_TENANT_DIFF_RATIO,
-    mobile390TenantDiffRatio: MOBILE_390_TENANT_DIFF_RATIO,
-    tabletPricingDiffRatio: TABLET_PRICING_DIFF_RATIO,
-    strictFaqDiffRatio: STRICT_FAQ_DIFF_RATIO,
+    pricingDiffRatio: PRICING_DIFF_RATIO,
+    tenantDiffRatio: TENANT_DIFF_RATIO,
+    faqDiffRatio: FAQ_DIFF_RATIO,
     total: results.length,
     failed: failed.length,
+    worstFive,
     results
   };
 
   await fs.writeFile(path.join(outputRoot, "report.json"), JSON.stringify(report, null, 2));
   console.log(`Parity report written to ${path.join(outputRoot, "report.json")}`);
+  console.log("Worst 5 scenarios by diff ratio:");
+  for (const item of worstFive) {
+    console.log(
+      `  ${item.name}: diff=${(item.diffRatio * 100).toFixed(3)}% threshold=${(
+        item.threshold * 100
+      ).toFixed(3)}%`
+    );
+  }
 
   if (failed.length > 0) {
     process.exitCode = 1;

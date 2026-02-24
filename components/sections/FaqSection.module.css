@@ -1,38 +1,46 @@
 .header {
   display: grid;
   gap: var(--space-4);
-  margin-bottom: var(--space-8);
+  margin-bottom: 0;
 }
 
 .list {
+  margin-top: 30px;
   display: grid;
-  gap: var(--space-3);
+  gap: 12px;
 }
 
 .item {
   border-radius: var(--radius-lg);
-  border: 1px solid var(--color-border-soft);
-  background: var(--color-surface);
-  box-shadow: var(--shadow-card-soft);
+  background: var(--color-surface-soft);
+  border: 1px solid rgba(151, 144, 147, 0.28);
+  padding: 18px 20px;
+  overflow: hidden;
+  overflow: clip;
   transition:
-    background-color var(--motion-duration-fast) var(--motion-ease-standard),
-    border-color var(--motion-duration-fast) var(--motion-ease-standard);
+    transform 0.22s cubic-bezier(0.2, 0.8, 0.2, 1),
+    box-shadow 0.22s ease-out,
+    border-color 0.22s ease-out,
+    background-color 0.22s ease-out;
 }
 
 .item:hover,
 .item:focus-within {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 18px rgba(48, 33, 39, 0.1);
+  border-color: rgba(243, 125, 57, 0.34);
   background: var(--wf-faq-hover-bg);
-  border-color: var(--color-border-strong);
 }
 
 .item summary {
-  list-style: none;
   cursor: pointer;
-  padding: var(--space-4);
+  color: var(--color-ink);
+  font-size: 20px;
+  line-height: 24px;
+  letter-spacing: -0.35px;
   font-weight: var(--font-weight-bold);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  list-style: none;
+  transition: color 0.2s ease-out;
 }
 
 .item summary::-webkit-details-marker {
@@ -41,15 +49,50 @@
 
 .item summary::after {
   content: "+";
-  font-size: 1.15rem;
+  float: right;
   color: var(--color-brand-orange);
+  font-size: 24px;
+  line-height: 24px;
+  font-weight: var(--font-weight-bold);
+  transition:
+    transform 0.22s ease-out,
+    color 0.22s ease-out;
 }
 
 .item[open] summary::after {
   content: "-";
+  transform: rotate(180deg);
 }
 
 .item p {
-  padding: 0 var(--space-4) var(--space-4);
-  color: var(--color-text-muted);
+  margin: 0;
+  max-height: 0;
+  opacity: 0;
+  transform: translateY(-6px);
+  overflow: hidden;
+  color: var(--color-ink);
+  font-size: 18px;
+  line-height: 24px;
+  letter-spacing: -0.32px;
+  transition:
+    max-height 0.28s ease-out,
+    opacity 0.22s ease-out,
+    transform 0.22s ease-out,
+    margin-top 0.28s ease-out;
+}
+
+.item[open] p {
+  margin-top: 14px;
+  max-height: 1000px;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .item,
+  .item summary::after,
+  .item p {
+    transition: none !important;
+    transform: none !important;
+  }
 }

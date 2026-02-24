@@ -17,7 +17,7 @@ export function PricingSection() {
   return (
     <section id="pricing" className="section bgWhite">
       <Container>
-        <Reveal order={0} className={`sectionCenter ${styles.header}`}>
+        <Reveal order={0} className={styles.header}>
           <p className="eyebrow">Pricing</p>
           <h2>Pricing That Scales With Your Campaign Goals</h2>
           <p className="bodyCopy bodyCopyMuted">
@@ -112,8 +112,8 @@ export function PricingSection() {
           })}
         </div>
 
-        <Reveal order={5} className="sectionCenter">
-          <Button href="#faq" variant="secondary">
+        <Reveal order={5} className={`sectionCenter ${styles.details}`}>
+          <Button href="#faq" variant="secondary" className={styles.detailsButton}>
             View all billing details
           </Button>
         </Reveal>

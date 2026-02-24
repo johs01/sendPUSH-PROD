@@ -13,7 +13,7 @@ export function HeroSection() {
           <Reveal order={0} className={styles.content}>
             <p className="eyebrow">Customer messaging system</p>
             <h1>Have Your Own Customer List. Message Them Anytime - Free.</h1>
-            <p className="bodyCopy">
+            <p className={`bodyCopy ${styles.copy}`}>
               Build your direct customer list, automate outreach, and send high-converting campaigns without relying
               on social algorithms.
             </p>

@@ -1,37 +1,88 @@
 .card {
+  --wf-parallax-y: 0px;
+  --wf-hover-y: 0px;
+  position: relative;
+  width: 100%;
   aspect-ratio: 16 / 10;
   border-radius: var(--radius-xl);
-  border: 1px dashed var(--color-border-soft);
-  background: linear-gradient(120deg, rgba(255, 255, 255, 0.16), rgba(48, 33, 39, 0.2));
-  box-shadow: var(--shadow-card-soft);
-  display: grid;
-  place-items: center;
-  position: relative;
+  background:
+    linear-gradient(
+      110deg,
+      rgba(255, 255, 255, 0.08) 15%,
+      rgba(255, 255, 255, 0.42) 45%,
+      rgba(255, 255, 255, 0.08) 75%
+    ),
+    var(--color-surface-soft);
+  background-size: 220% 100%, auto;
+  background-position: 120% 0, 0 0;
+  border: 1px dashed rgba(151, 144, 147, 0.44);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
   overflow: hidden;
+  transform: translateY(calc(var(--wf-parallax-y) + var(--wf-hover-y)));
+  transition:
+    transform 0.26s cubic-bezier(0.2, 0.8, 0.2, 1),
+    border-color 0.26s ease-out,
+    background-position 0.28s ease-out;
 }
 
 .card::before {
   content: "";
   position: absolute;
-  inset: 0;
-  background: linear-gradient(130deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0));
-  pointer-events: none;
-}
-
-.dot {
-  width: 24px;
-  height: 24px;
-  border-radius: 999px;
-  background: #0f2936;
-  box-shadow: inset 0 0 0 5px rgba(255, 255, 255, 0.08);
-}
-
-.label {
-  position: absolute;
+  top: 50%;
   left: 50%;
-  bottom: var(--space-5);
-  transform: translateX(-50%);
+  width: 30px;
+  height: 30px;
+  border-radius: 12px;
+  background: var(--bg-cyan);
+  box-shadow: inset 0 0 0 2px rgba(48, 33, 39, 0.14);
+  transform: translate(-50%, -80%);
+}
+
+.card::after {
+  content: attr(data-label);
+  position: absolute;
+  left: 14px;
+  right: 14px;
+  bottom: 18px;
   color: var(--color-text-subtle);
-  font-size: 1rem;
+  font-size: 16px;
+  line-height: 16px;
+  letter-spacing: -0.32px;
   font-weight: var(--font-weight-medium);
+}
+
+.card:hover,
+.card:focus-within {
+  --wf-hover-y: -2px;
+  background-position: -20% 0, 0 0;
+  border-color: rgba(243, 125, 57, 0.42);
+}
+
+@media (max-width: 799.98px) {
+  .card {
+    border-radius: 12px;
+  }
+
+  .card::before {
+    width: 24px;
+    height: 24px;
+    border-radius: 8px;
+  }
+
+  .card::after {
+    bottom: 12px;
+    font-size: 14px;
+    line-height: 14px;
+    letter-spacing: -0.28px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card {
+    transition: none !important;
+    transform: none !important;
+  }
 }

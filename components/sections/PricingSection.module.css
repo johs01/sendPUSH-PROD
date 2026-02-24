@@ -395,6 +395,7 @@
   .toggleButton.active {
     color: var(--color-ink);
     background: var(--color-brand-yellow);
+    box-shadow: none;
   }
 
   .toggleButton:hover,

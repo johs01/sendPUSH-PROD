@@ -34,29 +34,29 @@ const scenarios = viewports.flatMap((viewport) => {
   const baseScenarios = [
     {
       name: `${viewport.name}-top-light`,
+      theme: "light",
       apply: async (page) => {
-        await setTheme(page, "light");
         await page.evaluate(() => window.scrollTo(0, 0));
       }
     },
     {
       name: `${viewport.name}-top-dark`,
+      theme: "dark",
       apply: async (page) => {
-        await setTheme(page, "dark");
         await page.evaluate(() => window.scrollTo(0, 0));
       }
     },
     {
       name: `${viewport.name}-sticky-scrolled`,
+      theme: "dark",
       apply: async (page) => {
-        await setTheme(page, "dark");
         await page.evaluate(() => window.scrollTo(0, 560));
       }
     },
     {
       name: `${viewport.name}-pricing-yearly`,
+      theme: "dark",
       apply: async (page) => {
-        await setTheme(page, "dark");
         await scrollToElement(page, "#pricing");
         await page.locator("#pricing [data-pricing-toggle='yearly']").first().click();
         await scrollToElement(page, "#pricing");
@@ -64,8 +64,8 @@ const scenarios = viewports.flatMap((viewport) => {
     },
     {
       name: `${viewport.name}-faq-open-hover`,
+      theme: "dark",
       apply: async (page) => {
-        await setTheme(page, "dark");
         await scrollToElement(page, "#faq");
         await page.locator("#faq .wf-faq-item summary").first().click();
         await page.locator("#faq .wf-faq-item").nth(1).hover();
@@ -73,8 +73,8 @@ const scenarios = viewports.flatMap((viewport) => {
     },
     {
       name: `${viewport.name}-tenant-submitted`,
+      theme: "dark",
       apply: async (page) => {
-        await setTheme(page, "dark");
         await scrollToElement(page, "#tenant-trial-cta");
         await page.fill("#wf-tenant-name", "Jane Smith");
         await page.fill("#wf-tenant-business", "Acme Wellness Studio");
@@ -94,8 +94,8 @@ const scenarios = viewports.flatMap((viewport) => {
     ...baseScenarios,
     {
       name: `${viewport.name}-menu-open`,
+      theme: "dark",
       apply: async (page) => {
-        await setTheme(page, "dark");
         await page.evaluate(() => window.scrollTo(0, 0));
         await page.locator("#wfMobileMenuToggle").click();
       }
@@ -120,17 +120,6 @@ async function ensureReachable(url, label) {
     const message = error instanceof Error ? error.message : String(error);
     throw new Error(`${label} is not reachable at ${url}. ${message}`);
   }
-}
-
-async function setTheme(page, mode) {
-  await page.evaluate((nextMode) => {
-    const key = "wf-theme-mode";
-    const root = document.documentElement;
-    window.localStorage.setItem(key, nextMode);
-    root.setAttribute("data-theme-mode", nextMode);
-    root.setAttribute("data-theme", nextMode);
-    root.style.colorScheme = nextMode;
-  }, mode);
 }
 
 async function scrollToElement(page, selector) {
@@ -191,12 +180,46 @@ async function captureScenario(browser, scenario, baseUrl, outputPath) {
     viewport: { width: viewport.width, height: viewport.height },
     deviceScaleFactor: 1
   });
+  if (scenario.theme) {
+    await context.addInitScript((mode) => {
+      const key = "wf-theme-mode";
+      const root = document.documentElement;
+
+      try {
+        window.localStorage.setItem(key, mode);
+      } catch {
+        // Ignore storage access issues in restrictive environments.
+      }
+
+      root.setAttribute("data-theme-mode", mode);
+      root.setAttribute("data-theme", mode);
+      root.style.colorScheme = mode;
+    }, scenario.theme);
+  }
   const page = await context.newPage();
 
   try {
     await page.goto(baseUrl, { waitUntil: "networkidle" });
     await page.waitForTimeout(140);
     await ensureFontsReady(page);
+    if (scenario.theme) {
+      await page.waitForFunction(
+        (expectedTheme) => document.documentElement.getAttribute("data-theme") === expectedTheme,
+        scenario.theme,
+        { timeout: 5000 }
+      );
+      await page.waitForFunction(
+        (expectedTheme) => {
+          try {
+            return window.localStorage.getItem("wf-theme-mode") === expectedTheme;
+          } catch {
+            return false;
+          }
+        },
+        scenario.theme,
+        { timeout: 5000 }
+      );
+    }
 
     // Disable animation jitter for deterministic screenshot diffs.
     await page.addStyleTag({

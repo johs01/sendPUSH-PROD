@@ -78,10 +78,119 @@
   --shadow-overlay: -16px 0 40px rgba(8, 6, 10, 0.32), inset 0 1px 0 rgba(255, 255, 255, 0.56);
   --shadow-email: 0 4px 0 rgba(252, 184, 38, 0.5), inset 0 0 0 2px rgba(252, 184, 38, 0.6);
 
-  --motion-duration-fast: 220ms;
-  --motion-duration-slow: 320ms;
-  --motion-ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
-  --motion-ease-gentle: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --wf-motion-fast: 220ms;
+  --wf-motion-base: 280ms;
+  --wf-motion-slow: 320ms;
+  --wf-motion-ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+  --wf-motion-ease-gentle: cubic-bezier(0.2, 0.8, 0.2, 1);
+
+  --motion-duration-fast: var(--wf-motion-fast);
+  --motion-duration-slow: var(--wf-motion-slow);
+  --motion-ease-standard: var(--wf-motion-ease-standard);
+  --motion-ease-gentle: var(--wf-motion-ease-gentle);
+
+  --wf-nav-shell-border: rgba(255, 255, 255, 0.56);
+  --wf-nav-shell-shadow: 0 10px 24px rgba(48, 33, 39, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.52);
+  --wf-nav-filter-bg: linear-gradient(148deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.08));
+  --wf-nav-overlay-bg: radial-gradient(
+      120% 180% at var(--wf-nav-mx) var(--wf-nav-my),
+      rgba(255, 255, 255, 0.5) 0%,
+      rgba(255, 255, 255, 0.2) 30%,
+      rgba(255, 255, 255, 0.1) 60%,
+      rgba(255, 255, 255, 0.14) 100%
+    ),
+    linear-gradient(
+      145deg,
+      rgba(255, 255, 255, 0.24) 0%,
+      rgba(255, 255, 255, 0.08) 50%,
+      rgba(255, 255, 255, 0.16) 100%
+    );
+  --wf-nav-overlay-opacity: 0.94;
+  --wf-nav-specular-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9), inset 0 -1px 0 rgba(255, 255, 255, 0.28),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.42);
+  --wf-nav-after-bg: radial-gradient(
+    220px 130px at var(--wf-nav-mx) var(--wf-nav-my),
+    rgba(255, 255, 255, 0.54),
+    rgba(255, 255, 255, 0) 64%
+  );
+  --wf-nav-after-opacity: 0.54;
+  --wf-nav-scrolled-shadow: 0 16px 36px rgba(48, 33, 39, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.7);
+  --wf-nav-scrolled-border: rgba(255, 255, 255, 0.72);
+  --wf-theme-toggle-border: rgba(255, 255, 255, 0.66);
+  --wf-theme-toggle-bg: linear-gradient(150deg, rgba(255, 255, 255, 0.54), rgba(255, 255, 255, 0.22)),
+    rgba(255, 255, 255, 0.34);
+  --wf-theme-toggle-shadow: 0 8px 16px rgba(48, 33, 39, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.82);
+  --wf-theme-toggle-color: var(--color-ink);
+  --wf-theme-toggle-hover-border: rgba(243, 125, 57, 0.46);
+  --wf-theme-toggle-hover-shadow: 0 10px 19px rgba(48, 33, 39, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  --wf-menu-control-border: rgba(255, 255, 255, 0.56);
+  --wf-menu-control-bg: rgba(255, 255, 255, 0.54);
+  --wf-menu-control-shadow: 0 8px 14px rgba(48, 33, 39, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.82);
+  --wf-menu-control-color: var(--color-ink);
+  --wf-menu-control-hover-border: rgba(243, 125, 57, 0.46);
+  --wf-menu-control-hover-shadow: 0 10px 18px rgba(48, 33, 39, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.86);
+  --wf-mobile-backdrop-bg: radial-gradient(130% 140% at 100% 0%, rgba(255, 255, 255, 0.26), rgba(48, 33, 39, 0.12)),
+    rgba(48, 33, 39, 0.4);
+  --wf-mobile-panel-border: rgba(255, 255, 255, 0.54);
+  --wf-mobile-panel-shadow: -16px 0 40px rgba(48, 33, 39, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  --wf-mobile-panel-filter-bg: linear-gradient(148deg, rgba(255, 255, 255, 0.72), rgba(255, 255, 255, 0.36)),
+    rgba(255, 255, 255, 0.34);
+  --wf-mobile-panel-overlay-bg: radial-gradient(120% 90% at 0% 0%, rgba(255, 255, 255, 0.66), rgba(255, 255, 255, 0.14)),
+    linear-gradient(
+      150deg,
+      rgba(255, 255, 255, 0.38) 0%,
+      rgba(255, 255, 255, 0.14) 54%,
+      rgba(255, 255, 255, 0.26) 100%
+    );
+  --wf-mobile-panel-overlay-opacity: 0.95;
+  --wf-mobile-panel-specular-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9), inset 0 -1px 0 rgba(255, 255, 255, 0.34),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.44);
+  --wf-mobile-link-border: rgba(255, 255, 255, 0.52);
+  --wf-mobile-link-bg: rgba(255, 255, 255, 0.56);
+  --wf-mobile-link-color: var(--color-ink);
+  --wf-email-shell-bg: rgba(255, 255, 255, 0.72);
+  --wf-email-shell-border: rgba(252, 184, 39, 0.62);
+  --wf-email-shell-shadow: 0 6px 12px rgba(48, 33, 39, 0.08);
+  --wf-email-input-bg: var(--color-surface-muted);
+  --wf-email-input-color: var(--color-ink);
+  --wf-email-input-placeholder: var(--color-text-subtle);
+  --wf-pricing-pro-bg: linear-gradient(
+    180deg,
+    rgba(252, 184, 39, 0.2) 0%,
+    rgba(255, 255, 255, 0.9) 44%,
+    var(--color-surface-soft) 100%
+  );
+  --wf-pricing-pro-shadow: 0 12px 24px rgba(243, 125, 57, 0.16);
+  --wf-faq-hover-bg: #fbfcfd;
+  --wf-tenant-form-bg: linear-gradient(180deg, rgba(255, 255, 255, 0.9), var(--color-surface));
+  --wf-tenant-form-border: rgba(151, 144, 147, 0.28);
+  --wf-tenant-form-shadow: 0 12px 24px rgba(48, 33, 39, 0.1);
+  --wf-tenant-form-gloss: linear-gradient(160deg, rgba(255, 255, 255, 0.44) 0%, rgba(255, 255, 255, 0) 46%);
+  --wf-tenant-form-gloss-opacity: 1;
+  --wf-tenant-label-color: var(--color-ink);
+  --wf-tenant-help-color: var(--color-text-muted);
+  --wf-tenant-input-bg: var(--color-surface-soft);
+  --wf-tenant-input-border: rgba(151, 144, 147, 0.36);
+  --wf-tenant-input-hover-border: rgba(243, 125, 57, 0.32);
+  --wf-tenant-input-color: var(--color-ink);
+  --wf-tenant-input-placeholder: var(--color-text-subtle);
+  --wf-tenant-input-focus-bg: var(--color-surface);
+  --wf-footer-shell-bg: linear-gradient(180deg, rgba(255, 255, 255, 0.92), var(--color-surface-soft));
+  --wf-footer-shell-border: rgba(151, 144, 147, 0.28);
+  --wf-footer-shell-shadow: 0 14px 28px rgba(48, 33, 39, 0.1);
+  --wf-footer-shell-gloss: linear-gradient(150deg, rgba(255, 255, 255, 0.44) 0%, rgba(255, 255, 255, 0) 48%);
+  --wf-footer-shell-gloss-opacity: 0.82;
+  --wf-footer-copy-color: var(--color-text-muted);
+  --wf-footer-link-color: var(--color-text-muted);
+  --wf-footer-link-hover-color: var(--color-ink);
+  --wf-footer-contact-color: var(--color-text-muted);
+  --wf-footer-contact-icon: var(--color-text-subtle);
+  --wf-footer-social-bg: var(--color-surface);
+  --wf-footer-social-border: rgba(151, 144, 147, 0.28);
+  --wf-footer-social-color: var(--color-text-muted);
+  --wf-footer-bottom-border: rgba(151, 144, 147, 0.22);
+  --wf-footer-meta-color: var(--color-text-muted);
+  --wf-footer-legal-color: var(--color-text-muted);
 
   --z-nav: 900;
   --z-overlay: 1000;
@@ -122,6 +231,108 @@ html[data-theme="dark"] {
   --shadow-nav: 0 16px 36px rgba(6, 4, 8, 0.62), inset 0 1px 0 rgba(255, 255, 255, 0.14);
   --shadow-overlay: -16px 0 40px rgba(6, 4, 8, 0.62), inset 0 1px 0 rgba(255, 255, 255, 0.14);
   --shadow-email: 0 4px 0 rgba(255, 210, 93, 0.35), inset 0 0 0 2px rgba(255, 210, 93, 0.45);
+
+  --wf-nav-shell-border: rgba(255, 248, 251, 0.2);
+  --wf-nav-shell-shadow: 0 12px 28px rgba(8, 6, 10, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  --wf-nav-filter-bg: linear-gradient(148deg, rgba(30, 24, 29, 0.82), rgba(20, 16, 21, 0.74));
+  --wf-nav-overlay-bg: radial-gradient(
+      120% 180% at var(--wf-nav-mx) var(--wf-nav-my),
+      rgba(255, 255, 255, 0.08) 0%,
+      rgba(255, 255, 255, 0.02) 45%,
+      rgba(255, 255, 255, 0.06) 100%
+    ),
+    linear-gradient(
+      145deg,
+      rgba(255, 255, 255, 0.08) 0%,
+      rgba(255, 255, 255, 0.02) 52%,
+      rgba(255, 255, 255, 0.06) 100%
+    );
+  --wf-nav-overlay-opacity: 1;
+  --wf-nav-specular-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.14), inset 0 -1px 0 rgba(255, 255, 255, 0.08),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+  --wf-nav-after-bg: radial-gradient(
+    220px 130px at var(--wf-nav-mx) var(--wf-nav-my),
+    rgba(255, 255, 255, 0.14),
+    rgba(255, 255, 255, 0) 68%
+  );
+  --wf-nav-after-opacity: 0.4;
+  --wf-nav-scrolled-shadow: 0 16px 36px rgba(6, 4, 8, 0.62), inset 0 1px 0 rgba(255, 255, 255, 0.14);
+  --wf-nav-scrolled-border: rgba(255, 248, 251, 0.28);
+  --wf-theme-toggle-border: rgba(255, 248, 251, 0.22);
+  --wf-theme-toggle-bg: linear-gradient(150deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.04)),
+    rgba(20, 16, 21, 0.88);
+  --wf-theme-toggle-shadow: 0 10px 18px rgba(8, 6, 10, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.16);
+  --wf-theme-toggle-color: var(--color-on-dark);
+  --wf-theme-toggle-hover-border: rgba(255, 157, 99, 0.5);
+  --wf-theme-toggle-hover-shadow: 0 12px 22px rgba(8, 6, 10, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  --wf-menu-control-border: rgba(255, 248, 251, 0.22);
+  --wf-menu-control-bg: rgba(255, 248, 251, 0.08);
+  --wf-menu-control-shadow: 0 10px 16px rgba(8, 6, 10, 0.42), inset 0 1px 0 rgba(255, 255, 255, 0.16);
+  --wf-menu-control-color: var(--color-on-dark);
+  --wf-menu-control-hover-border: rgba(255, 157, 99, 0.52);
+  --wf-menu-control-hover-shadow: 0 12px 20px rgba(8, 6, 10, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  --wf-mobile-backdrop-bg: radial-gradient(130% 140% at 100% 0%, rgba(255, 255, 255, 0.1), rgba(8, 6, 10, 0.52)),
+    rgba(8, 6, 10, 0.62);
+  --wf-mobile-panel-border: rgba(255, 248, 251, 0.22);
+  --wf-mobile-panel-shadow: -16px 0 40px rgba(6, 4, 8, 0.62), inset 0 1px 0 rgba(255, 255, 255, 0.14);
+  --wf-mobile-panel-filter-bg: linear-gradient(148deg, rgba(30, 24, 29, 0.92), rgba(20, 16, 21, 0.86)),
+    rgba(20, 16, 21, 0.86);
+  --wf-mobile-panel-overlay-bg: radial-gradient(120% 90% at 0% 0%, rgba(255, 255, 255, 0.16), rgba(255, 255, 255, 0.04)),
+    linear-gradient(
+      150deg,
+      rgba(255, 255, 255, 0.12) 0%,
+      rgba(255, 255, 255, 0.04) 54%,
+      rgba(255, 255, 255, 0.1) 100%
+    );
+  --wf-mobile-panel-overlay-opacity: 0.92;
+  --wf-mobile-panel-specular-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.16), inset 0 -1px 0 rgba(255, 255, 255, 0.08),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+  --wf-mobile-link-border: rgba(255, 248, 251, 0.22);
+  --wf-mobile-link-bg: rgba(255, 248, 251, 0.08);
+  --wf-mobile-link-color: var(--color-on-dark);
+  --wf-email-shell-bg: rgba(255, 248, 251, 0.08);
+  --wf-email-shell-border: rgba(255, 210, 93, 0.42);
+  --wf-email-shell-shadow: 0 10px 18px rgba(8, 6, 10, 0.45);
+  --wf-email-input-bg: rgba(255, 248, 251, 0.1);
+  --wf-email-input-color: var(--color-on-dark);
+  --wf-email-input-placeholder: rgba(255, 248, 251, 0.5);
+  --wf-pricing-pro-bg: linear-gradient(
+    180deg,
+    rgba(255, 157, 99, 0.2) 0%,
+    rgba(255, 210, 93, 0.08) 42%,
+    var(--color-surface-soft) 100%
+  );
+  --wf-pricing-pro-shadow: 0 12px 24px rgba(255, 157, 99, 0.22);
+  --wf-faq-hover-bg: rgba(255, 248, 251, 0.1);
+  --wf-tenant-form-bg: linear-gradient(180deg, rgba(255, 248, 251, 0.08), rgba(34, 27, 32, 0.96));
+  --wf-tenant-form-border: rgba(255, 248, 251, 0.22);
+  --wf-tenant-form-shadow: 0 16px 30px rgba(10, 7, 10, 0.55);
+  --wf-tenant-form-gloss: linear-gradient(160deg, rgba(255, 255, 255, 0.16) 0%, rgba(255, 255, 255, 0) 52%);
+  --wf-tenant-form-gloss-opacity: 0.55;
+  --wf-tenant-label-color: var(--color-on-dark);
+  --wf-tenant-help-color: var(--color-on-dark-muted);
+  --wf-tenant-input-bg: rgba(255, 248, 251, 0.07);
+  --wf-tenant-input-border: rgba(255, 248, 251, 0.24);
+  --wf-tenant-input-hover-border: rgba(255, 157, 99, 0.46);
+  --wf-tenant-input-color: var(--color-on-dark);
+  --wf-tenant-input-placeholder: rgba(255, 248, 251, 0.56);
+  --wf-tenant-input-focus-bg: rgba(255, 248, 251, 0.12);
+  --wf-footer-shell-bg: linear-gradient(180deg, rgba(255, 248, 251, 0.1), rgba(34, 27, 32, 0.96));
+  --wf-footer-shell-border: rgba(255, 248, 251, 0.22);
+  --wf-footer-shell-shadow: 0 16px 30px rgba(9, 6, 10, 0.5);
+  --wf-footer-shell-gloss: linear-gradient(150deg, rgba(255, 255, 255, 0.16) 0%, rgba(255, 255, 255, 0) 52%);
+  --wf-footer-shell-gloss-opacity: 0.58;
+  --wf-footer-copy-color: var(--color-on-dark-muted);
+  --wf-footer-link-color: var(--color-on-dark-muted);
+  --wf-footer-link-hover-color: var(--color-on-dark);
+  --wf-footer-contact-color: var(--color-on-dark-muted);
+  --wf-footer-contact-icon: rgba(255, 248, 251, 0.68);
+  --wf-footer-social-bg: rgba(255, 248, 251, 0.08);
+  --wf-footer-social-border: rgba(255, 248, 251, 0.24);
+  --wf-footer-social-color: var(--color-on-dark-muted);
+  --wf-footer-bottom-border: rgba(255, 248, 251, 0.2);
+  --wf-footer-meta-color: rgba(255, 248, 251, 0.72);
+  --wf-footer-legal-color: rgba(255, 248, 251, 0.72);
 }
 
 html {
@@ -154,18 +365,21 @@ h3 {
 }
 
 h1 {
-  font-size: clamp(2.5rem, 7vw, 4.95rem);
-  letter-spacing: -0.03em;
+  font-size: 72px;
+  line-height: 79.2px;
+  letter-spacing: -1px;
 }
 
 h2 {
-  font-size: clamp(2rem, 5.4vw, 4.125rem);
-  letter-spacing: -0.03em;
+  font-size: 60px;
+  line-height: 66px;
+  letter-spacing: -1.2px;
 }
 
 h3 {
-  font-size: var(--font-size-h3);
-  line-height: 1.1;
+  font-size: 32px;
+  line-height: 32px;
+  letter-spacing: -0.64px;
 }
 
 .section {
@@ -212,28 +426,22 @@ h3 {
 }
 
 .eyebrow {
-  display: inline-flex;
-  align-items: center;
-  min-height: 1.7rem;
-  width: fit-content;
-  padding: 0.15rem 0.66rem;
-  border-radius: var(--radius-pill);
-  border: 1px solid rgba(252, 184, 39, 0.35);
+  margin: 0 0 14px;
   color: var(--color-text-muted);
-  font-size: var(--font-size-meta);
-  line-height: var(--line-height-meta);
-  letter-spacing: 0.04em;
+  font-size: 16px;
+  line-height: 16px;
+  letter-spacing: -0.2px;
   text-transform: uppercase;
   font-weight: var(--font-weight-bold);
 }
 
 .bodyCopy {
   margin: 0;
-  max-width: 60ch;
+  max-width: 760px;
   color: var(--color-ink);
-  font-size: clamp(1.2rem, 2.1vw, 2rem);
-  line-height: clamp(1.45, 1.35, 1.4);
-  letter-spacing: -0.02em;
+  font-size: 20px;
+  line-height: 26px;
+  letter-spacing: -0.4px;
   font-weight: var(--font-weight-medium);
 }
 
@@ -283,12 +491,12 @@ html.theme-animating *,
 html.theme-animating *::before,
 html.theme-animating *::after {
   transition:
-    background-color var(--motion-duration-slow) var(--motion-ease-standard),
-    color var(--motion-duration-fast) ease-out,
-    border-color var(--motion-duration-fast) ease-out,
-    box-shadow var(--motion-duration-fast) ease-out,
-    fill var(--motion-duration-fast) ease-out,
-    stroke var(--motion-duration-fast) ease-out !important;
+    background-color var(--wf-motion-base) var(--wf-motion-ease-standard),
+    color var(--wf-motion-fast) ease-out,
+    border-color var(--wf-motion-fast) ease-out,
+    box-shadow var(--wf-motion-fast) ease-out,
+    fill var(--wf-motion-fast) ease-out,
+    stroke var(--wf-motion-fast) ease-out !important;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -304,6 +512,23 @@ html.theme-animating *::after {
 }
 
 @media (max-width: 799.98px) {
+  h1 {
+    font-size: 40px;
+    line-height: 44px;
+  }
+
+  h2 {
+    font-size: 30px;
+    line-height: 33px;
+    letter-spacing: -0.6px;
+  }
+
+  h3 {
+    font-size: 24px;
+    line-height: 24px;
+    letter-spacing: -0.48px;
+  }
+
   .section {
     padding-block: clamp(2.5rem, 10vw, 4rem);
   }
@@ -313,7 +538,27 @@ html.theme-animating *::after {
   }
 
   .bodyCopy {
-    font-size: var(--font-size-body-sm);
-    line-height: var(--line-height-body-sm);
+    font-size: 16px;
+    line-height: 20.8px;
+    letter-spacing: -0.32px;
+  }
+}
+
+@media (min-width: 800px) and (max-width: 1399.98px) {
+  h1 {
+    font-size: 54px;
+    line-height: 59.4px;
+  }
+
+  h2 {
+    font-size: 40px;
+    line-height: 44px;
+    letter-spacing: -0.8px;
+  }
+
+  h3 {
+    font-size: 28px;
+    line-height: 28px;
+    letter-spacing: -0.56px;
   }
 }

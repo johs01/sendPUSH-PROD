@@ -4,6 +4,7 @@ import {
   type ComponentPropsWithoutRef,
   type ElementType,
   type ReactNode,
+  type CSSProperties,
   useEffect,
   useMemo,
   useRef,
@@ -17,11 +18,6 @@ type RevealProps<T extends ElementType> = {
   className?: string;
   children: ReactNode;
 } & Omit<ComponentPropsWithoutRef<T>, "className" | "children">;
-
-const orderClass = (order: number) => {
-  const normalized = Math.max(0, Math.min(12, order));
-  return styles[`order${normalized}` as keyof typeof styles] || styles.order0;
-};
 
 export function Reveal<T extends ElementType = "div">({
   as,
@@ -55,11 +51,11 @@ export function Reveal<T extends ElementType = "div">({
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             setVisible(true);
-            observer.disconnect();
+            observer.unobserve(entry.target);
           }
         });
       },
-      { threshold: 0.2 }
+      { threshold: 0.18, rootMargin: "0px 0px -12% 0px" }
     );
 
     observer.observe(element);
@@ -73,17 +69,29 @@ export function Reveal<T extends ElementType = "div">({
         "reveal",
         visible ? "is-visible" : "",
         styles.reveal,
-        orderClass(order),
         visible ? styles.visible : "",
         className
       ]
         .filter(Boolean)
         .join(" "),
-    [order, visible, className]
+    [visible, className]
   );
 
+  const revealDelayStyle = useMemo(
+    () =>
+      ({
+        "--reveal-delay": `${Math.max(order, 0) * 55}ms`
+      }) as CSSProperties,
+    [order]
+  );
+
+  const mergedStyle = useMemo(() => {
+    const baseStyle = (rest as { style?: CSSProperties }).style;
+    return baseStyle ? ({ ...baseStyle, ...revealDelayStyle } as CSSProperties) : revealDelayStyle;
+  }, [rest, revealDelayStyle]);
+
   return (
-    <Component ref={ref as never} className={classes} {...rest}>
+    <Component ref={ref as never} className={classes} {...rest} style={mergedStyle}>
       {children}
     </Component>
   );

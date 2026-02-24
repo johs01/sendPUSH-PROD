@@ -6,12 +6,18 @@ import { PNG } from "pngjs";
 
 const NEXT_URL = process.env.NEXT_URL ?? "http://localhost:3000/";
 const STATIC_URL = process.env.STATIC_URL ?? "http://localhost:4100/wireframe-remy.html";
-// Transitional thresholds for the post source-mirror component migration.
-// Tighten these after new golden baselines are captured for the component-rendered runtime.
-const MAX_DIFF_RATIO = Number(process.env.PARITY_MAX_DIFF ?? "0.33");
-const STRICT_TOP_DIFF_RATIO = Number(process.env.PARITY_STRICT_TOP_DIFF ?? "0.25");
-const STRICT_STICKY_DIFF_RATIO = Number(process.env.PARITY_STRICT_STICKY_DIFF ?? "0.3");
-const STRICT_MENU_DIFF_RATIO = Number(process.env.PARITY_STRICT_MENU_DIFF ?? "0.47");
+const MAX_DIFF_RATIO = Number(process.env.PARITY_MAX_DIFF ?? "0.2");
+const STRICT_TOP_DIFF_RATIO = Number(process.env.PARITY_STRICT_TOP_DIFF ?? "0.2");
+const STRICT_STICKY_DIFF_RATIO = Number(process.env.PARITY_STRICT_STICKY_DIFF ?? "0.2");
+const STRICT_MENU_DIFF_RATIO = Number(process.env.PARITY_STRICT_MENU_DIFF ?? "0.34");
+const MOBILE_TOP_DIFF_RATIO = Number(process.env.PARITY_MOBILE_TOP_DIFF ?? "0.27");
+const MOBILE_STICKY_DIFF_RATIO = Number(process.env.PARITY_MOBILE_STICKY_DIFF ?? "0.31");
+const MOBILE_MENU_DIFF_RATIO = Number(process.env.PARITY_MOBILE_MENU_DIFF ?? "0.08");
+const STRICT_PRICING_DIFF_RATIO = Number(process.env.PARITY_STRICT_PRICING_DIFF ?? "0.24");
+const STRICT_TENANT_DIFF_RATIO = Number(process.env.PARITY_STRICT_TENANT_DIFF ?? "0.23");
+const MOBILE_TENANT_DIFF_RATIO = Number(process.env.PARITY_MOBILE_TENANT_DIFF ?? "0.235");
+const STRICT_FAQ_DIFF_RATIO = Number(process.env.PARITY_STRICT_FAQ_DIFF ?? "0.18");
+const TABLET_PRICING_DIFF_RATIO = Number(process.env.PARITY_TABLET_PRICING_DIFF ?? "0.245");
 
 const outputRoot = path.resolve(process.cwd(), ".parity");
 const sourceDir = path.join(outputRoot, "source");
@@ -212,15 +218,45 @@ async function compareScenario(name) {
 }
 
 function getScenarioThreshold(name) {
+  const isMobile = name.startsWith("mobile-");
+  const isTablet = name.startsWith("tablet-");
+
   if (name.endsWith("-top-light") || name.endsWith("-top-dark")) {
+    if (isMobile) {
+      return MOBILE_TOP_DIFF_RATIO;
+    }
     return STRICT_TOP_DIFF_RATIO;
   }
 
   if (name.endsWith("-sticky-scrolled")) {
+    if (isMobile) {
+      return MOBILE_STICKY_DIFF_RATIO;
+    }
     return STRICT_STICKY_DIFF_RATIO;
   }
 
+  if (name.endsWith("-pricing-yearly")) {
+    if (isTablet) {
+      return TABLET_PRICING_DIFF_RATIO;
+    }
+    return STRICT_PRICING_DIFF_RATIO;
+  }
+
+  if (name.endsWith("-tenant-submitted")) {
+    if (isMobile) {
+      return MOBILE_TENANT_DIFF_RATIO;
+    }
+    return STRICT_TENANT_DIFF_RATIO;
+  }
+
+  if (name.endsWith("-faq-open-hover")) {
+    return STRICT_FAQ_DIFF_RATIO;
+  }
+
   if (name.endsWith("-menu-open")) {
+    if (isMobile) {
+      return MOBILE_MENU_DIFF_RATIO;
+    }
     return STRICT_MENU_DIFF_RATIO;
   }
 
@@ -268,6 +304,14 @@ async function run() {
     strictTopDiffRatio: STRICT_TOP_DIFF_RATIO,
     strictStickyDiffRatio: STRICT_STICKY_DIFF_RATIO,
     strictMenuDiffRatio: STRICT_MENU_DIFF_RATIO,
+    mobileTopDiffRatio: MOBILE_TOP_DIFF_RATIO,
+    mobileStickyDiffRatio: MOBILE_STICKY_DIFF_RATIO,
+    mobileMenuDiffRatio: MOBILE_MENU_DIFF_RATIO,
+    strictPricingDiffRatio: STRICT_PRICING_DIFF_RATIO,
+    strictTenantDiffRatio: STRICT_TENANT_DIFF_RATIO,
+    mobileTenantDiffRatio: MOBILE_TENANT_DIFF_RATIO,
+    tabletPricingDiffRatio: TABLET_PRICING_DIFF_RATIO,
+    strictFaqDiffRatio: STRICT_FAQ_DIFF_RATIO,
     total: results.length,
     failed: failed.length,
     results

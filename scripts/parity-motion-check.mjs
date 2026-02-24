@@ -345,12 +345,21 @@ async function runReducedMotionChecks(browser) {
       const closeButton = overlay?.querySelector("button[aria-label='Close menu']");
 
       return {
+        overlayFound: Boolean(overlay),
+        panelFound: Boolean(panel),
+        linkFound: Boolean(firstLink),
+        closeFound: Boolean(closeButton),
         overlay: overlay ? getComputedStyle(overlay).transitionDuration : "",
         panel: panel ? getComputedStyle(panel).transitionDuration : "",
         link: firstLink ? getComputedStyle(firstLink).transitionDuration : "",
         close: closeButton ? getComputedStyle(closeButton).transitionDuration : ""
       };
     });
+
+    assert(
+      durations.overlayFound && durations.panelFound && durations.linkFound && durations.closeFound,
+      "Mobile menu elements were not all found under reduced motion."
+    );
 
     assert(
       isAllZeroDurations(durations.overlay) &&

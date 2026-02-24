@@ -260,12 +260,14 @@ async function compareScenario(name) {
 
   const sourcePng = PNG.sync.read(sourceBuffer);
   const nextPng = PNG.sync.read(nextBuffer);
+  const threshold = getScenarioThreshold(name);
 
   if (sourcePng.width !== nextPng.width || sourcePng.height !== nextPng.height) {
     return {
       name,
       pass: false,
       diffRatio: 1,
+      threshold,
       reason: `Dimension mismatch source=${sourcePng.width}x${sourcePng.height} next=${nextPng.width}x${nextPng.height}`
     };
   }
@@ -283,8 +285,6 @@ async function compareScenario(name) {
   const totalPixels = sourcePng.width * sourcePng.height;
   const diffRatio = diffPixels / totalPixels;
   await fs.writeFile(diffPath, PNG.sync.write(diffPng));
-
-  const threshold = getScenarioThreshold(name);
 
   return {
     name,

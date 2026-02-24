@@ -146,3 +146,14 @@ jobs:
           done
 
           npm run parity:motion
+
+  parity:
+    name: parity
+    runs-on: ubuntu-latest
+    needs:
+      - parity-visual
+      - parity-motion
+
+    steps:
+      - name: Aggregate parity checks
+        run: echo "parity-visual and parity-motion passed"

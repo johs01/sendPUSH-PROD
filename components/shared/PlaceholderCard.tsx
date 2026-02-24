@@ -8,5 +8,5 @@ type PlaceholderCardProps = {
 export function PlaceholderCard({ label, className }: PlaceholderCardProps) {
   const classes = [styles.card, className].filter(Boolean).join(" ");
 
-  return <div className={classes} data-label={label}></div>;
+  return <div className={classes} data-label={label} aria-label={label}></div>;
 }

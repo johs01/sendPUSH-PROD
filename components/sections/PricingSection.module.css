@@ -57,7 +57,8 @@
   color: var(--color-ink);
 }
 
-.active {
+.active,
+.toggleButton.active {
   color: var(--color-ink);
   background: var(--color-brand-yellow);
   box-shadow: 0 4px 0 rgba(48, 33, 39, 0.12);
@@ -389,6 +390,12 @@
     font-size: 14px;
     line-height: 14px;
     letter-spacing: -0.2px;
+  }
+
+  .toggleButton.active {
+    color: var(--color-ink);
+    background: var(--color-brand-yellow);
+    box-shadow: none;
   }
 
   .toggleButton:hover,

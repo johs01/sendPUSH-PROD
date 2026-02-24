@@ -83,9 +83,39 @@
 
 .item[open] p {
   margin-top: 14px;
-  max-height: 1000px;
+  max-height: 600px;
   opacity: 1;
   transform: translateY(0);
+}
+
+@media (max-width: 799.98px) {
+  .list {
+    margin-top: 20px;
+    gap: 10px;
+  }
+
+  .item {
+    border-radius: var(--radius-md);
+    padding: 14px 14px;
+  }
+
+  .item summary {
+    font-size: 16px;
+    line-height: 20.8px;
+    letter-spacing: -0.32px;
+    padding-right: 24px;
+  }
+
+  .item summary::after {
+    font-size: 20px;
+    line-height: 20px;
+  }
+
+  .item p {
+    font-size: 16px;
+    line-height: 20.8px;
+    letter-spacing: -0.32px;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

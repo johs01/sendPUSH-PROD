@@ -68,8 +68,15 @@ const scenarios = viewports.flatMap((viewport) => {
       name: `${viewport.name}-faq-open-hover`,
       theme: "dark",
       apply: async (page) => {
-        await scrollToElement(page, "#faq");
+        await scrollToElement(page, "#faq h2");
         await page.locator("#faq .wf-faq-item summary").first().click();
+        await page.waitForTimeout(80);
+        await page.evaluate(() => {
+          const firstFaqItem = document.querySelector("#faq .wf-faq-item");
+          if (firstFaqItem instanceof HTMLElement && !firstFaqItem.hasAttribute("open")) {
+            firstFaqItem.setAttribute("open", "");
+          }
+        });
         await page.locator("#faq .wf-faq-item").nth(1).hover();
       }
     },
@@ -237,10 +244,10 @@ async function captureScenario(context, scenario, baseUrl, outputPath) {
         "html{scroll-behavior:auto!important}*,*::before,*::after{animation-duration:1ms!important;animation-iteration-count:1!important;transition-duration:1ms!important}"
     });
 
-    await scenario.apply(page);
     await page.evaluate(() => {
       document.querySelectorAll(".reveal").forEach((node) => node.classList.add("is-visible"));
     });
+    await scenario.apply(page);
     await page.waitForTimeout(220);
     await page.screenshot({ path: outputPath, fullPage: false });
   } finally {

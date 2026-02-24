@@ -13,6 +13,7 @@
   color-scheme: light;
 
   --color-ink: #302127;
+  --color-text-strong: var(--color-ink);
   --color-text-muted: #64595d;
   --color-text-subtle: #979093;
   --color-on-dark: #fff8fb;
@@ -85,6 +86,7 @@
   --wf-motion-ease-gentle: cubic-bezier(0.2, 0.8, 0.2, 1);
 
   --motion-duration-fast: var(--wf-motion-fast);
+  --motion-duration-base: var(--wf-motion-base);
   --motion-duration-slow: var(--wf-motion-slow);
   --motion-ease-standard: var(--wf-motion-ease-standard);
   --motion-ease-gentle: var(--wf-motion-ease-gentle);

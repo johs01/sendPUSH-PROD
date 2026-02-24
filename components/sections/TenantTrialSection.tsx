@@ -29,27 +29,7 @@ export function TenantTrialSection() {
     form.reset();
 
     window.requestAnimationFrame(() => {
-      const successNode = successRef.current;
-      if (!successNode) {
-        return;
-      }
-
-      const viewportBottom = window.innerHeight - 8;
-      const { top, bottom } = successNode.getBoundingClientRect();
-
-      if (bottom > viewportBottom) {
-        window.scrollBy({
-          top: bottom - viewportBottom,
-          behavior: "auto"
-        });
-      } else if (top < 8) {
-        window.scrollBy({
-          top: top - 8,
-          behavior: "auto"
-        });
-      }
-
-      successNode.focus({ preventScroll: true });
+      successRef.current?.focus();
     });
   };
 

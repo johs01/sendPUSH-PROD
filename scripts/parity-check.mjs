@@ -170,8 +170,12 @@ async function ensureFontsReady(page) {
   );
 }
 
-async function captureScenario(browser, scenario, baseUrl, outputPath) {
-  const viewport = viewports.find((item) => scenario.name.startsWith(item.name));
+function getViewportForScenario(name) {
+  return viewports.find((item) => name.startsWith(item.name));
+}
+
+async function createContextForScenario(browser, scenario) {
+  const viewport = getViewportForScenario(scenario.name);
   if (!viewport) {
     throw new Error(`Viewport not found for scenario: ${scenario.name}`);
   }
@@ -196,6 +200,10 @@ async function captureScenario(browser, scenario, baseUrl, outputPath) {
       root.style.colorScheme = mode;
     }, scenario.theme);
   }
+  return context;
+}
+
+async function captureScenario(context, scenario, baseUrl, outputPath) {
   const page = await context.newPage();
 
   try {
@@ -234,7 +242,7 @@ async function captureScenario(browser, scenario, baseUrl, outputPath) {
     await page.waitForTimeout(220);
     await page.screenshot({ path: outputPath, fullPage: false });
   } finally {
-    await context.close();
+    await page.close();
   }
 }
 
@@ -339,10 +347,15 @@ async function run() {
     for (const scenario of scenarios) {
       const sourcePath = path.join(sourceDir, `${scenario.name}.png`);
       const nextPath = path.join(nextDir, `${scenario.name}.png`);
+      const context = await createContextForScenario(browser, scenario);
 
       console.log(`Capturing ${scenario.name}`);
-      await captureScenario(browser, scenario, STATIC_URL, sourcePath);
-      await captureScenario(browser, scenario, NEXT_URL, nextPath);
+      try {
+        await captureScenario(context, scenario, STATIC_URL, sourcePath);
+        await captureScenario(context, scenario, NEXT_URL, nextPath);
+      } finally {
+        await context.close();
+      }
 
       const result = await compareScenario(scenario.name);
       results.push(result);

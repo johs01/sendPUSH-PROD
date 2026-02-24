@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700;800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&display=swap");
 
 @font-face {
   font-family: "Rodger Bold";
@@ -40,8 +40,8 @@
   --container-focus: 796px;
   --container-cta: 704px;
 
-  --font-display: "Rodger Bold", "Onest", "Avenir Next", "Segoe UI", sans-serif;
-  --font-body: "Onest", "Inter", "Avenir Next", "Segoe UI", sans-serif;
+  --font-display: "Rodger Bold", sans-serif;
+  --font-body: "Onest", sans-serif;
 
   --font-weight-medium: 500;
   --font-weight-semibold: 600;

@@ -3,16 +3,30 @@
 }
 
 .shell {
+  position: relative;
+  overflow: clip;
   border-radius: var(--radius-xl);
-  border: 1px solid var(--color-border-soft);
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.92), var(--color-surface-soft));
-  box-shadow: var(--shadow-card);
+  border: 1px solid var(--wf-footer-shell-border);
+  background: var(--wf-footer-shell-bg);
+  box-shadow: var(--wf-footer-shell-shadow);
   padding: var(--space-6);
   display: grid;
   gap: var(--space-6);
 }
 
+.shell::before {
+  content: "";
+  position: absolute;
+  inset: 1px;
+  border-radius: inherit;
+  pointer-events: none;
+  background: var(--wf-footer-shell-gloss);
+  opacity: var(--wf-footer-shell-gloss-opacity);
+}
+
 .grid {
+  position: relative;
+  z-index: 1;
   display: grid;
   grid-template-columns: 1.2fr 1fr 1fr 1fr;
   gap: var(--space-6);
@@ -38,7 +52,7 @@
 }
 
 .copy {
-  color: var(--color-text-muted);
+  color: var(--wf-footer-copy-color);
 }
 
 .social {
@@ -50,11 +64,12 @@
   width: 36px;
   height: 36px;
   border-radius: var(--radius-md);
-  border: 1px solid var(--color-border-soft);
+  border: 1px solid var(--wf-footer-social-border);
+  background: var(--wf-footer-social-bg);
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  color: var(--color-text-muted);
+  color: var(--wf-footer-social-color);
   font-size: 0.75rem;
   font-weight: var(--font-weight-bold);
   text-transform: uppercase;
@@ -71,15 +86,16 @@
   list-style: none;
   display: grid;
   gap: var(--space-2);
-  color: var(--color-text-muted);
+  color: var(--wf-footer-link-color);
 }
 
 .links a {
   color: inherit;
+  position: relative;
 }
 
 .links a:hover {
-  color: var(--color-ink);
+  color: var(--wf-footer-link-hover-color);
 }
 
 .footerCta {
@@ -87,13 +103,15 @@
 }
 
 .bottom {
-  border-top: 1px solid var(--color-border-soft);
+  position: relative;
+  z-index: 1;
+  border-top: 1px solid var(--wf-footer-bottom-border);
   padding-top: var(--space-4);
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: var(--space-4);
-  color: var(--color-text-muted);
+  color: var(--wf-footer-meta-color);
 }
 
 .legal {
@@ -106,24 +124,7 @@
 }
 
 .legal a:hover {
-  color: var(--color-ink);
-}
-
-:global(html[data-theme="dark"]) .shell {
-  background: linear-gradient(180deg, rgba(255, 248, 251, 0.1), rgba(34, 27, 32, 0.96));
-}
-
-:global(html[data-theme="dark"]) .copy,
-:global(html[data-theme="dark"]) .links,
-:global(html[data-theme="dark"]) .bottom,
-:global(html[data-theme="dark"]) .social a,
-:global(html[data-theme="dark"]) .legal a {
-  color: var(--color-on-dark-muted);
-}
-
-:global(html[data-theme="dark"]) .links a:hover,
-:global(html[data-theme="dark"]) .legal a:hover {
-  color: var(--color-on-dark);
+  color: var(--wf-footer-link-hover-color);
 }
 
 @media (min-width: 800px) and (max-width: 1399.98px) {

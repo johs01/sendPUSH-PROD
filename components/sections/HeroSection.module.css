@@ -17,24 +17,28 @@
 .checklist {
   list-style: none;
   display: grid;
-  gap: var(--space-3);
+  gap: 12px;
+  margin: 22px 0 30px;
 }
 
 .checklist li {
-  position: relative;
-  padding-left: var(--space-6);
-  font-size: var(--font-size-body);
-  line-height: var(--line-height-body);
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  color: var(--color-ink);
+  font-size: 20px;
+  line-height: 26px;
+  letter-spacing: -0.4px;
+  font-weight: var(--font-weight-medium);
 }
 
 .checklist li::before {
   content: "";
-  position: absolute;
-  top: 0.5em;
-  left: 0;
-  width: 0.875rem;
-  height: 0.875rem;
-  border-radius: 999px;
+  flex: 0 0 18px;
+  width: 18px;
+  height: 18px;
+  margin-top: 3px;
+  border-radius: 6px;
   background: var(--color-brand-yellow);
 }
 
@@ -46,5 +50,24 @@
 
   .content h1 {
     max-width: 11ch;
+  }
+
+  .checklist {
+    margin-top: 16px;
+    margin-bottom: 22px;
+  }
+
+  .checklist li {
+    font-size: 16px;
+    line-height: 20px;
+    letter-spacing: -0.3px;
+  }
+
+  .checklist li::before {
+    width: 14px;
+    height: 14px;
+    flex-basis: 14px;
+    border-radius: 4px;
+    margin-top: 3px;
   }
 }

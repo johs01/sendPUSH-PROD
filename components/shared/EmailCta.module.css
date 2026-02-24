@@ -1,59 +1,80 @@
 .shell {
-  width: min(100%, 560px);
+  width: min(100%, 640px);
+  padding: 6px;
   border-radius: var(--radius-pill);
-  border: 1px solid rgba(252, 184, 39, 0.62);
-  background: var(--color-surface-overlay);
-  box-shadow: var(--shadow-email);
-  padding: var(--space-2);
+  border: 2px solid var(--wf-email-shell-border);
+  background: var(--wf-email-shell-bg);
+  box-shadow: var(--wf-email-shell-shadow);
   display: flex;
   align-items: center;
-  gap: var(--space-2);
+  gap: 8px;
 }
 
 .input {
   border: 0;
   min-width: 0;
   flex: 1 1 auto;
-  background: var(--color-surface-muted);
-  color: var(--color-ink);
-  border-radius: var(--radius-pill);
-  min-height: 3.25rem;
-  padding: 0 var(--space-5);
-  font-size: 1.125rem;
-  font-weight: var(--font-weight-semibold);
+  min-height: 62px;
+  border-radius: calc(var(--radius-pill) - 8px);
+  padding: 0 24px;
+  font-size: 22px;
+  line-height: 22px;
+  letter-spacing: -0.44px;
+  font-weight: var(--font-weight-medium);
+  color: var(--wf-email-input-color);
+  background: var(--wf-email-input-bg);
 }
 
 .input::placeholder {
-  color: var(--color-text-subtle);
+  color: var(--wf-email-input-placeholder);
+}
+
+.input:focus-visible {
+  outline: 2px solid rgba(243, 125, 57, 0.92);
+  outline-offset: 2px;
 }
 
 .button {
-  min-width: 220px;
+  min-height: 62px;
+  min-width: 0;
+  padding-inline: 26px;
+  font-size: 20px;
+  line-height: 20px;
+  letter-spacing: -0.4px;
 }
 
 @media (max-width: 799.98px) {
   .shell {
-    width: min(100%, 460px);
+    width: min(100%, calc(100vw - 24px));
+    max-width: 100%;
+    margin-inline: auto;
+    flex-direction: row;
+    align-items: center;
+    gap: 6px;
+    padding: 6px;
   }
 
   .input {
-    min-height: 3rem;
-    font-size: 1rem;
-  }
-
-  .button {
-    min-width: 180px;
-  }
-}
-
-@media (max-width: 359.98px) {
-  .shell {
-    flex-direction: column;
-    align-items: stretch;
-  }
-
-  .button {
+    width: auto;
+    flex: 1 1 0;
     min-width: 0;
-    width: 100%;
+    min-height: 50px;
+    padding: 0 14px;
+    font-size: 14px;
+    line-height: 14px;
+    letter-spacing: -0.24px;
+  }
+
+  .button {
+    width: auto;
+    flex: 0 0 auto;
+    min-width: 0;
+    min-height: 50px;
+    justify-content: center;
+    padding-inline: 10px;
+    white-space: nowrap;
+    font-size: 12px;
+    line-height: 12px;
+    letter-spacing: -0.1px;
   }
 }

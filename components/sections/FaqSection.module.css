@@ -21,7 +21,7 @@
 
 .item:hover,
 .item:focus-within {
-  background: var(--color-surface-soft);
+  background: var(--wf-faq-hover-bg);
   border-color: var(--color-border-strong);
 }
 
@@ -52,9 +52,4 @@
 .item p {
   padding: 0 var(--space-4) var(--space-4);
   color: var(--color-text-muted);
-}
-
-:global(html[data-theme="dark"]) .item:hover,
-:global(html[data-theme="dark"]) .item:focus-within {
-  background: rgba(255, 248, 251, 0.08);
 }

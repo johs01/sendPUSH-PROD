@@ -6,24 +6,17 @@ import { PNG } from "pngjs";
 
 const NEXT_URL = process.env.NEXT_URL ?? "http://localhost:3000/";
 const STATIC_URL = process.env.STATIC_URL ?? "http://localhost:4100/wireframe-remy.html";
-const MAX_DIFF_RATIO = Number(process.env.PARITY_MAX_DIFF ?? "0.2");
-const STRICT_TOP_DIFF_RATIO = Number(process.env.PARITY_STRICT_TOP_DIFF ?? "0.192");
-const STRICT_STICKY_DIFF_RATIO = Number(process.env.PARITY_STRICT_STICKY_DIFF ?? "0.11");
-const STRICT_MENU_DIFF_RATIO = Number(process.env.PARITY_STRICT_MENU_DIFF ?? "0.34");
-const MOBILE_TOP_DIFF_RATIO = Number(process.env.PARITY_MOBILE_TOP_DIFF ?? "0.27");
-const MOBILE_STICKY_DIFF_RATIO = Number(process.env.PARITY_MOBILE_STICKY_DIFF ?? "0.26");
-const MOBILE_MENU_DIFF_RATIO = Number(process.env.PARITY_MOBILE_MENU_DIFF ?? "0.05");
-const STRICT_PRICING_DIFF_RATIO = Number(process.env.PARITY_STRICT_PRICING_DIFF ?? "0.238");
-const STRICT_TENANT_DIFF_RATIO = Number(process.env.PARITY_STRICT_TENANT_DIFF ?? "0.22");
-const MOBILE_TENANT_DIFF_RATIO = Number(process.env.PARITY_MOBILE_TENANT_DIFF ?? "0.258");
-const MOBILE_360_TENANT_DIFF_RATIO = Number(
-  process.env.PARITY_MOBILE_360_TENANT_DIFF ?? "0.23"
-);
-const MOBILE_390_TENANT_DIFF_RATIO = Number(
-  process.env.PARITY_MOBILE_390_TENANT_DIFF ?? MOBILE_TENANT_DIFF_RATIO.toString()
-);
-const STRICT_FAQ_DIFF_RATIO = Number(process.env.PARITY_STRICT_FAQ_DIFF ?? "0.14");
-const TABLET_PRICING_DIFF_RATIO = Number(process.env.PARITY_TABLET_PRICING_DIFF ?? "0.238");
+const MAX_DIFF_RATIO = Number(process.env.PARITY_MAX_DIFF ?? "0.12");
+const DESKTOP_TOP_DIFF_RATIO = Number(process.env.PARITY_DESKTOP_TOP_DIFF ?? "0.08");
+const TABLET_TOP_DIFF_RATIO = Number(process.env.PARITY_TABLET_TOP_DIFF ?? "0.10");
+const MOBILE_TOP_DIFF_RATIO = Number(process.env.PARITY_MOBILE_TOP_DIFF ?? "0.12");
+const DESKTOP_STICKY_DIFF_RATIO = Number(process.env.PARITY_DESKTOP_STICKY_DIFF ?? "0.08");
+const TABLET_STICKY_DIFF_RATIO = Number(process.env.PARITY_TABLET_STICKY_DIFF ?? "0.10");
+const MOBILE_STICKY_DIFF_RATIO = Number(process.env.PARITY_MOBILE_STICKY_DIFF ?? "0.12");
+const MOBILE_MENU_DIFF_RATIO = Number(process.env.PARITY_MOBILE_MENU_DIFF ?? "0.03");
+const PRICING_DIFF_RATIO = Number(process.env.PARITY_PRICING_DIFF ?? "0.12");
+const TENANT_DIFF_RATIO = Number(process.env.PARITY_TENANT_DIFF ?? "0.12");
+const FAQ_DIFF_RATIO = Number(process.env.PARITY_FAQ_DIFF ?? "0.12");
 
 const outputRoot = path.resolve(process.cwd(), ".parity");
 const sourceDir = path.join(outputRoot, "source");
@@ -163,6 +156,31 @@ async function scrollToElement(page, selector) {
   await page.waitForTimeout(180);
 }
 
+async function ensureFontsReady(page) {
+  await page.waitForFunction(
+    () => "fonts" in document && document.fonts.status !== "loading",
+    undefined,
+    { timeout: 15000 }
+  );
+  await page.waitForFunction(
+    () => {
+      if (!("fonts" in document)) {
+        return false;
+      }
+
+      const checks = [
+        document.fonts.check("700 16px 'Rodger Bold'"),
+        document.fonts.check("500 16px Onest"),
+        document.fonts.check("700 16px Onest")
+      ];
+
+      return checks.every(Boolean);
+    },
+    undefined,
+    { timeout: 15000 }
+  );
+}
+
 async function captureScenario(browser, scenario, baseUrl, outputPath) {
   const viewport = viewports.find((item) => scenario.name.startsWith(item.name));
   if (!viewport) {
@@ -178,6 +196,7 @@ async function captureScenario(browser, scenario, baseUrl, outputPath) {
   try {
     await page.goto(baseUrl, { waitUntil: "networkidle" });
     await page.waitForTimeout(140);
+    await ensureFontsReady(page);
 
     // Disable animation jitter for deterministic screenshot diffs.
     await page.addStyleTag({
@@ -247,48 +266,39 @@ function getScenarioThreshold(name) {
   const isTablet = name.startsWith("tablet-");
 
   if (name.endsWith("-top-light") || name.endsWith("-top-dark")) {
+    if (isTablet) {
+      return TABLET_TOP_DIFF_RATIO;
+    }
     if (isMobile) {
       return MOBILE_TOP_DIFF_RATIO;
     }
-    return STRICT_TOP_DIFF_RATIO;
+    return DESKTOP_TOP_DIFF_RATIO;
   }
 
   if (name.endsWith("-sticky-scrolled")) {
+    if (isTablet) {
+      return TABLET_STICKY_DIFF_RATIO;
+    }
     if (isMobile) {
       return MOBILE_STICKY_DIFF_RATIO;
     }
-    return STRICT_STICKY_DIFF_RATIO;
+    return DESKTOP_STICKY_DIFF_RATIO;
   }
 
   if (name.endsWith("-pricing-yearly")) {
-    if (isTablet) {
-      return TABLET_PRICING_DIFF_RATIO;
-    }
-    return STRICT_PRICING_DIFF_RATIO;
+    return PRICING_DIFF_RATIO;
   }
 
   if (name.endsWith("-tenant-submitted")) {
-    if (name.startsWith("mobile-360")) {
-      return MOBILE_360_TENANT_DIFF_RATIO;
-    }
-    if (name.startsWith("mobile-390")) {
-      return MOBILE_390_TENANT_DIFF_RATIO;
-    }
-    if (isMobile) {
-      return MOBILE_TENANT_DIFF_RATIO;
-    }
-    return STRICT_TENANT_DIFF_RATIO;
+    return TENANT_DIFF_RATIO;
   }
 
   if (name.endsWith("-faq-open-hover")) {
-    return STRICT_FAQ_DIFF_RATIO;
+    return FAQ_DIFF_RATIO;
   }
 
   if (name.endsWith("-menu-open")) {
-    if (isMobile) {
-      return MOBILE_MENU_DIFF_RATIO;
-    }
-    return STRICT_MENU_DIFF_RATIO;
+    return MOBILE_MENU_DIFF_RATIO;
   }
 
   return MAX_DIFF_RATIO;
@@ -328,30 +338,37 @@ async function run() {
   }
 
   const failed = results.filter((result) => !result.pass);
+  const worstFive = [...results].sort((a, b) => b.diffRatio - a.diffRatio).slice(0, 5);
   const report = {
     nextUrl: NEXT_URL,
     staticUrl: STATIC_URL,
     maxDiffRatio: MAX_DIFF_RATIO,
-    strictTopDiffRatio: STRICT_TOP_DIFF_RATIO,
-    strictStickyDiffRatio: STRICT_STICKY_DIFF_RATIO,
-    strictMenuDiffRatio: STRICT_MENU_DIFF_RATIO,
+    desktopTopDiffRatio: DESKTOP_TOP_DIFF_RATIO,
+    tabletTopDiffRatio: TABLET_TOP_DIFF_RATIO,
     mobileTopDiffRatio: MOBILE_TOP_DIFF_RATIO,
+    desktopStickyDiffRatio: DESKTOP_STICKY_DIFF_RATIO,
+    tabletStickyDiffRatio: TABLET_STICKY_DIFF_RATIO,
     mobileStickyDiffRatio: MOBILE_STICKY_DIFF_RATIO,
     mobileMenuDiffRatio: MOBILE_MENU_DIFF_RATIO,
-    strictPricingDiffRatio: STRICT_PRICING_DIFF_RATIO,
-    strictTenantDiffRatio: STRICT_TENANT_DIFF_RATIO,
-    mobileTenantDiffRatio: MOBILE_TENANT_DIFF_RATIO,
-    mobile360TenantDiffRatio: MOBILE_360_TENANT_DIFF_RATIO,
-    mobile390TenantDiffRatio: MOBILE_390_TENANT_DIFF_RATIO,
-    tabletPricingDiffRatio: TABLET_PRICING_DIFF_RATIO,
-    strictFaqDiffRatio: STRICT_FAQ_DIFF_RATIO,
+    pricingDiffRatio: PRICING_DIFF_RATIO,
+    tenantDiffRatio: TENANT_DIFF_RATIO,
+    faqDiffRatio: FAQ_DIFF_RATIO,
     total: results.length,
     failed: failed.length,
+    worstFive,
     results
   };
 
   await fs.writeFile(path.join(outputRoot, "report.json"), JSON.stringify(report, null, 2));
   console.log(`Parity report written to ${path.join(outputRoot, "report.json")}`);
+  console.log("Worst 5 scenarios by diff ratio:");
+  for (const item of worstFive) {
+    console.log(
+      `  ${item.name}: diff=${(item.diffRatio * 100).toFixed(3)}% threshold=${(
+        item.threshold * 100
+      ).toFixed(3)}%`
+    );
+  }
 
   if (failed.length > 0) {
     process.exitCode = 1;

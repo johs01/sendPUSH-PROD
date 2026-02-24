@@ -1,45 +1,49 @@
 .header {
-  display: grid;
-  gap: var(--space-4);
-  margin-bottom: var(--space-6);
+  display: block;
+  text-align: center;
+  margin-inline: auto;
+  max-width: 820px;
+}
+
+.header :global(.bodyCopy) {
+  margin: 16px auto 0;
+  max-width: 760px;
 }
 
 .toggleWrap {
   display: flex;
   justify-content: center;
-  margin-top: 2rem;
-  margin-bottom: var(--space-8);
+  margin-top: 32px;
 }
 
 .toggle {
-  border-radius: var(--radius-pill);
-  border: 1px solid var(--color-border-soft);
-  background: var(--color-surface-muted);
-  padding: 0.375rem;
   display: inline-flex;
   align-items: center;
-  gap: 0.375rem;
-  box-shadow: var(--shadow-card-soft);
+  gap: 6px;
+  padding: 6px;
+  border-radius: var(--radius-pill);
+  background: var(--color-surface-muted);
+  border: 1px solid rgba(151, 144, 147, 0.28);
+  box-shadow: 0 8px 18px rgba(48, 33, 39, 0.08);
 }
 
 .toggleButton {
   border: 0;
-  appearance: none;
-  cursor: pointer;
-  background: transparent;
-  border-radius: var(--radius-pill);
-  min-height: 3rem;
-  padding: 0 1.375rem;
-  font-family: var(--font-body);
-  font-size: 1rem;
-  line-height: 1;
-  letter-spacing: -0.015em;
-  font-weight: var(--font-weight-bold);
-  color: var(--color-text-muted);
+  min-height: 48px;
+  border-radius: calc(var(--radius-pill) - 10px);
+  padding: 0 22px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: var(--space-2);
+  gap: 8px;
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 16px;
+  letter-spacing: -0.24px;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-muted);
+  background: transparent;
+  cursor: pointer;
   transition:
     transform var(--motion-duration-base) var(--motion-ease-gentle),
     box-shadow var(--motion-duration-base) var(--motion-ease-gentle),
@@ -50,7 +54,13 @@
 .toggleButton:hover,
 .toggleButton:focus-visible {
   transform: translateY(-1px);
-  color: var(--color-text-strong);
+  color: var(--color-ink);
+}
+
+.active {
+  color: var(--color-ink);
+  background: var(--color-brand-yellow);
+  box-shadow: 0 4px 0 rgba(48, 33, 39, 0.12);
 }
 
 .toggleButton:focus-visible {
@@ -58,98 +68,132 @@
   outline-offset: 2px;
 }
 
-.active {
-  background: var(--color-brand-yellow);
-  color: var(--color-ink);
-  box-shadow: 0 4px 0 rgba(48, 33, 39, 0.12);
-}
-
 .discount {
+  display: inline-flex;
+  align-items: center;
   border-radius: var(--radius-pill);
   border: 1px solid rgba(243, 125, 57, 0.34);
   background: rgba(243, 125, 57, 0.12);
+  padding: 4px 8px;
   color: var(--color-brand-orange);
-  font-size: 0.6875rem;
-  font-weight: var(--font-weight-bold);
-  line-height: 1;
+  font-size: 11px;
+  line-height: 11px;
   letter-spacing: 0.04em;
-  padding: 0.25rem 0.5rem;
+  font-weight: var(--font-weight-bold);
 }
 
 .grid {
+  margin-top: 34px;
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr) minmax(0, 1fr);
-  gap: var(--space-5);
-  margin-bottom: var(--space-8);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+  margin-bottom: 0;
 }
 
 .card {
+  position: relative;
   border-radius: var(--radius-xl);
-  border: 1px solid var(--color-border-soft);
-  background: var(--color-surface);
-  box-shadow: var(--shadow-card-soft);
-  padding: var(--space-6);
-  display: grid;
-  gap: var(--space-6);
+  border: 1px solid rgba(151, 144, 147, 0.28);
+  background: var(--color-surface-soft);
+  box-shadow: 0 8px 20px rgba(48, 33, 39, 0.08);
+  padding: 26px 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 22px;
+  transition:
+    transform 0.24s cubic-bezier(0.2, 0.8, 0.2, 1),
+    box-shadow 0.24s ease-out,
+    border-color 0.24s ease-out,
+    background-color 0.24s ease-out;
+}
+
+.card:hover,
+.card:focus-within {
+  transform: translateY(-3px);
+  box-shadow: 0 14px 24px rgba(48, 33, 39, 0.1);
+  border-color: rgba(243, 125, 57, 0.3);
 }
 
 .pro {
   background: var(--wf-pricing-pro-bg);
-  border-color: rgba(243, 125, 57, 0.52);
+  border-color: rgba(243, 125, 57, 0.38);
   box-shadow: var(--wf-pricing-pro-shadow);
 }
 
+.pro::before {
+  content: "";
+  position: absolute;
+  inset: 1px;
+  border-radius: inherit;
+  pointer-events: none;
+  background: linear-gradient(160deg, rgba(255, 255, 255, 0.46) 0%, rgba(255, 255, 255, 0) 46%);
+  display: var(--wf-pricing-pro-before-display, block);
+}
+
 .top {
-  display: grid;
-  gap: var(--space-4);
+  display: block;
 }
 
 .planHead {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: var(--space-3);
+  gap: 12px;
 }
 
 .planHead h3 {
-  font-size: 1.95rem;
+  margin: 0;
+  color: var(--color-ink);
+  font-size: 28px;
+  line-height: 28px;
+  letter-spacing: -0.52px;
+  font-weight: var(--font-weight-bold);
+  font-family: var(--font-body);
 }
 
 .popular {
+  display: inline-flex;
+  align-items: center;
   border-radius: var(--radius-pill);
-  border: 1px solid rgba(243, 125, 57, 0.45);
+  border: 1px solid rgba(243, 125, 57, 0.35);
+  background: rgba(243, 125, 57, 0.12);
+  padding: 6px 10px;
   color: var(--color-brand-orange);
-  font-size: 0.72rem;
-  font-weight: var(--font-weight-bold);
-  text-transform: uppercase;
+  font-size: 11px;
+  line-height: 11px;
   letter-spacing: 0.08em;
-  padding: 0.3rem 0.6rem;
+  text-transform: uppercase;
+  font-weight: var(--font-weight-bold);
 }
 
 .planCopy {
-  color: var(--color-text-muted);
+  margin: 10px 0 0;
+  color: var(--color-ink);
+  font-size: 16px;
+  line-height: 20.8px;
+  letter-spacing: -0.28px;
 }
 
 .priceBlock {
-  display: grid;
-  gap: var(--space-2);
+  margin-top: 20px;
 }
 
 .priceRow {
-  display: inline-flex;
+  display: flex;
   align-items: flex-end;
-  gap: var(--space-2);
+  gap: 8px;
 }
 
 .priceViewport {
-  height: 3rem;
+  height: 48px;
   overflow: hidden;
 }
 
 .priceStack {
   display: flex;
   flex-direction: column;
-  transition: transform var(--motion-duration-fast) var(--motion-ease-standard);
+  transition: transform var(--motion-duration-base) var(--motion-ease-gentle);
 }
 
 .priceMonthly {
@@ -161,94 +205,304 @@
 }
 
 .priceStack span {
-  height: 3rem;
+  height: 48px;
   display: inline-flex;
   align-items: center;
+  color: var(--color-ink);
   font-family: var(--font-display);
-  font-size: 3rem;
-  line-height: 1;
+  font-size: 44px;
+  line-height: 44px;
+  letter-spacing: -0.8px;
+  font-weight: 400;
 }
 
 .period {
+  margin-bottom: 6px;
   color: var(--color-text-muted);
+  font-size: 16px;
+  line-height: 16px;
+  letter-spacing: -0.2px;
   font-weight: var(--font-weight-semibold);
 }
 
 .billed {
+  margin: 8px 0 0;
   color: var(--color-text-subtle);
-  font-size: var(--font-size-meta);
+  font-size: 14px;
+  line-height: 16px;
+  letter-spacing: -0.2px;
+  font-weight: var(--font-weight-medium);
 }
 
 .contactBlock {
-  display: grid;
-  gap: var(--space-2);
+  margin-top: 20px;
 }
 
 .contact {
+  margin: 0;
+  color: var(--color-ink);
   font-family: var(--font-display);
-  font-size: 2.5rem;
-  line-height: 1;
+  font-size: 42px;
+  line-height: 42px;
+  letter-spacing: -0.84px;
+  font-weight: 400;
 }
 
 .contactNote {
+  margin: 10px 0 0;
   color: var(--color-text-muted);
-  font-size: var(--font-size-meta);
+  font-size: 14px;
+  line-height: 18px;
+  letter-spacing: -0.2px;
+  font-weight: var(--font-weight-medium);
 }
 
 .bottom {
   display: grid;
-  gap: var(--space-5);
+  gap: 18px;
 }
 
 .planButton {
   width: 100%;
+  min-height: 52px;
+  padding: 0 20px;
+  font-size: 16px;
+  line-height: 16px;
+  letter-spacing: -0.2px;
 }
 
 .featureList {
+  margin: 0;
+  padding: 0;
   list-style: none;
   display: grid;
-  gap: var(--space-3);
+  gap: 10px;
 }
 
 .featureList li {
   display: flex;
   align-items: flex-start;
-  gap: var(--space-2);
-  color: var(--color-text-muted);
-  font-size: 1rem;
-  line-height: 1.35;
+  gap: 10px;
+  color: var(--color-ink);
+  font-size: 16px;
+  line-height: 20.8px;
+  letter-spacing: -0.28px;
 }
 
 .dot {
-  width: 0.5rem;
-  height: 0.5rem;
-  margin-top: 0.38rem;
-  border-radius: 999px;
-  background: var(--color-text-subtle);
+  width: 8px;
+  height: 8px;
+  margin-top: 6px;
+  flex: 0 0 8px;
+  border-radius: 99px;
+  background: rgba(151, 144, 147, 0.9);
 }
 
 .pro .dot {
-  background: var(--color-brand-orange);
+  background: rgba(243, 125, 57, 0.9);
+}
+
+.details {
+  margin-top: 28px;
+}
+
+.detailsButton {
+  min-height: 50px;
+  padding: 0 26px;
+  font-size: 16px;
+  line-height: 16px;
+  letter-spacing: -0.24px;
 }
 
 @media (min-width: 800px) and (max-width: 1399.98px) {
   .grid {
     grid-template-columns: minmax(0, 1fr);
   }
+
+  .card {
+    padding: 24px 22px;
+  }
+
+  .planHead h3 {
+    font-size: 24px;
+    line-height: 24px;
+    letter-spacing: -0.48px;
+  }
+
+  .priceStack span {
+    font-size: 40px;
+    line-height: 40px;
+    letter-spacing: -0.7px;
+  }
+
+  .contact {
+    font-size: 36px;
+    line-height: 36px;
+    letter-spacing: -0.72px;
+  }
+
+  .toggleButton {
+    min-height: 44px;
+    font-size: 15px;
+    line-height: 15px;
+    letter-spacing: -0.2px;
+  }
+
+  .discount {
+    font-size: 10px;
+    line-height: 10px;
+  }
 }
 
 @media (max-width: 799.98px) {
-  .grid {
-    grid-template-columns: minmax(0, 1fr);
+  .header :global(.bodyCopy) {
+    margin-top: 14px;
+    font-size: 16px;
+    line-height: 20.8px;
+    letter-spacing: -0.32px;
+  }
+
+  .toggleWrap {
+    margin-top: 22px;
   }
 
   .toggle {
     width: 100%;
-    justify-content: space-between;
+    max-width: 100%;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 8px;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
   }
 
   .toggleButton {
-    flex: 1 1 auto;
-    justify-content: center;
+    width: 100%;
+    min-height: 48px;
+    padding: 0 12px;
+    border: 1px solid rgba(151, 144, 147, 0.3);
+    border-radius: var(--radius-pill);
+    background: var(--color-surface-soft);
+    font-size: 14px;
+    line-height: 14px;
+    letter-spacing: -0.2px;
+  }
+
+  .toggleButton:hover,
+  .toggleButton:focus-visible {
+    transform: translateY(0);
+  }
+
+  .active {
+    box-shadow: none;
+  }
+
+  .discount {
+    font-size: 9px;
+    line-height: 9px;
+    letter-spacing: 0.03em;
+    padding: 4px 7px;
+  }
+
+  .grid {
+    margin-top: 22px;
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .card {
+    border-radius: var(--radius-md);
+    padding: 16px;
+    gap: 16px;
+  }
+
+  .planHead {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .planHead h3 {
+    font-size: 22px;
+    line-height: 22px;
+    letter-spacing: -0.44px;
+  }
+
+  .planCopy {
+    margin-top: 8px;
+    font-size: 16px;
+    line-height: 20.8px;
+    letter-spacing: -0.32px;
+  }
+
+  .priceViewport {
+    height: 40px;
+  }
+
+  .priceStack span {
+    height: 40px;
+    font-size: 34px;
+    line-height: 34px;
+    letter-spacing: -0.58px;
+  }
+
+  .period {
+    margin-bottom: 4px;
+    font-size: 14px;
+    line-height: 14px;
+  }
+
+  .billed {
+    font-size: 13px;
+    line-height: 15px;
+  }
+
+  .contact {
+    font-size: 32px;
+    line-height: 32px;
+    letter-spacing: -0.58px;
+  }
+
+  .contactNote {
+    font-size: 13px;
+    line-height: 16px;
+  }
+
+  .bottom {
+    gap: 12px;
+  }
+
+  .planButton {
+    min-height: 48px;
+    padding: 0 14px;
+    font-size: 14px;
+    line-height: 14px;
+    letter-spacing: -0.2px;
+  }
+
+  .featureList {
+    gap: 8px;
+  }
+
+  .featureList li {
+    font-size: 15px;
+    line-height: 19px;
+    letter-spacing: -0.24px;
+  }
+
+  .details {
+    margin-top: 20px;
+  }
+
+  .detailsButton {
+    width: 100%;
+    min-height: 48px;
+    padding: 0 14px;
+    font-size: 14px;
+    line-height: 14px;
+    letter-spacing: -0.2px;
   }
 }

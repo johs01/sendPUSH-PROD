@@ -20,8 +20,37 @@
   width: 100%;
 }
 
+@media (min-width: 800px) and (max-width: 1399.98px) {
+  .container {
+    width: 100%;
+  }
+
+  .main {
+    width: 720px;
+    max-width: 100%;
+    margin-inline: auto;
+  }
+
+  .cta {
+    width: 568px;
+    max-width: 100%;
+    margin-inline: auto;
+  }
+}
+
 @media (max-width: 799.98px) {
   .container {
-    width: min(100% - 1.5rem, var(--container-main));
+    width: 100%;
+  }
+
+  .main,
+  .cta {
+    width: min(100%, 360px);
+    margin-inline: auto;
+  }
+
+  .focus {
+    width: min(100%, 392px);
+    margin-inline: auto;
   }
 }

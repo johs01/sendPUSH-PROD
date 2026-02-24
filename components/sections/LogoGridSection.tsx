@@ -6,7 +6,7 @@ import styles from "./LogoGridSection.module.css";
 
 export function LogoGridSection() {
   return (
-    <section id="logo-grid" className="section sectionTight bgPeach">
+    <section id="logo-grid" className={`section sectionTight bgPeach ${styles.section}`}>
       <Container>
         <Reveal order={0} className={styles.copyWrap}>
           <p className={styles.copy}>Powering the world&apos;s most focused product teams</p>

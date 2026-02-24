@@ -162,6 +162,7 @@
     rgba(255, 255, 255, 0.9) 44%,
     var(--color-surface-soft) 100%
   );
+  --wf-pricing-pro-before-display: block;
   --wf-pricing-pro-shadow: 0 12px 24px rgba(243, 125, 57, 0.16);
   --wf-faq-hover-bg: #fbfcfd;
   --wf-tenant-form-bg: linear-gradient(180deg, rgba(255, 255, 255, 0.9), var(--color-surface));
@@ -304,6 +305,7 @@ html[data-theme="dark"] {
     rgba(255, 210, 93, 0.08) 42%,
     var(--color-surface-soft) 100%
   );
+  --wf-pricing-pro-before-display: block;
   --wf-pricing-pro-shadow: 0 12px 24px rgba(255, 157, 99, 0.22);
   --wf-faq-hover-bg: rgba(255, 248, 251, 0.1);
   --wf-tenant-form-bg: linear-gradient(180deg, rgba(255, 248, 251, 0.08), rgba(34, 27, 32, 0.96));
@@ -388,11 +390,12 @@ h3 {
   position: relative;
   width: 100%;
   overflow: clip;
-  padding: clamp(3rem, 7vw, 5.5rem) 0;
+  padding: 84px 0;
 }
 
 .sectionTight {
-  padding-block: clamp(2.25rem, 4.8vw, 3.75rem);
+  padding-top: 36px;
+  padding-bottom: 36px;
 }
 
 .sectionCenter {
@@ -444,7 +447,7 @@ h3 {
   font-size: 20px;
   line-height: 26px;
   letter-spacing: -0.4px;
-  font-weight: var(--font-weight-medium);
+  font-weight: 400;
 }
 
 .bodyCopyMuted {
@@ -532,21 +535,33 @@ html.theme-animating *::after {
   }
 
   .section {
-    padding-block: clamp(2.5rem, 10vw, 4rem);
+    padding: 56px 0;
   }
 
   .sectionTight {
-    padding-block: clamp(1.75rem, 7vw, 3rem);
+    padding-top: 26px;
+    padding-bottom: 26px;
+  }
+
+  .eyebrow {
+    margin-bottom: 12px;
+    font-size: 14px;
+    line-height: 14px;
   }
 
   .bodyCopy {
     font-size: 16px;
     line-height: 20.8px;
     letter-spacing: -0.32px;
+    font-weight: 400;
   }
 }
 
 @media (min-width: 800px) and (max-width: 1399.98px) {
+  html {
+    scroll-padding-top: 104px;
+  }
+
   h1 {
     font-size: 54px;
     line-height: 59.4px;
@@ -562,5 +577,9 @@ html.theme-animating *::after {
     font-size: 28px;
     line-height: 28px;
     letter-spacing: -0.56px;
+  }
+
+  .section {
+    padding: 72px 0;
   }
 }

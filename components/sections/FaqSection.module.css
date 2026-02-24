@@ -15,6 +15,7 @@
   background: var(--color-surface-soft);
   border: 1px solid rgba(151, 144, 147, 0.28);
   padding: 18px 20px;
+  overflow: hidden;
   overflow: clip;
   transition:
     transform 0.22s cubic-bezier(0.2, 0.8, 0.2, 1),

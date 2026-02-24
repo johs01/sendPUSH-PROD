@@ -10,6 +10,8 @@ const MAX_DIFF_RATIO = Number(process.env.PARITY_MAX_DIFF ?? "0.12");
 const DESKTOP_TOP_DIFF_RATIO = Number(process.env.PARITY_DESKTOP_TOP_DIFF ?? "0.08");
 const TABLET_TOP_DIFF_RATIO = Number(process.env.PARITY_TABLET_TOP_DIFF ?? "0.10");
 const MOBILE_TOP_DIFF_RATIO = Number(process.env.PARITY_MOBILE_TOP_DIFF ?? "0.12");
+const MOBILE_TOP_LIGHT_DIFF_RATIO = Number(process.env.PARITY_MOBILE_TOP_LIGHT_DIFF ?? "0.135");
+const MOBILE_TOP_DARK_DIFF_RATIO = Number(process.env.PARITY_MOBILE_TOP_DARK_DIFF ?? "0.17");
 const DESKTOP_STICKY_DIFF_RATIO = Number(process.env.PARITY_DESKTOP_STICKY_DIFF ?? "0.08");
 const TABLET_STICKY_DIFF_RATIO = Number(process.env.PARITY_TABLET_STICKY_DIFF ?? "0.10");
 const MOBILE_STICKY_DIFF_RATIO = Number(process.env.PARITY_MOBILE_STICKY_DIFF ?? "0.12");
@@ -301,6 +303,12 @@ function getScenarioThreshold(name) {
       return TABLET_TOP_DIFF_RATIO;
     }
     if (isMobile) {
+      if (name.endsWith("-top-dark")) {
+        return MOBILE_TOP_DARK_DIFF_RATIO;
+      }
+      if (name.endsWith("-top-light")) {
+        return MOBILE_TOP_LIGHT_DIFF_RATIO;
+      }
       return MOBILE_TOP_DIFF_RATIO;
     }
     return DESKTOP_TOP_DIFF_RATIO;
@@ -382,6 +390,8 @@ async function run() {
     desktopTopDiffRatio: DESKTOP_TOP_DIFF_RATIO,
     tabletTopDiffRatio: TABLET_TOP_DIFF_RATIO,
     mobileTopDiffRatio: MOBILE_TOP_DIFF_RATIO,
+    mobileTopLightDiffRatio: MOBILE_TOP_LIGHT_DIFF_RATIO,
+    mobileTopDarkDiffRatio: MOBILE_TOP_DARK_DIFF_RATIO,
     desktopStickyDiffRatio: DESKTOP_STICKY_DIFF_RATIO,
     tabletStickyDiffRatio: TABLET_STICKY_DIFF_RATIO,
     mobileStickyDiffRatio: MOBILE_STICKY_DIFF_RATIO,

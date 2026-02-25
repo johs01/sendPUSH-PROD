@@ -3,6 +3,7 @@
   top: 12px;
   z-index: var(--z-nav);
   padding-top: 12px;
+  will-change: transform;
 }
 
 .shell {
@@ -252,6 +253,7 @@
   .header {
     top: 8px;
     padding-top: 8px;
+    will-change: auto;
   }
 
   .shell {

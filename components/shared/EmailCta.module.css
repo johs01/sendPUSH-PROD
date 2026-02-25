@@ -35,9 +35,11 @@
 }
 
 .button {
+  flex: 0 0 auto;
   min-height: 62px;
   min-width: 0;
   padding-inline: 26px;
+  white-space: nowrap;
   font-size: 20px;
   line-height: 20px;
   letter-spacing: -0.4px;

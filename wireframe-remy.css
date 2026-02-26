@@ -9,6 +9,7 @@ html {
   --wf-motion-ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
   --wf-motion-fast: 220ms;
   --wf-motion-base: 280ms;
+  --wf-mobile-edge-gutter: 12px;
   --wf-cta-lift-hover: -1.5px;
   --wf-cta-lift-active: -0.75px;
   --wf-cta-conv-bg: var(--wr-accent-yellow);
@@ -828,6 +829,10 @@ html[data-theme="dark"] .wf-theme-icon-toggle__moon {
   transition: opacity var(--wf-motion-fast) var(--wf-motion-ease-standard);
 }
 
+.wf-mobile-menu[hidden] {
+  display: none !important;
+}
+
 .wf-mobile-menu.is-open {
   opacity: 1;
   pointer-events: auto;
@@ -1307,6 +1312,11 @@ html[data-theme="dark"] .wf-theme-icon-toggle__moon {
   grid-template-columns: 1fr 1fr;
   gap: 48px;
   align-items: center;
+}
+
+.wf-hero-grid > *,
+.wf-split > * {
+  min-width: 0;
 }
 
 .wf-split-reverse > :first-child {
@@ -3378,11 +3388,15 @@ html[data-theme="dark"] .wf-theme-icon-toggle__moon {
 
   .wf-page .wr-container--main,
   .wf-page .wr-container--cta {
-    width: min(100%, 360px);
+    width: calc(100% - (var(--wf-mobile-edge-gutter) * 2));
+    max-width: 360px;
+    margin-inline: auto;
   }
 
   .wf-page .wr-container--focus {
-    width: min(100%, 392px);
+    width: calc(100% - (var(--wf-mobile-edge-gutter) * 2));
+    max-width: 392px;
+    margin-inline: auto;
   }
 
   .wf-header {
@@ -3429,7 +3443,7 @@ html[data-theme="dark"] .wf-theme-icon-toggle__moon {
   }
 
   .wf-email-cta {
-    width: min(100%, calc(100vw - 24px));
+    width: 100%;
     max-width: 100%;
     margin-inline: auto;
     flex-direction: row;

@@ -23,24 +23,32 @@
     border-color 0.28s ease-out;
 }
 
-.shell::before,
-.shell::after {
-  content: "";
+.navContent {
+  position: relative;
+  z-index: 5;
+  min-height: 68px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 8px 16px;
+}
+
+.glass {
   position: absolute;
   inset: 0;
   border-radius: inherit;
   pointer-events: none;
 }
 
-.shell::before {
+.glassFilter {
   z-index: 1;
   backdrop-filter: saturate(190%) blur(17px) contrast(104%);
   -webkit-backdrop-filter: saturate(190%) blur(17px) contrast(104%);
   background: var(--wf-nav-filter-bg);
-  box-shadow: var(--wf-nav-specular-shadow);
 }
 
-.shell::after {
+.glassOverlay {
   z-index: 2;
   background: var(--wf-nav-overlay-bg);
   opacity: var(--wf-nav-overlay-opacity);
@@ -49,10 +57,15 @@
     background-position var(--wf-motion-base) var(--wf-motion-ease-gentle);
 }
 
-.shell > .navContent::after {
+.glassSpecular {
+  z-index: 3;
+  box-shadow: var(--wf-nav-specular-shadow);
+}
+
+.shell::after {
   content: "";
   position: absolute;
-  z-index: 0;
+  z-index: 4;
   inset: -35% -12%;
   border-radius: inherit;
   background: var(--wf-nav-after-bg);
@@ -63,7 +76,7 @@
     transform var(--wf-motion-base) var(--wf-motion-ease-gentle);
 }
 
-.interactive > .navContent::after {
+.interactive::after {
   opacity: 0.78;
 }
 
@@ -73,24 +86,13 @@
   border-color: var(--wf-nav-scrolled-border);
 }
 
-.scrolled::before {
+.scrolled .glassFilter {
   backdrop-filter: saturate(205%) blur(19px) contrast(108%);
   -webkit-backdrop-filter: saturate(205%) blur(19px) contrast(108%);
 }
 
-.scrolled::after {
+.scrolled .glassOverlay {
   opacity: 0.98;
-}
-
-.navContent {
-  position: relative;
-  z-index: 5;
-  min-height: 68px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 20px;
-  padding: 8px 16px;
 }
 
 .brand {
@@ -293,8 +295,8 @@
 
 @media (prefers-reduced-motion: reduce) {
   .shell,
+  .glassOverlay,
   .shell::after,
-  .shell > .navContent::after,
   .links a,
   .links a::after,
   .mobileMenuToggle,

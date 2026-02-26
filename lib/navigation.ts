@@ -17,7 +17,7 @@ export const getHeaderOffset = (fallback = 96) => {
 
   const styles = window.getComputedStyle(header);
   const top = Number.parseFloat(styles.top) || 0;
-  return Math.ceil(header.getBoundingClientRect().height + top + 12);
+  return Math.ceil(header.getBoundingClientRect().height + top + 8);
 };
 
 export const scrollToAnchor = (targetId: string) => {

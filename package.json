@@ -12,6 +12,7 @@
     "check:token-integrity": "node scripts/check-token-integrity.mjs",
     "parity:check": "node scripts/parity-check.mjs",
     "parity:motion": "node scripts/parity-motion-check.mjs",
+    "parity:fullpage": "node scripts/parity-fullpage-check.mjs",
     "audit:prod": "npm audit --omit=dev --audit-level=high",
     "audit:full": "npm audit --audit-level=high",
     "verify": "npm run lint && npm run typecheck && npm run check:selector-contracts && npm run check:token-integrity && npm run build && npm run audit:prod"

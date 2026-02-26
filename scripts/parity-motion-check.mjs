@@ -81,6 +81,34 @@ async function runDesktopMotionChecks(browser) {
     const shell = page.locator("header div[class*='SiteHeader_shell']").first();
     await shell.waitFor({ state: "visible" });
 
+    const shellHasScrolled = async () =>
+      page.evaluate(() => {
+        const navShell = document.querySelector("header div[class*='SiteHeader_shell']");
+        return Boolean(navShell && navShell.className.includes("scrolled"));
+      });
+
+    assert(!(await shellHasScrolled()), "Header shell started in scrolled state at page top.");
+    await page.evaluate(() => window.scrollTo(0, 560));
+    await page.waitForFunction(
+      (expected) => {
+        const navShell = document.querySelector("header div[class*='SiteHeader_shell']");
+        return Boolean(navShell && navShell.className.includes("scrolled")) === expected;
+      },
+      true,
+      { timeout: 2000 }
+    );
+    assert(await shellHasScrolled(), "Header shell did not enter scrolled state after page scroll.");
+    await page.evaluate(() => window.scrollTo(0, 0));
+    await page.waitForFunction(
+      (expected) => {
+        const navShell = document.querySelector("header div[class*='SiteHeader_shell']");
+        return Boolean(navShell && navShell.className.includes("scrolled")) === expected;
+      },
+      false,
+      { timeout: 2000 }
+    );
+    assert(!(await shellHasScrolled()), "Header shell did not exit scrolled state after returning to top.");
+
     const beforePosition = await shell.evaluate((node) => {
       const style = getComputedStyle(node);
       return {

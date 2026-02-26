@@ -19,7 +19,7 @@ export function SiteHeader() {
 
   useEffect(() => {
     const updateSticky = () => {
-      setScrolled(window.scrollY > 16);
+      setScrolled(window.scrollY > 10);
     };
 
     const updateActive = () => {
@@ -154,6 +154,9 @@ export function SiteHeader() {
 
       <Container>
         <div ref={shellRef} className={shellClassName}>
+          <div className={`${styles.glass} ${styles.glassFilter}`} aria-hidden="true" />
+          <div className={`${styles.glass} ${styles.glassOverlay}`} aria-hidden="true" />
+          <div className={`${styles.glass} ${styles.glassSpecular}`} aria-hidden="true" />
           <div className={styles.navContent}>
             <a className={styles.brand} href="#hero">
               <span className={styles.brandDot} aria-hidden="true"></span>

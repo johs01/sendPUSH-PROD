@@ -10,6 +10,7 @@
   border: 1px solid transparent;
   font-weight: var(--font-weight-bold);
   letter-spacing: -0.02em;
+  text-decoration: none;
   transform: translateY(0);
   will-change: transform, box-shadow;
   transition:

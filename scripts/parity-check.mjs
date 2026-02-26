@@ -10,11 +10,7 @@ const MAX_DIFF_RATIO = Number(process.env.PARITY_MAX_DIFF ?? "0.12");
 const DESKTOP_TOP_DIFF_RATIO = Number(process.env.PARITY_DESKTOP_TOP_DIFF ?? "0.08");
 const TABLET_TOP_DIFF_RATIO = Number(process.env.PARITY_TABLET_TOP_DIFF ?? "0.10");
 const MOBILE_TOP_DIFF_RATIO = Number(process.env.PARITY_MOBILE_TOP_DIFF ?? "0.12");
-const MOBILE_TOP_LIGHT_DIFF_RATIO = Number(process.env.PARITY_MOBILE_TOP_LIGHT_DIFF ?? "0.135");
-const MOBILE_TOP_DARK_DIFF_RATIO = Number(process.env.PARITY_MOBILE_TOP_DARK_DIFF ?? "0.17");
-// Narrow scoped exception: legacy source fixture for sticky desktop uses an older logo/stats block.
-// Keep this strict, but allow a small margin until fixture parity is fully refreshed.
-const DESKTOP_STICKY_DIFF_RATIO = Number(process.env.PARITY_DESKTOP_STICKY_DIFF ?? "0.085");
+const DESKTOP_STICKY_DIFF_RATIO = Number(process.env.PARITY_DESKTOP_STICKY_DIFF ?? "0.08");
 const TABLET_STICKY_DIFF_RATIO = Number(process.env.PARITY_TABLET_STICKY_DIFF ?? "0.10");
 const MOBILE_STICKY_DIFF_RATIO = Number(process.env.PARITY_MOBILE_STICKY_DIFF ?? "0.12");
 const MOBILE_MENU_DIFF_RATIO = Number(process.env.PARITY_MOBILE_MENU_DIFF ?? "0.03");
@@ -115,7 +111,12 @@ const scenarios = viewports.flatMap((viewport) => {
 });
 
 async function ensureOutputDirs() {
-  await fs.rm(outputRoot, { recursive: true, force: true });
+  await fs.mkdir(outputRoot, { recursive: true });
+  await fs.rm(path.join(outputRoot, "report.json"), { force: true });
+  await fs.rm(path.join(outputRoot, "fullpage-report.json"), { force: true });
+  await fs.rm(sourceDir, { recursive: true, force: true });
+  await fs.rm(nextDir, { recursive: true, force: true });
+  await fs.rm(diffDir, { recursive: true, force: true });
   await fs.mkdir(sourceDir, { recursive: true });
   await fs.mkdir(nextDir, { recursive: true });
   await fs.mkdir(diffDir, { recursive: true });
@@ -312,12 +313,6 @@ function getScenarioThreshold(name) {
       return TABLET_TOP_DIFF_RATIO;
     }
     if (isMobile) {
-      if (name.endsWith("-top-dark")) {
-        return MOBILE_TOP_DARK_DIFF_RATIO;
-      }
-      if (name.endsWith("-top-light")) {
-        return MOBILE_TOP_LIGHT_DIFF_RATIO;
-      }
       return MOBILE_TOP_DIFF_RATIO;
     }
     return DESKTOP_TOP_DIFF_RATIO;
@@ -399,8 +394,6 @@ async function run() {
     desktopTopDiffRatio: DESKTOP_TOP_DIFF_RATIO,
     tabletTopDiffRatio: TABLET_TOP_DIFF_RATIO,
     mobileTopDiffRatio: MOBILE_TOP_DIFF_RATIO,
-    mobileTopLightDiffRatio: MOBILE_TOP_LIGHT_DIFF_RATIO,
-    mobileTopDarkDiffRatio: MOBILE_TOP_DARK_DIFF_RATIO,
     desktopStickyDiffRatio: DESKTOP_STICKY_DIFF_RATIO,
     tabletStickyDiffRatio: TABLET_STICKY_DIFF_RATIO,
     mobileStickyDiffRatio: MOBILE_STICKY_DIFF_RATIO,

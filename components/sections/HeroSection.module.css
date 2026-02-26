@@ -2,11 +2,12 @@
   display: grid;
   gap: 48px;
   align-items: center;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: minmax(0, 1.11fr) minmax(0, 0.89fr);
 }
 
 .content {
   display: block;
+  min-width: 0;
 }
 
 .content h1 {

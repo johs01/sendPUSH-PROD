@@ -1,0 +1,286 @@
+{
+  "nextUrl": "http://localhost:3000/",
+  "productionUrl": null,
+  "generatedAt": "2026-02-25T18:08:12.831Z",
+  "thresholds": {
+    "fullpageDark": 0.015,
+    "fullpageLight": 0.015,
+    "maxWidthDelta": 0.002,
+    "maxHeightDelta": 0.02,
+    "regions": {
+      "header": 0.01,
+      "hero": 0.01,
+      "hero-media-cta": 0.01,
+      "logo-grid-stats": 0.01,
+      "pricing-header-toggle": 0.012,
+      "faq-cards": 0.012,
+      "tenant-footer-transition": 0.012
+    }
+  },
+  "baselineFiles": {
+    "target": {
+      "dark": "/Users/johs777/Documents/New project/.parity/baseline/target-dark.png",
+      "light": "/Users/johs777/Documents/New project/.parity/baseline/target-light.png"
+    },
+    "current": {
+      "dark": "/Users/johs777/Documents/New project/.parity/baseline/current-dark.png",
+      "light": "/Users/johs777/Documents/New project/.parity/baseline/current-light.png"
+    }
+  },
+  "totalComparisons": 4,
+  "failedComparisons": 4,
+  "worstTen": [
+    {
+      "source": "current-baseline",
+      "mode": "light",
+      "region": "__fullpage__",
+      "diffRatio": 0.3359531731192257,
+      "threshold": 0.015
+    },
+    {
+      "source": "local-preview",
+      "mode": "light",
+      "region": "__fullpage__",
+      "diffRatio": 0.3234054663440387,
+      "threshold": 0.015
+    },
+    {
+      "source": "local-preview",
+      "mode": "light",
+      "region": "faq-cards",
+      "diffRatio": 0.21418143488455987,
+      "threshold": 0.012
+    },
+    {
+      "source": "local-preview",
+      "mode": "dark",
+      "region": "pricing-header-toggle",
+      "diffRatio": 0.1764662074101657,
+      "threshold": 0.012
+    },
+    {
+      "source": "local-preview",
+      "mode": "light",
+      "region": "pricing-header-toggle",
+      "diffRatio": 0.17298454663935953,
+      "threshold": 0.012
+    },
+    {
+      "source": "local-preview",
+      "mode": "dark",
+      "region": "tenant-footer-transition",
+      "diffRatio": 0.10701912715517241,
+      "threshold": 0.012
+    },
+    {
+      "source": "current-baseline",
+      "mode": "dark",
+      "region": "__fullpage__",
+      "diffRatio": 0.08386308018037836,
+      "threshold": 0.015
+    },
+    {
+      "source": "local-preview",
+      "mode": "dark",
+      "region": "__fullpage__",
+      "diffRatio": 0.07906672761768588,
+      "threshold": 0.015
+    },
+    {
+      "source": "local-preview",
+      "mode": "dark",
+      "region": "header",
+      "diffRatio": 0.07308974847560976,
+      "threshold": 0.01
+    },
+    {
+      "source": "local-preview",
+      "mode": "light",
+      "region": "tenant-footer-transition",
+      "diffRatio": 0.06923558728448276,
+      "threshold": 0.012
+    }
+  ],
+  "comparisons": [
+    {
+      "source": "local-preview",
+      "mode": "dark",
+      "pass": false,
+      "targetPath": "/Users/johs777/Documents/New project/.parity/baseline/target-dark.png",
+      "candidatePath": "/Users/johs777/Documents/New project/.parity/fullpage/local-dark.png",
+      "fullPage": {
+        "pass": false,
+        "diffRatio": 0.07906672761768588,
+        "threshold": 0.015,
+        "widthDeltaRatio": 0,
+        "widthDeltaThreshold": 0.002,
+        "heightDeltaRatio": 0.12688077430708314,
+        "heightDeltaThreshold": 0.02,
+        "diffPath": "/Users/johs777/Documents/New project/.parity/fullpage/diff/local-preview-dark-full.png",
+        "width": 2560,
+        "height": 11365
+      },
+      "regions": [
+        {
+          "name": "header",
+          "pass": false,
+          "diffRatio": 0.07308974847560976,
+          "threshold": 0.01,
+          "diffPath": "/Users/johs777/Documents/New project/.parity/fullpage/diff/local-preview-dark-header.png"
+        },
+        {
+          "name": "hero",
+          "pass": true,
+          "diffRatio": 0.001845596071863581,
+          "threshold": 0.01,
+          "diffPath": "/Users/johs777/Documents/New project/.parity/fullpage/diff/local-preview-dark-hero.png"
+        },
+        {
+          "name": "hero-media-cta",
+          "pass": true,
+          "diffRatio": 0.004034211032096867,
+          "threshold": 0.01,
+          "diffPath": "/Users/johs777/Documents/New project/.parity/fullpage/diff/local-preview-dark-hero-media-cta.png"
+        },
+        {
+          "name": "logo-grid-stats",
+          "pass": true,
+          "diffRatio": 0.000772739651416122,
+          "threshold": 0.01,
+          "diffPath": "/Users/johs777/Documents/New project/.parity/fullpage/diff/local-preview-dark-logo-grid-stats.png"
+        },
+        {
+          "name": "pricing-header-toggle",
+          "pass": false,
+          "diffRatio": 0.1764662074101657,
+          "threshold": 0.012,
+          "diffPath": "/Users/johs777/Documents/New project/.parity/fullpage/diff/local-preview-dark-pricing-header-toggle.png"
+        },
+        {
+          "name": "faq-cards",
+          "pass": false,
+          "diffRatio": 0.03139486381673882,
+          "threshold": 0.012,
+          "diffPath": "/Users/johs777/Documents/New project/.parity/fullpage/diff/local-preview-dark-faq-cards.png"
+        },
+        {
+          "name": "tenant-footer-transition",
+          "pass": false,
+          "diffRatio": 0.10701912715517241,
+          "threshold": 0.012,
+          "diffPath": "/Users/johs777/Documents/New project/.parity/fullpage/diff/local-preview-dark-tenant-footer-transition.png"
+        }
+      ]
+    },
+    {
+      "source": "current-baseline",
+      "mode": "dark",
+      "pass": false,
+      "targetPath": "/Users/johs777/Documents/New project/.parity/baseline/target-dark.png",
+      "candidatePath": "/Users/johs777/Documents/New project/.parity/baseline/current-dark.png",
+      "fullPage": {
+        "pass": false,
+        "diffRatio": 0.08386308018037836,
+        "threshold": 0.015,
+        "widthDeltaRatio": 0,
+        "widthDeltaThreshold": 0.002,
+        "heightDeltaRatio": 0.13479982402111745,
+        "heightDeltaThreshold": 0.02,
+        "diffPath": "/Users/johs777/Documents/New project/.parity/fullpage/diff/current-baseline-dark-full.png",
+        "width": 2560,
+        "height": 11365
+      },
+      "regions": []
+    },
+    {
+      "source": "local-preview",
+      "mode": "light",
+      "pass": false,
+      "targetPath": "/Users/johs777/Documents/New project/.parity/baseline/target-light.png",
+      "candidatePath": "/Users/johs777/Documents/New project/.parity/fullpage/local-light.png",
+      "fullPage": {
+        "pass": false,
+        "diffRatio": 0.3234054663440387,
+        "threshold": 0.015,
+        "widthDeltaRatio": 0,
+        "widthDeltaThreshold": 0.002,
+        "heightDeltaRatio": 0.12688077430708314,
+        "heightDeltaThreshold": 0.02,
+        "diffPath": "/Users/johs777/Documents/New project/.parity/fullpage/diff/local-preview-light-full.png",
+        "width": 2560,
+        "height": 11365
+      },
+      "regions": [
+        {
+          "name": "header",
+          "pass": false,
+          "diffRatio": 0.015301067073170731,
+          "threshold": 0.01,
+          "diffPath": "/Users/johs777/Documents/New project/.parity/fullpage/diff/local-preview-light-header.png"
+        },
+        {
+          "name": "hero",
+          "pass": true,
+          "diffRatio": 0.0014654384896467722,
+          "threshold": 0.01,
+          "diffPath": "/Users/johs777/Documents/New project/.parity/fullpage/diff/local-preview-light-hero.png"
+        },
+        {
+          "name": "hero-media-cta",
+          "pass": true,
+          "diffRatio": 0.005123966942148761,
+          "threshold": 0.01,
+          "diffPath": "/Users/johs777/Documents/New project/.parity/fullpage/diff/local-preview-light-hero-media-cta.png"
+        },
+        {
+          "name": "logo-grid-stats",
+          "pass": true,
+          "diffRatio": 0.0013956971677559914,
+          "threshold": 0.01,
+          "diffPath": "/Users/johs777/Documents/New project/.parity/fullpage/diff/local-preview-light-logo-grid-stats.png"
+        },
+        {
+          "name": "pricing-header-toggle",
+          "pass": false,
+          "diffRatio": 0.17298454663935953,
+          "threshold": 0.012,
+          "diffPath": "/Users/johs777/Documents/New project/.parity/fullpage/diff/local-preview-light-pricing-header-toggle.png"
+        },
+        {
+          "name": "faq-cards",
+          "pass": false,
+          "diffRatio": 0.21418143488455987,
+          "threshold": 0.012,
+          "diffPath": "/Users/johs777/Documents/New project/.parity/fullpage/diff/local-preview-light-faq-cards.png"
+        },
+        {
+          "name": "tenant-footer-transition",
+          "pass": false,
+          "diffRatio": 0.06923558728448276,
+          "threshold": 0.012,
+          "diffPath": "/Users/johs777/Documents/New project/.parity/fullpage/diff/local-preview-light-tenant-footer-transition.png"
+        }
+      ]
+    },
+    {
+      "source": "current-baseline",
+      "mode": "light",
+      "pass": false,
+      "targetPath": "/Users/johs777/Documents/New project/.parity/baseline/target-light.png",
+      "candidatePath": "/Users/johs777/Documents/New project/.parity/baseline/current-light.png",
+      "fullPage": {
+        "pass": false,
+        "diffRatio": 0.3359531731192257,
+        "threshold": 0.015,
+        "widthDeltaRatio": 0,
+        "widthDeltaThreshold": 0.002,
+        "heightDeltaRatio": 0.13479982402111745,
+        "heightDeltaThreshold": 0.02,
+        "diffPath": "/Users/johs777/Documents/New project/.parity/fullpage/diff/current-baseline-light-full.png",
+        "width": 2560,
+        "height": 11365
+      },
+      "regions": []
+    }
+  ]
+}
